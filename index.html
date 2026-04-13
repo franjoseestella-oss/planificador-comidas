@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#111418" />
+  <meta name="description" content="Planificador semanal de comidas para toda la familia. Menús de lunes a viernes con recetas, lista de la compra y seguimiento nutricional." />
+
+  <title>Planificador de Comidas · Menú Familiar</title>
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ═══════════════════════════════════════════
+       HEADER FIJO
+  ═══════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-logo">
+      <div class="logo-icon">🥘</div>
+      <h1>MiMenú</h1>
+    </div>
+    <div class="header-actions">
+      <div class="icon-btn has-notif" id="notif-bell" title="Notificaciones">🔔</div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       TOAST CONTAINER
+  ═══════════════════════════════════════════ -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MODAL OVERLAY (recetas / alternativas)
+  ═══════════════════════════════════════════ -->
+  <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal-content"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: HOY
+  ═══════════════════════════════════════════ -->
+  <section class="view active" id="view-hoy" aria-label="Menú de hoy">
+
+    <!-- Banner de instalación -->
+    <div class="install-banner" id="install-banner" style="display:none">
+      <div>📲</div>
+      <div class="install-banner-text">
+        <strong>Instalar app</strong>
+        Añade a tu pantalla de inicio para acceso rápido
+      </div>
+      <button class="install-btn" id="install-btn">Instalar</button>
+    </div>
+
+    <!-- Hero de hoy -->
+    <div class="today-hero" id="hoy-hero">
+      <div class="today-hero-label">Menú de hoy</div>
+      <h2>Cargando…</h2>
+      <div class="today-date"></div>
+      <div class="meal-row" id="hoy-meal-row">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <!-- Prompt notificaciones -->
+    <div class="notif-prompt" id="notif-prompt" style="display:none">
+      <div class="notif-prompt-icon">🔔</div>
+      <div class="notif-prompt-text">
+        <h3>Notificaciones a las 21:00</h3>
+        <p>Acepta o cambia el menú de mañana sin abrir la app</p>
+      </div>
+      <button class="notif-enable-btn" id="notif-enable-btn">Activar</button>
+    </div>
+
+    <!-- Tips del día -->
+    <div class="section" style="margin-top:16px">
+      <div class="section-title">
+        <h2>Consejos de la semana</h2>
+      </div>
+      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">♻️</span>
+          <div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:3px">Aprovechamiento</div>
+            <p style="font-size:.82rem">Los miércoles usamos sobras del martes. ¡Cocina un poco más el martes!</p>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">🧒</span>
+          <div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:3px">Menú para niños</div>
+            <p style="font-size:.82rem">Las cenas están pensadas para 2 adultos + niños de 5 y 7 años. Sin picante.</p>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">🛒</span>
+          <div>
+            <div style="font-size:.9rem;font-weight:600;margin-bottom:3px">Compra semanal</div>
+            <p style="font-size:.82rem">Genera la lista de la compra automáticamente desde la pestaña 🛒.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen nutricional rápido -->
+    <div class="section" style="margin-top:14px">
+      <div class="section-title">
+        <h2>Esta semana</h2>
+        <span class="see-all" onclick="switchView('nutricion')">Ver detalle →</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <div class="nutri-summary-box">
+          <span class="big-num" style="color:var(--accent)">10</span>
+          <div class="big-lbl">Platos</div>
+        </div>
+        <div class="nutri-summary-box">
+          <span class="big-num" style="color:var(--gold)">2</span>
+          <div class="big-lbl">Aprovecham.</div>
+        </div>
+        <div class="nutri-summary-box">
+          <span class="big-num" style="color:var(--primary)">~45'</span>
+          <div class="big-lbl">Prep. media</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: PLAN SEMANAL
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-plan" aria-label="Planificación semanal">
+
+    <div style="padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center">
+      <h2 style="font-size:1.2rem">Menú semanal</h2>
+      <span style="font-size:.8rem;color:var(--text-muted)">Lunes — Viernes</span>
+    </div>
+
+    <div style="padding:0 16px 12px;display:flex;gap:12px">
+      <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-muted)">
+        <span style="width:10px;height:10px;border-radius:2px;background:var(--primary);display:inline-block"></span> Comida
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-muted)">
+        <span style="width:10px;height:10px;border-radius:2px;background:var(--accent);display:inline-block"></span> Cena
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-muted)">
+        <span style="font-size:.9rem">♻️</span> Aprovechamiento
+      </div>
+    </div>
+
+    <div class="week-grid" id="semana-grid">
+      <!-- Generado por JS -->
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: RECETAS
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-recetas" aria-label="Recetario">
+
+    <div style="padding:16px 16px 0">
+      <h2>Recetario</h2>
+      <p style="font-size:.85rem;margin-top:4px">Todas las recetas de la planificación</p>
+    </div>
+
+    <div class="search-bar">
+      <input
+        type="search"
+        id="recipe-search"
+        class="search-input"
+        placeholder="🔍 Buscar receta…"
+        aria-label="Buscar receta"
+      />
+    </div>
+
+    <div class="filter-chips">
+      <div class="chip filter-chip active" data-filter="todos">Todas</div>
+      <div class="chip filter-chip" data-filter="comida">☀️ Comidas</div>
+      <div class="chip filter-chip" data-filter="cena">🌙 Cenas</div>
+      <div class="chip filter-chip" data-filter="aprovechamiento">♻️ Aprovechamiento</div>
+    </div>
+
+    <div class="recipe-list" id="recipe-list">
+      <!-- Generado por JS -->
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: COMPRA
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-compra" aria-label="Lista de la compra">
+
+    <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:baseline">
+      <div>
+        <h2>Lista de la compra</h2>
+        <p id="shopping-counter" style="font-size:.82rem;margin-top:3px">0 artículos</p>
+      </div>
+    </div>
+
+    <div class="shopping-header-actions">
+      <button class="btn-primary" id="btn-generate-list">🔄 Generar lista</button>
+      <button class="btn-danger-sm" id="btn-clear-list" style="flex:0.5">🗑️ Limpiar</button>
+    </div>
+
+    <div id="shopping-list">
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <h3>Lista vacía</h3>
+        <p>Pulsa <strong>Generar lista</strong> para crear la lista de la compra automáticamente con las comidas de la semana</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VIEW: NUTRICIÓN
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-nutricion" aria-label="Seguimiento nutricional">
+
+    <div style="padding:16px 16px 8px">
+      <h2>Seguimiento nutricional</h2>
+      <p style="font-size:.85rem;margin-top:4px">Valores medios por adulto / semana actual</p>
+    </div>
+
+    <!-- Resumen de la semana -->
+    <div class="nutri-summary-grid">
+      <div class="nutri-summary-box">
+        <span class="big-num" id="nutri-avg-cals" style="color:var(--accent)">—</span>
+        <div class="big-lbl">kcal/día</div>
+      </div>
+      <div class="nutri-summary-box">
+        <span class="big-num" id="nutri-avg-prot" style="color:var(--info)">—</span>
+        <div class="big-lbl">Proteínas</div>
+      </div>
+      <div class="nutri-summary-box">
+        <span class="big-num" id="nutri-avg-carb" style="color:var(--gold)">—</span>
+        <div class="big-lbl">Carbohidr.</div>
+      </div>
+    </div>
+
+    <!-- Barras por día -->
+    <div class="nutri-week-card" style="margin-top:14px">
+      <h3>Calorías por día</h3>
+      <div id="nutri-week-bars">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <!-- Macros por comida -->
+    <div style="padding:14px 16px 0">
+      <h2 style="font-size:1.1rem;margin-bottom:10px">Detalle por comida</h2>
+      <div class="card" style="padding:16px">
+        <div style="margin-bottom:12px">
+          <div style="font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:8px">☀️ Comidas (2 adultos)</div>
+          <p style="font-size:.82rem">Platos únicos y completos pensados para un adulto activo. Ricos en proteínas y carbohidratos complejos.</p>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px">
+          <div style="font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:8px">🌙 Cenas (4 personas)</div>
+          <p style="font-size:.82rem">Cenas ligeras y equilibradas, aptas para niños de 5 y 7 años. Sin picante, fáciles de preparar.</p>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px">
+          <div style="font-size:.85rem;font-weight:700;color:var(--gold);margin-bottom:8px">♻️ Aprovechamiento</div>
+          <p style="font-size:.82rem">2 comidas por semana usan ingredientes del día anterior, reduciendo desperdicio alimentario.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recomendaciones -->
+    <div style="padding:14px 16px 0">
+      <h2 style="font-size:1.1rem;margin-bottom:10px">Recomendaciones</h2>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="card" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">💧</span>
+          <p style="font-size:.85rem"><strong style="color:var(--text)">Hidratación:</strong> Bebe al menos 1.5–2L de agua al día además de las comidas.</p>
+        </div>
+        <div class="card" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">🥗</span>
+          <p style="font-size:.85rem"><strong style="color:var(--text)">Verduras:</strong> Intenta añadir una ensalada extra a las comidas cuando sea posible.</p>
+        </div>
+        <div class="card" style="padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:1.5rem">🍎</span>
+          <p style="font-size:.85rem"><strong style="color:var(--text)">Fruta:</strong> Incluye 2-3 piezas de fruta al día como snack o postre.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       BOTTOM NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav class="bottom-nav" aria-label="Navegación principal">
+    <div class="nav-item active" data-view="hoy" id="nav-hoy" role="button" tabindex="0" aria-label="Hoy">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Hoy</span>
+    </div>
+    <div class="nav-item" data-view="plan" id="nav-plan" role="button" tabindex="0" aria-label="Plan semanal">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">Semana</span>
+    </div>
+    <div class="nav-item" data-view="recetas" id="nav-recetas" role="button" tabindex="0" aria-label="Recetas">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">Recetas</span>
+    </div>
+    <div class="nav-item" data-view="compra" id="nav-compra" role="button" tabindex="0" aria-label="Lista de la compra">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label">Compra</span>
+    </div>
+    <div class="nav-item" data-view="nutricion" id="nav-nutricion" role="button" tabindex="0" aria-label="Nutrición">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Nutrición</span>
+    </div>
+  </nav>
+
+</div><!-- /#app -->
+
+<!-- Scripts -->
+<script src="/js/data.js?v=3"></script>
+<script src="/js/app.js?v=3"></script>
+<script src="/js/chatbot.js?v=3"></script>
+</body>
+</html>
