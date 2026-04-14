@@ -576,6 +576,18 @@ p  { line-height: 1.55; font-size: .95rem; color: var(--text-muted); }
 .sh-tengo-input::placeholder { color: var(--border); }
 .sh-tengo-unit { font-size: .75rem; color: var(--text-muted); }
 
+/* Precio Mercadona badge */
+.sh-price-badge {
+  font-size: .72rem; font-weight: 700; color: var(--gold);
+  background: rgba(245,197,66,.12); padding: 2px 7px;
+  border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+
+/* Total precio en counter */
+.sh-total-price {
+  color: var(--primary); font-weight: 700;
+}
+
 /* ── NUTRITION OVERVIEW ───────────────────────────────────── */
 .nutri-week-card {
   margin: 16px 16px 0; background: var(--bg-card);

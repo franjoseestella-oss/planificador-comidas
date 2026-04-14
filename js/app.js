@@ -606,14 +606,26 @@ function renderShopping() {
     input.addEventListener('click', e => e.stopPropagation());
   });
 
-  // Actualizar contador
-  const total     = STATE.shopping.length;
-  const yaListos  = STATE.shopping.filter(s => {
+  // Actualizar contador + precio total estimado
+  const total    = STATE.shopping.length;
+  const yaListos = STATE.shopping.filter(s => {
     const rem = calcRemaining(s.cantidad, s.tengo);
     return s.checked || rem === null;
   }).length;
+
+  let totalPrecio = 0;
+  if (typeof PRECIOS_MERCADONA !== 'undefined') {
+    STATE.shopping.forEach(s => {
+      const p = PRECIOS_MERCADONA[s.nombre.toLowerCase()];
+      if (p) totalPrecio += p.precio;
+    });
+  }
+
   const counter = document.getElementById('shopping-counter');
-  if (counter) counter.textContent = `${yaListos}/${total} listos`;
+  if (counter) {
+    counter.innerHTML = `${yaListos}/${total} listos` +
+      (totalPrecio > 0 ? ` <span class="sh-total-price">· ~${totalPrecio.toFixed(0)}€</span>` : '');
+  }
 }
 
 function shoppingItemHTML(item, remaining, tengoVal, completado) {
@@ -627,6 +639,15 @@ function shoppingItemHTML(item, remaining, tengoVal, completado) {
   const cantidadMostrar = yaCompleto
     ? `<span class="sh-qty-done">✅ Ya tienes</span>`
     : `<span class="sh-qty-needed">${remaining}</span>`;
+
+  // Buscar precio en Mercadona
+  let precioBadge = '';
+  if (typeof PRECIOS_MERCADONA !== 'undefined') {
+    const precioInfo = PRECIOS_MERCADONA[item.nombre.toLowerCase()];
+    if (precioInfo) {
+      precioBadge = `<span class="sh-price-badge">~${precioInfo.precio.toFixed(2)}€</span>`;
+    }
+  }
 
   const tengoInputMostrar = yaCompleto
     ? `<span class="sh-tengo-label sh-tengo-ok">Tienes: ${tengoVal} ${parseQtyUnit(item.cantidad)}</span>`
@@ -653,6 +674,7 @@ function shoppingItemHTML(item, remaining, tengoVal, completado) {
         <div class="sh-top-row">
           <span class="sh-name ${yaCompleto ? 'sh-name-done' : ''}">${item.nombre}</span>
           <span class="sh-qty-wrap">
+            ${precioBadge}
             <span class="sh-qty-original">${item.cantidad}</span>
             ${cantidadMostrar}
           </span>
