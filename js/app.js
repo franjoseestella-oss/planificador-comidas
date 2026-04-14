@@ -1212,55 +1212,48 @@ function setupScanner() {
     const base64Data = base64Image.split(',')[1];
 
     try {
-      const resp = await fetch('https://detect.roboflow.com/infer/workflows/welding-hqci3/sam3-2?api_key=K6YHioHqtuwbsNmR2n7O', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          inputs: {
-             image: { type: "base64", value: base64Data }
-          }
-        })
-      });
-
-      if (!resp.ok) {
-        throw new Error('Error HTTP ' + resp.status);
-      }
-
-      const data = await resp.json();
-      
-      // Función para extraer clases recursivamente del workflow de Roboflow
-      function extractClasses(obj, classes = new Set()) {
-        if (!obj) return classes;
-        if (Array.isArray(obj)) {
-          obj.forEach(o => extractClasses(o, classes));
-        } else if (typeof obj === 'object') {
-          if (obj.class && typeof obj.class === 'string') classes.add(obj.class);
-          if (obj.label && typeof obj.label === 'string') classes.add(obj.label);
-          if (obj.prediction && typeof obj.prediction === 'string') classes.add(obj.prediction);
-          Object.values(obj).forEach(v => extractClasses(v, classes));
-        }
-        return classes;
-      }
-
-      const detectadosSet = extractClasses(data);
-      const predictedClasses = Array.from(detectadosSet);
-      
-      scanline.style.display = 'none';
-      resultsEl.style.display = 'block';
-      
-      if (predictedClasses.length === 0) {
-         resultsEl.innerHTML = `<p style="color:#ffcdd2;">No pude reconocer ingredientes claros. ¿Has enfocado bien?</p>
-         <pre style="font-size:0.6rem; color:#666; max-height:80px; overflow:hidden;">${JSON.stringify(data)}</pre>`;
-         statusEl.textContent = 'Inténtalo de nuevo';
-         return;
-      }
-
       if (window.scannerRestockMode) {
-        // MODO REABASTECIMIENTO AL DESVÁN
-        predictedClasses.forEach(c => {
-          // Normaliza primera letra mayúscula
+        // MODO TICKET REABASTECIMIENTO (OCR)
+        statusEl.textContent = 'Leyendo texto del ticket (OCR)... 🧾';
+        if (typeof Tesseract === 'undefined') {
+          throw new Error('La IA de lectura de texto aún está cargando o no está disponible.');
+        }
+
+        const { data: { text } } = await Tesseract.recognize(canvas, 'spa', {
+          logger: m => console.log(m)
+        });
+
+        const ticketText = text.toLowerCase();
+        
+        // Extracción cruzando con nuestro recetario
+        const posibles = new Set();
+        RECETARIO.forEach(r => {
+          if (r.ingredientes) {
+            r.ingredientes.forEach(ing => {
+              const name = ing.nombre.toLowerCase().trim();
+              // Evitar matcheo de cosas muy cortas
+              if (name.length >= 4 && ticketText.includes(name)) {
+                 posibles.add(ing.nombre);
+              }
+            });
+          }
+        });
+
+        scanline.style.display = 'none';
+        resultsEl.style.display = 'block';
+        
+        const detectados = Array.from(posibles);
+
+        if (detectados.length === 0) {
+           resultsEl.innerHTML = `<p style="color:#ffcdd2;">No he podido leer ningún ingrediente conocido en este ticket. Asegúrate de enfocar de cerca e iluminar bien el papel.</p>
+           <pre style="font-size:0.6rem; color:#666; max-height:80px; overflow:hidden;">Texto bruto:\n${text}</pre>`;
+           statusEl.textContent = 'Reintenta o añade a mano';
+           window.scannerRestockMode = false;
+           return;
+        }
+
+        detectados.forEach(c => {
           const nombreClass = c.charAt(0).toUpperCase() + c.slice(1).toLowerCase();
-          // Añadimos 1 o suma a la cantidad
           const ex = STATE.desvan.find(d => d.nombre.toLowerCase() === c.toLowerCase());
           if (ex) {
             ex.cantidad += 1;
@@ -1276,15 +1269,60 @@ function setupScanner() {
         });
         saveState();
         renderDesvan();
-        statusEl.textContent = '✅ ¡Desván reabastecido!';
+        statusEl.textContent = '✅ ¡Ticket procesado!';
         resultsEl.innerHTML = `
           <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px;">
-            <p style="margin:0;color:var(--primary);">Añadido/sumado 1 ud de los siguientes alimentos:</p>
-            <h4 style="margin:5px 0 0 0; color:#fff;">${predictedClasses.join(', ')}</h4>
+            <p style="margin:0;color:var(--primary);">Alimentos detectados y guardados en el Desván (1 ud por defecto):</p>
+            <h4 style="margin:5px 0 0 0; color:#fff;">${detectados.join(', ')}</h4>
           </div>
         `;
-        window.scannerRestockMode = false; // Reset
+        window.scannerRestockMode = false;
+
       } else {
+        // MODO FOTO ALMACEN (ROBOFLOW - FREESTYLE RECIPE)
+        const resp = await fetch('https://detect.roboflow.com/infer/workflows/welding-hqci3/sam3-2?api_key=K6YHioHqtuwbsNmR2n7O', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            inputs: {
+               image: { type: "base64", value: base64Data }
+            }
+          })
+        });
+
+        if (!resp.ok) {
+          throw new Error('Error HTTP ' + resp.status);
+        }
+
+        const data = await resp.json();
+        
+        // Función para extraer clases recursivamente del workflow de Roboflow
+        function extractClasses(obj, classes = new Set()) {
+          if (!obj) return classes;
+          if (Array.isArray(obj)) {
+            obj.forEach(o => extractClasses(o, classes));
+          } else if (typeof obj === 'object') {
+            if (obj.class && typeof obj.class === 'string') classes.add(obj.class);
+            if (obj.label && typeof obj.label === 'string') classes.add(obj.label);
+            if (obj.prediction && typeof obj.prediction === 'string') classes.add(obj.prediction);
+            Object.values(obj).forEach(v => extractClasses(v, classes));
+          }
+          return classes;
+        }
+
+        const detectadosSet = extractClasses(data);
+        const predictedClasses = Array.from(detectadosSet);
+        
+        scanline.style.display = 'none';
+        resultsEl.style.display = 'block';
+        
+        if (predictedClasses.length === 0) {
+           resultsEl.innerHTML = `<p style="color:#ffcdd2;">No pude reconocer ingredientes claros. ¿Has enfocado bien?</p>
+           <pre style="font-size:0.6rem; color:#666; max-height:80px; overflow:hidden;">${JSON.stringify(data)}</pre>`;
+           statusEl.textContent = 'Inténtalo de nuevo';
+           return;
+        }
+
         // MODO FREESTYLE RECIPE (Por defecto de Menú Hoy)
         const ingredList = predictedClasses.join(', ');
         
@@ -1314,6 +1352,8 @@ function setupScanner() {
     } catch (err) {
       statusEl.textContent = '❌ Fallo en la IA: ' + err.message;
       scanline.style.animationDuration = '2s';
+      scanline.style.display = 'none';
+      window.scannerRestockMode = false;
     }
   });
 }
