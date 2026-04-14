@@ -2,11 +2,12 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v3';
+const CACHE_NAME = 'planificador-v4';
 const ASSETS = [
   '/',
   '/index.html',
   '/css/styles.css',
+  '/js/auth.js',
   '/js/data.js',
   '/js/app.js',
   '/js/chatbot.js',
