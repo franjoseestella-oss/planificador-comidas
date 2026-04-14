@@ -415,6 +415,15 @@ function renderRecipes(filter, search) {
     });
   });
 
+  // ── Añadir recetas nuevas del Recetario Oficial ──
+  if (typeof RECETAS_NUEVAS !== 'undefined') {
+    Object.values(RECETAS_NUEVAS).forEach(r => {
+      if (!allMeals.find(x => x.id === r.id)) {
+        allMeals.push({ ...r, mealType: r.mealType || 'cena', esNueva: true });
+      }
+    });
+  }
+
   let filtered = allMeals;
   if (filter !== 'todos')      filtered = filtered.filter(m => m.mealType === filter || m.tipo === filter);
   if (search)                   filtered = filtered.filter(m => m.nombre.toLowerCase().includes(search));
@@ -426,14 +435,14 @@ function renderRecipes(filter, search) {
   }
 
   listEl.innerHTML = filtered.map(m => `
-    <div class="recipe-card" data-id="${m.id}" data-tipo="${m.mealType}">
+    <div class="recipe-card ${m.esNueva ? 'recipe-card-nueva' : ''}" data-id="${m.id}" data-tipo="${m.mealType || 'cena'}">
       <div class="recipe-emoji">${m.icono}</div>
       <div class="recipe-info">
         <h3>${m.nombre}</h3>
         <div class="recipe-meta">
           <span>⏱ ${m.tiempo} min</span>
           <span>👥 ${m.porciones} pers.</span>
-          <span>${m.tipo === 'aprovechamiento' ? '♻️' : '🥗'} ${m.tipo === 'aprovechamiento' ? 'Aprovech.' : 'Nueva'}</span>
+          <span>${m.tipo === 'aprovechamiento' ? '♻️ Aprovech.' : m.esNueva ? '📖 Recetario' : '🥗 Menú'}</span>
         </div>
       </div>
       <span class="recipe-chevron">›</span>
@@ -446,6 +455,7 @@ function renderRecipes(filter, search) {
     });
   });
 }
+
 
 // ── VIEW: COMPRA ────────────────────────────────────────────
 function generateShoppingList() {
