@@ -506,12 +506,23 @@ function generateShoppingList() {
     }
   });
 
-  STATE.shopping = Object.values(items).map(item => ({
-    ...item,
-    // Conservar checked y tengo (stock) del estado anterior si existe
-    checked: STATE.shopping.find(s => s.nombre === item.nombre)?.checked || false,
-    tengo:   STATE.shopping.find(s => s.nombre === item.nombre)?.tengo   ?? null,
-  }));
+  STATE.shopping = Object.values(items).map(item => {
+    let checked = STATE.shopping.find(s => s.nombre === item.nombre)?.checked || false;
+    let tengo = STATE.shopping.find(s => s.nombre === item.nombre)?.tengo ?? null;
+    
+    // Comparar con mi Desván automáticamente
+    if (tengo === null && STATE.desvan) {
+       const dsv = STATE.desvan.find(d => 
+         item.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
+         d.nombre.toLowerCase().includes(item.nombre.toLowerCase())
+       );
+       if (dsv && dsv.cantidad > 0) {
+         tengo = dsv.cantidad;
+       }
+    }
+    
+    return { ...item, checked, tengo };
+  });
 
   saveState();
   renderShopping();
@@ -614,6 +625,35 @@ function renderShopping() {
       e.stopPropagation();
       const idx = +el.closest('.shopping-item').dataset.idx;
       STATE.shopping[idx].checked = !STATE.shopping[idx].checked;
+      
+      if (STATE.shopping[idx].checked) {
+        const itemComprado = STATE.shopping[idx];
+        const remStr = calcRemaining(itemComprado.cantidad, itemComprado.tengo);
+        const remNum = parseFloat(remStr);
+        if (!isNaN(remNum) && remNum > 0) {
+           if (confirm(`¿Has comprado ${remNum} ${parseQtyUnit(itemComprado.cantidad)} de ${itemComprado.nombre}?\n\n¿Quieres ingresarlo ahora en tu Desván para regularizar el stock?`)) {
+             const dsv = STATE.desvan.find(d => 
+               itemComprado.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
+               d.nombre.toLowerCase().includes(itemComprado.nombre.toLowerCase())
+             );
+             if (dsv) {
+               dsv.cantidad += remNum;
+             } else {
+               const nombreClass = itemComprado.nombre.charAt(0).toUpperCase() + itemComprado.nombre.slice(1).toLowerCase();
+               STATE.desvan.push({
+                 id: Date.now().toString() + Math.random(),
+                 nombre: nombreClass,
+                 cantidad: remNum,
+                 unidad: parseQtyUnit(itemComprado.cantidad) || 'ud',
+                 vigilar: true
+               });
+             }
+             if (typeof renderDesvan === 'function') renderDesvan();
+             showToast(`📦 Ingresado en el Desván`, 'success');
+           }
+        }
+      }
+
       saveState();
       renderShopping();
     });
