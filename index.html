@@ -338,7 +338,11 @@
         <h2>📦 Mi Desván</h2>
         <p id="desvan-counter" style="font-size:.82rem;margin-top:3px">0 ingredientes</p>
       </div>
-      <button class="icon-btn" id="btn-desvan-scan" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;" title="Reabastecimiento con IA">📸</button>
+      <div style="display:flex; gap:10px;">
+        <label for="desvan-upload-ticket" class="icon-btn" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Subir imagen de ticket">🖼️</label>
+        <input type="file" id="desvan-upload-ticket" accept="image/*" style="display:none;">
+        <button class="icon-btn" id="btn-desvan-scan" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;" title="Cámara: Reabastecimiento con IA">📸</button>
+      </div>
     </div>
 
     <!-- Add Item form -->

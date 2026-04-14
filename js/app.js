@@ -1068,6 +1068,98 @@ function setupDesvan() {
     document.getElementById('scanner-overlay').classList.add('open');
     if (typeof window.startCamera === 'function') window.startCamera();
   });
+
+  const uploadTicketBtn = document.getElementById('desvan-upload-ticket');
+  if (uploadTicketBtn) {
+    uploadTicketBtn.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      let apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) {
+        apiKey = prompt("🤖 Análisis visual con Google Gemini AI\n\nPor favor, pega aquí tu API Key de Gemini (es gratuita en Google AI Studio):");
+        if (!apiKey) {
+          e.target.value = '';
+          return;
+        }
+        localStorage.setItem('gemini_api_key', apiKey.trim());
+      }
+      
+      showToast('Analizando ticket con Gemini AI... 🧠', 'info');
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64Data = reader.result.split(',')[1];
+        
+        try {
+          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.trim()}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: 'Extrae los alimentos de comida (solo comida) de este ticket o imagen. Devuelve ÚNICAMENTE un array JSON válido, sin formato markdown ni comillas extrañas. Ejemplo: [{"nombre": "Tomate", "cantidad": 2}]. Agrupa si son similares. Mantenlo ultra limplio, no añadas textos explicativos. Si no hay ingredientes devuelve []' },
+                  { inline_data: { mime_type: file.type, data: base64Data } }
+                ]
+              }]
+            })
+          });
+
+          if (resp.status === 400 || resp.status === 403) {
+             localStorage.removeItem('gemini_api_key');
+             throw new Error("API Key inválida o caducada.");
+          }
+          if (!resp.ok) throw new Error("Error conectando con Gemini");
+
+          const data = await resp.json();
+          const rawText = data.candidates[0].content.parts[0].text;
+          
+          let parsed = [];
+          try {
+             const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+             parsed = JSON.parse(cleanJson);
+          } catch(err) {
+             throw new Error("Gemini no devolvió un formato válido.");
+          }
+
+          if (parsed.length === 0) {
+             showToast('No se encontraron alimentos en la foto.', 'warning');
+             return;
+          }
+
+          let countMsg = 0;
+          parsed.forEach(ing => {
+             const nombreClass = ing.nombre.charAt(0).toUpperCase() + ing.nombre.slice(1).toLowerCase();
+             const qty = typeof ing.cantidad === 'number' ? ing.cantidad : 1;
+             
+             const ex = STATE.desvan.find(d => d.nombre.toLowerCase() === ing.nombre.toLowerCase());
+             if (ex) {
+               ex.cantidad += qty;
+             } else {
+               STATE.desvan.push({
+                 id: Date.now().toString() + Math.random(),
+                 nombre: nombreClass,
+                 cantidad: qty,
+                 unidad: 'ud',
+                 vigilar: true
+               });
+             }
+             countMsg++;
+          });
+
+          saveState();
+          renderDesvan();
+          showToast(`¡${countMsg} ingredientes guardados en el Desván con Gemini!`, 'success');
+
+        } catch (error) {
+          showToast('❌ Error: ' + error.message, 'error');
+        } finally {
+          e.target.value = '';
+        }
+      };
+    });
+  }
 }
 
 function renderDesvan() {
