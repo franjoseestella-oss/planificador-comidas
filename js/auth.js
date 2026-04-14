@@ -405,29 +405,35 @@
           statusText.style.color = "var(--primary)";
           faceWrap.style.borderColor = "var(--primary)";
 
-          // === DIBUJAR MALLA LLENA QUE "TAPA LA CARA" ===
+          // === DIBUJAR MALLA PRECISA QUE "TAPA LA CARA" ===
           const positions = resizedDetections.landmarks.positions;
           
-          // Crear un polígono verde translúcido que tape la cara
-          ctx.fillStyle = 'rgba(34, 197, 94, 0.45)'; // Malla semi transparente
-          ctx.strokeStyle = '#22c55e';
-          ctx.lineWidth = 1;
+          const DELAUNAY_TRIANGLES = [[26, 44, 25], [28, 29, 40], [2, 1, 41], [17, 36, 0], [36, 1, 0], [1, 36, 41], [15, 14, 46], [45, 44, 26], [44, 45, 46], [45, 26, 16], [15, 45, 16], [45, 15, 46], [29, 35, 30], [35, 13, 12], [31, 29, 30], [29, 31, 40], [40, 31, 41], [38, 19, 20], [42, 28, 27], [44, 24, 25], [35, 34, 30], [35, 47, 46], [47, 35, 29], [47, 29, 28], [42, 47, 28], [47, 44, 46], [32, 31, 30], [38, 39, 40], [28, 39, 27], [39, 28, 40], [37, 40, 41], [37, 38, 40], [36, 37, 41], [37, 17, 18], [37, 36, 17], [19, 37, 18], [38, 37, 19], [23, 24, 44], [9, 53, 10], [59, 11, 10], [11, 59, 12], [59, 35, 12], [47, 43, 44], [43, 47, 42], [43, 42, 22], [43, 23, 44], [23, 43, 22], [31, 4, 3], [5, 56, 6], [6, 56, 48], [4, 56, 5], [56, 4, 31], [33, 58, 50], [58, 33, 34], [34, 33, 30], [33, 32, 30], [21, 38, 20], [21, 39, 38], [39, 21, 27], [53, 65, 64], [65, 53, 9], [59, 51, 35], [7, 55, 67], [55, 6, 48], [55, 7, 6], [33, 57, 32], [57, 33, 50], [61, 57, 50], [54, 9, 8], [54, 65, 9], [54, 66, 65], [66, 54, 67], [7, 54, 8], [54, 7, 67], [51, 52, 64], [52, 51, 59], [53, 52, 10], [52, 53, 64], [52, 59, 10], [65, 63, 64], [63, 51, 64], [51, 63, 58], [58, 63, 50], [56, 49, 48], [49, 56, 31], [49, 57, 61], [66, 62, 65], [62, 63, 65], [63, 62, 50], [61, 62, 67], [62, 61, 50], [62, 66, 67], [60, 61, 67], [55, 60, 67], [60, 49, 61], [60, 55, 48], [49, 60, 48], [13, 35, 14], [14, 35, 46], [2, 31, 3], [31, 2, 41], [24, 23, 19], [19, 23, 20], [23, 21, 20], [21, 23, 22], [21, 42, 27], [42, 21, 22], [51, 58, 34], [51, 34, 35], [57, 49, 32], [32, 49, 31]];
 
-          ctx.beginPath();
-          // Mandíbula (0 al 16)
-          ctx.moveTo(positions[0].x, positions[0].y);
-          for(let i=1; i<=16; i++) {
-            ctx.lineTo(positions[i].x, positions[i].y);
-          }
-          // Subir por las sienes y la frente para cerrar la máscara
-          const deltaY = positions[27].y - positions[21].y; // distancia nariz a ceja
-          ctx.lineTo(positions[26].x + 10, positions[26].y - deltaY*2); 
-          ctx.lineTo(positions[17].x - 10, positions[17].y - deltaY*2);
-          ctx.closePath();
-          ctx.fill();
+          ctx.lineWidth = 1.2;
+          ctx.strokeStyle = '#22c55e'; // Verde cyber
+          ctx.fillStyle = 'rgba(34, 197, 94, 0.25)'; // Relleno verde matrix
 
-          // Puntos y líneas de estructura sobre la máscara
-          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections, { drawLines: true, color: '#fff', lineWidth: 1.5 });
+          DELAUNAY_TRIANGLES.forEach(tri => {
+            const A = positions[tri[0]];
+            const B = positions[tri[1]];
+            const C = positions[tri[2]];
+            ctx.beginPath();
+            ctx.moveTo(A.x, A.y);
+            ctx.lineTo(B.x, B.y);
+            ctx.lineTo(C.x, C.y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+          });
+
+          // Dibujar puntos clave por encima
+          ctx.fillStyle = '#fff';
+          positions.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+            ctx.fill();
+          });
         } else {
           latestDescriptor = null;
           saveBtn.disabled = true;
