@@ -23,17 +23,11 @@
   }
 
   function isAuthenticated() {
-    try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      if (!raw) return false;
-      const { expiry } = JSON.parse(raw);
-      return Date.now() < expiry;
-    } catch { return false; }
+    return sessionStorage.getItem(SESSION_KEY) === 'true';
   }
 
   function saveSession() {
-    const expiry = Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000;
-    localStorage.setItem(SESSION_KEY, JSON.stringify({ expiry }));
+    sessionStorage.setItem(SESSION_KEY, 'true');
   }
 
   let videoStream = null;
@@ -81,7 +75,7 @@
           </button>
         </div>
 
-        <p class="lock-remember-text" style="margin-top:0">Este dispositivo se recordará <strong>${SESSION_DAYS} días</strong></p>
+        <p class="lock-remember-text" style="margin-top:0">Se pedirá el rostro cada vez que abras la app para mayor seguridad.</p>
       </div>
     `;
 
