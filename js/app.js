@@ -1075,7 +1075,7 @@ function setupDesvan() {
       const file = e.target.files[0];
       if (!file) return;
       
-      let apiKey = localStorage.getItem('gemini_api_key');
+      let apiKey = window.GEMINI_API_KEY || localStorage.getItem('gemini_api_key');
       if (!apiKey) {
         apiKey = prompt("🤖 Análisis visual con Google Gemini AI\n\nPor favor, pega aquí tu API Key de Gemini (es gratuita en Google AI Studio):");
         if (!apiKey) {
