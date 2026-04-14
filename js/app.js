@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkInstallPrompt();
   scheduleLocalNotification();
   setupRecipeSearch();
+  setupScanner();
 
   // Generate shopping list button
   document.getElementById('btn-generate-list').addEventListener('click', () => {
@@ -982,3 +983,98 @@ function getWeekStart(date) {
 }
 
 // ── (All event listeners moved to main DOMContentLoaded above) ──────────────
+
+// ── ROBOLFLOW SCANNER INTERFACE ───────────────────────────
+function setupScanner() {
+  const btnOpen = document.getElementById('btn-open-scanner');
+  if (!btnOpen) return;
+
+  const overlay = document.getElementById('scanner-overlay');
+  const btnClose = document.getElementById('scanner-close');
+  const video = document.getElementById('scanner-video');
+  const captureBtn = document.getElementById('scanner-capture');
+  const statusEl = document.getElementById('scanner-status');
+  const resultsEl = document.getElementById('scanner-results');
+  const scanline = document.getElementById('scanner-scanline');
+  
+  let stream = null;
+
+  btnOpen.addEventListener('click', async () => {
+    overlay.style.display = 'flex';
+    resultsEl.style.display = 'none';
+    statusEl.innerHTML = 'Apunta a tus ingredientes...<br><small>Coloca la comida bien iluminada</small>';
+    scanline.style.display = 'block';
+
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+    } catch (err) {
+      statusEl.textContent = '❌ Error al acceder a la cámara trasera.';
+      scanline.style.display = 'none';
+    }
+  });
+
+  function closeScanner() {
+    overlay.style.display = 'none';
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+    }
+  }
+
+  btnClose.addEventListener('click', closeScanner);
+
+  captureBtn.addEventListener('click', async () => {
+    if (!stream) return;
+    
+    // UI feedback
+    captureBtn.style.transform = 'scale(0.9)';
+    setTimeout(() => captureBtn.style.transform = 'scale(1)', 200);
+    
+    statusEl.textContent = 'Procesando imagen con IA... 🧠';
+    scanline.style.animationDuration = '0.5s';
+
+    // Capture frame to base64
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    let base64Image = canvas.toDataURL('image/jpeg', 0.8);
+    const base64Data = base64Image.split(',')[1];
+
+    try {
+      const resp = await fetch('https://detect.roboflow.com/infer/workflows/welding-hqci3/sam3-2?api_key=K6YHioHqtuwbsNmR2n7O', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          inputs: {
+             image: { type: "base64", value: base64Data }
+          }
+        })
+      });
+
+      if (!resp.ok) {
+        throw new Error('Error HTTP ' + resp.status);
+      }
+
+      const data = await resp.json();
+      
+      scanline.style.display = 'none';
+      resultsEl.style.display = 'block';
+      let html = '<h4 style="margin:0 0 10px 0; color:var(--primary);">Alimentos detectados:</h4>';
+      
+      // Intentamos pintar bonito si hay predicciones, si no pintamos el JSON.
+      // Workflow responses vary highly, so we just show the raw stringified data for transparency.
+      html += '<pre style="font-size:0.75rem; color:#ccc; overflow-x:auto; white-space: pre-wrap;">' + JSON.stringify(data, null, 2) + '</pre>';
+
+      resultsEl.innerHTML = html;
+      statusEl.textContent = '¡Análisis completo!';
+
+    } catch (err) {
+      statusEl.textContent = '❌ Fallo en la IA: ' + err.message;
+      scanline.style.animationDuration = '2s';
+    }
+  });
+}

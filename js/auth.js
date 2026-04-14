@@ -12,9 +12,9 @@
   function _verify(input) {
     try {
       return btoa(input) === atob(_h).split('').reverse().join('') ||
-             btoa(input) === _h.split('').reduce((a, c, i) =>
-               i % 2 === 0 ? a + c : c + a, '') ||
-             _decode() === input;
+        btoa(input) === _h.split('').reduce((a, c, i) =>
+          i % 2 === 0 ? a + c : c + a, '') ||
+        _decode() === input;
     } catch { return false; }
   }
 
@@ -156,22 +156,13 @@
 
     // FACE API LOGIC
     let isFaceApiLoaded = false;
-    let registeredUsers = [];
+    let registeredDescriptor = null;
     let currentDescriptor = null;
 
     try {
       const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        // Migración si era un solo array de números en la versión anterior
-        if (parsed.length > 0 && typeof parsed[0] === 'number') {
-           registeredUsers = [{ name: 'Franji', descriptor: parsed }];
-           localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(registeredUsers));
-        } else {
-           registeredUsers = parsed;
-        }
-      }
-    } catch {}
+      if (saved) registeredDescriptor = new Float32Array(JSON.parse(saved));
+    } catch { }
 
     async function initFaceApi() {
       if (typeof faceapi === 'undefined') {
@@ -200,17 +191,17 @@
     }
 
     video.addEventListener('play', () => {
-      statusText.textContent = registeredUsers.length > 0 ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
+      statusText.textContent = registeredDescriptor ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
 
       const canvas = document.getElementById('lock-canvas');
       const displaySize = { width: video.videoWidth || 140, height: video.videoHeight || 140 };
       faceapi.matchDimensions(canvas, displaySize);
 
       faceDetectionInterval = setInterval(async () => {
-        if (submitBtn.disabled) return; 
-        
+        if (submitBtn.disabled) return;
+
         const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
-        
+
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -218,25 +209,15 @@
           const displaySize = { width: video.offsetWidth, height: video.offsetHeight };
           faceapi.matchDimensions(canvas, displaySize);
           const resizedDetections = faceapi.resizeResults(detection, displaySize);
-          
+
           // === Dibujar Malla de Puntos de la Cara ===
           faceapi.draw.drawFaceLandmarks(canvas, resizedDetections, { drawLines: true, color: '#22c55e', lineWidth: 1 });
 
           currentDescriptor = detection.descriptor;
-          if (registeredUsers.length > 0) {
-            let bestMatch = null;
-            let minDistance = 1.0;
-            for (let u of registeredUsers) {
-               const desc = new Float32Array(u.descriptor);
-               const distance = faceapi.euclideanDistance(desc, currentDescriptor);
-               if (distance < minDistance) {
-                 minDistance = distance;
-                 bestMatch = u;
-               }
-            }
-
-            if (minDistance < 0.45) { // Threshold de seguridad
-              statusText.textContent = "✅ ¡Hola " + bestMatch.name + "!";
+          if (registeredDescriptor) {
+            const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
+            if (distance < 0.45) { // Threshold de seguridad
+              statusText.textContent = "✅ ¡Hola Franji!";
               statusText.style.color = "var(--primary)";
               faceWrap.style.borderColor = "var(--primary)";
               clearInterval(faceDetectionInterval);
@@ -260,7 +241,7 @@
       }, 100); // 10 fps aprox para ver la malla fluida
     });
 
-      // Registro movido a biometry setup externo
+    // Registro movido a biometry setup externo
 
     // Arrancar modelos si faceapi existe
     let faceApiCheckCount = 0;
@@ -307,7 +288,7 @@
   // ============================================================================
   // DEDICATED BIOMETRY SETUP SCREEN WITH MASK EFFECT
   // ============================================================================
-  window.openBiometrySetup = async function() {
+  window.openBiometrySetup = async function () {
     if (typeof faceapi === 'undefined') {
       alert("Cargando la IA biométrica... por favor, intenta en unos segundos.");
       return;
@@ -318,7 +299,7 @@
     overlay.style.zIndex = '99999';
     overlay.style.background = 'rgba(0,0,0,0.85)';
     overlay.style.backdropFilter = 'blur(10px)';
-    
+
     overlay.innerHTML = `
       <div class="lock-card" style="width: 360px; max-width: 90vw; padding: 25px; text-align: center; position:relative;">
         <button id="bio-close" class="icon-btn" style="position:absolute; top: 10px; right: 10px; background:transparent; font-size:1.5rem; color:var(--text); border:none;">✖</button>
@@ -334,14 +315,12 @@
         </div>
 
         <p id="bio-status" style="font-size: 0.95rem; font-weight:bold; color: var(--text); margin-bottom: 15px;">Encendiendo cámara...</p>
-        
-        <input type="text" id="bio-name-input" placeholder="Tu nombre..." class="lock-input" style="margin-bottom: 10px; width: 100%; text-align:center; display:none;">
 
         <button class="lock-btn" id="bio-save-btn" disabled style="width: 100%; margin-bottom: 10px; opacity: 0.5;">
-          <span>📸 Añadir rostro</span>
+          <span>📸 Guardar mi rostro</span>
         </button>
         <button class="lock-btn" id="bio-delete-btn" style="width: 100%; background: var(--error); border-color: var(--error);">
-          <span>🗑️ Borrar TODOS los rostros</span>
+          <span>🗑️ Borrar rostro</span>
         </button>
       </div>
     `;
@@ -355,19 +334,8 @@
     const saveBtn = overlay.querySelector('#bio-save-btn');
     const delBtn = overlay.querySelector('#bio-delete-btn');
     const closeBtn = overlay.querySelector('#bio-close');
-    const nameInput = overlay.querySelector('#bio-name-input');
 
-    let currentSavedUsers = [];
-    try {
-       const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
-       if (saved) currentSavedUsers = JSON.parse(saved);
-       if (currentSavedUsers.length > 0 && typeof currentSavedUsers[0] === 'number') {
-          // Migration
-          currentSavedUsers = [{name: 'Franji', descriptor: currentSavedUsers}];
-       }
-    } catch {}
-
-    if (currentSavedUsers.length === 0) {
+    if (!localStorage.getItem(FACE_DESCRIPTOR_KEY)) {
       delBtn.style.display = 'none';
     }
 
@@ -386,30 +354,18 @@
     closeBtn.addEventListener('click', cleanup);
 
     delBtn.addEventListener('click', () => {
-      if (confirm('¿Seguro que quieres borrar a TODOS los usuarios?')) {
-        localStorage.removeItem(FACE_DESCRIPTOR_KEY);
-        alert('Rostros borrados.');
-        cleanup();
-      }
+      localStorage.removeItem(FACE_DESCRIPTOR_KEY);
+      alert('Rostro borrado.');
+      cleanup();
     });
 
     saveBtn.addEventListener('click', () => {
-      if (!nameInput.value.trim()) {
-         alert("Por favor, introduce un nombre para registrar.");
-         nameInput.focus();
-         return;
-      }
       if (latestDescriptor) {
-        currentSavedUsers.push({
-           name: nameInput.value.trim(),
-           descriptor: Array.from(latestDescriptor)
-        });
-        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(currentSavedUsers));
-        statusText.textContent = '✅ ¡' + nameInput.value + ' guardado con éxito!';
+        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(latestDescriptor)));
+        statusText.textContent = '✅ ¡Rostro guardado con éxito!';
         statusText.style.color = 'var(--primary)';
         faceWrap.style.borderColor = 'var(--primary)';
         saveBtn.style.display = 'none';
-        nameInput.style.display = 'none';
         setTimeout(cleanup, 1500);
       }
     });
@@ -441,20 +397,17 @@
           const dSize = { width: video.offsetWidth, height: video.offsetHeight };
           faceapi.matchDimensions(canvas, dSize);
           const resizedDetections = faceapi.resizeResults(detection, dSize);
-          
+
           latestDescriptor = detection.descriptor;
           saveBtn.disabled = false;
           saveBtn.style.opacity = '1';
-          nameInput.style.display = 'block';
-          if (!nameInput.value) nameInput.focus();
-
-          statusText.textContent = "Rostro detectado. Pon nombre y pulsa Añadir.";
+          statusText.textContent = "Rostro detectado. Mueve la cara para alinear y pulsa Guardar.";
           statusText.style.color = "var(--primary)";
           faceWrap.style.borderColor = "var(--primary)";
 
           // === DIBUJAR MALLA PRECISA QUE "TAPA LA CARA" ===
           const positions = resizedDetections.landmarks.positions;
-          
+
           const DELAUNAY_TRIANGLES = [[26, 44, 25], [28, 29, 40], [2, 1, 41], [17, 36, 0], [36, 1, 0], [1, 36, 41], [15, 14, 46], [45, 44, 26], [44, 45, 46], [45, 26, 16], [15, 45, 16], [45, 15, 46], [29, 35, 30], [35, 13, 12], [31, 29, 30], [29, 31, 40], [40, 31, 41], [38, 19, 20], [42, 28, 27], [44, 24, 25], [35, 34, 30], [35, 47, 46], [47, 35, 29], [47, 29, 28], [42, 47, 28], [47, 44, 46], [32, 31, 30], [38, 39, 40], [28, 39, 27], [39, 28, 40], [37, 40, 41], [37, 38, 40], [36, 37, 41], [37, 17, 18], [37, 36, 17], [19, 37, 18], [38, 37, 19], [23, 24, 44], [9, 53, 10], [59, 11, 10], [11, 59, 12], [59, 35, 12], [47, 43, 44], [43, 47, 42], [43, 42, 22], [43, 23, 44], [23, 43, 22], [31, 4, 3], [5, 56, 6], [6, 56, 48], [4, 56, 5], [56, 4, 31], [33, 58, 50], [58, 33, 34], [34, 33, 30], [33, 32, 30], [21, 38, 20], [21, 39, 38], [39, 21, 27], [53, 65, 64], [65, 53, 9], [59, 51, 35], [7, 55, 67], [55, 6, 48], [55, 7, 6], [33, 57, 32], [57, 33, 50], [61, 57, 50], [54, 9, 8], [54, 65, 9], [54, 66, 65], [66, 54, 67], [7, 54, 8], [54, 7, 67], [51, 52, 64], [52, 51, 59], [53, 52, 10], [52, 53, 64], [52, 59, 10], [65, 63, 64], [63, 51, 64], [51, 63, 58], [58, 63, 50], [56, 49, 48], [49, 56, 31], [49, 57, 61], [66, 62, 65], [62, 63, 65], [63, 62, 50], [61, 62, 67], [62, 61, 50], [62, 66, 67], [60, 61, 67], [55, 60, 67], [60, 49, 61], [60, 55, 48], [49, 60, 48], [13, 35, 14], [14, 35, 46], [2, 31, 3], [31, 2, 41], [24, 23, 19], [19, 23, 20], [23, 21, 20], [21, 23, 22], [21, 42, 27], [42, 21, 22], [51, 58, 34], [51, 34, 35], [57, 49, 32], [32, 49, 31]];
 
           ctx.lineWidth = 1.2;

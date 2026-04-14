@@ -45,6 +45,33 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
+       SCANNER OVERLAY (Cámara e IA de Roboflow)
+  ═══════════════════════════════════════════ -->
+  <div id="scanner-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display: none; align-items: center; justify-content: center; z-index: 10000; background: rgba(0,0,0,0.9);">
+    <div style="width: 100%; max-width: 400px; padding: 20px; text-align: center; color: white;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin:0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">🥑 Escáner de Alimentos</h2>
+        <button id="scanner-close" class="icon-btn" style="color: white; border: none; background: transparent; font-size: 1.5rem;">✖</button>
+      </div>
+      <div id="scanner-vid-container" style="position: relative; width: 100%; aspect-ratio: 4/5; background: #222; border-radius: 16px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(34,197,94,0.3);">
+        <video id="scanner-video" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+        <div id="scanner-scanline" style="position: absolute; top:0; left:0; width: 100%; height: 2px; background: rgba(34,197,94,0.8); box-shadow: 0 0 10px var(--primary); animation: scanline 2s infinite ease-in-out; display: none;"></div>
+      </div>
+      
+      <p id="scanner-status" style="margin-top: 15px; font-size: 0.95rem; color: #ddd; min-height: 44px;">Apunta a tus ingredientes...</p>
+      
+      <button id="scanner-capture" style="margin-top: 5px; width: 64px; height: 64px; border-radius: 50%; background: var(--primary); border: 4px solid white; outline: 3px solid var(--primary); cursor: pointer; transition: transform 0.2s;"></button>
+
+      <div id="scanner-results" style="margin-top: 20px; text-align: left; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 12px; display: none; max-height: 150px; overflow-y: auto;">
+        <!-- Lista de alimentos rellenada por IA -->
+      </div>
+    </div>
+  </div>
+  <style>
+    @keyframes scanline { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+  </style>
+
+  <!-- ═══════════════════════════════════════════
        VIEW: HOY
   ═══════════════════════════════════════════ -->
   <section class="view active" id="view-hoy" aria-label="Menú de hoy">
@@ -67,6 +94,13 @@
       <div class="meal-row" id="hoy-meal-row">
         <!-- Generado por JS -->
       </div>
+    </div>
+
+    <!-- Escáner IA -->
+    <div style="padding: 16px 20px 0 20px;">
+      <button id="btn-open-scanner" style="width: 100%; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #16a34a); color: white; padding: 14px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(34,197,94,0.3);">
+        <span style="font-size: 1.2rem;">📸</span> Escanear Alimentos IA
+      </button>
     </div>
 
     <!-- Prompt notificaciones -->

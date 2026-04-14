@@ -2,7 +2,7 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v12';
+const CACHE_NAME = 'planificador-v13';
 const ASSETS = [
   '/',
   '/index.html',
@@ -126,11 +126,11 @@ function getManana() {
   mañana.setDate(mañana.getDate() + 1);
 
   const diasMap = {
-    1: { key: 'lunes',     label: 'Lunes' },
-    2: { key: 'martes',    label: 'Martes' },
+    1: { key: 'lunes', label: 'Lunes' },
+    2: { key: 'martes', label: 'Martes' },
     3: { key: 'miercoles', label: 'Miércoles' },
-    4: { key: 'jueves',    label: 'Jueves' },
-    5: { key: 'viernes',   label: 'Viernes' }
+    4: { key: 'jueves', label: 'Jueves' },
+    5: { key: 'viernes', label: 'Viernes' }
   };
   const dia = diasMap[mañana.getDay()];
   if (!dia) return null;
@@ -143,7 +143,7 @@ function getManana() {
     diaKey: dia.key,
     diaLabel: dia.label,
     comida: { nombre: 'Comida del ' + dia.label },
-    cena:   { nombre: 'Cena del ' + dia.label }
+    cena: { nombre: 'Cena del ' + dia.label }
   };
 }
 
