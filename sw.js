@@ -153,12 +153,10 @@ function broadcastMessage(msg) {
 
 function openApp(hash) {
   const url = (self.registration.scope || '/') + 'index.html' + hash;
-  e.waitUntil(
-    self.clients.matchAll({ type: 'window' }).then(clients => {
-      for (const c of clients) {
-        if ('focus' in c) { c.focus(); c.navigate(url); return; }
-      }
-      return self.clients.openWindow(url);
-    })
-  );
+  self.clients.matchAll({ type: 'window' }).then(clients => {
+    for (const c of clients) {
+      if ('focus' in c) { c.focus(); c.navigate(url); return; }
+    }
+    return self.clients.openWindow(url);
+  });
 }
