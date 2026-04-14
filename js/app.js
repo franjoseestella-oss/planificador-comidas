@@ -1061,16 +1061,56 @@ function setupScanner() {
 
       const data = await resp.json();
       
+      // Función para extraer clases recursivamente del workflow de Roboflow
+      function extractClasses(obj, classes = new Set()) {
+        if (!obj) return classes;
+        if (Array.isArray(obj)) {
+          obj.forEach(o => extractClasses(o, classes));
+        } else if (typeof obj === 'object') {
+          if (obj.class && typeof obj.class === 'string') classes.add(obj.class);
+          if (obj.label && typeof obj.label === 'string') classes.add(obj.label);
+          if (obj.prediction && typeof obj.prediction === 'string') classes.add(obj.prediction);
+          Object.values(obj).forEach(v => extractClasses(v, classes));
+        }
+        return classes;
+      }
+
+      const detectadosSet = extractClasses(data);
+      const predictedClasses = Array.from(detectadosSet);
+      
       scanline.style.display = 'none';
       resultsEl.style.display = 'block';
-      let html = '<h4 style="margin:0 0 10px 0; color:var(--primary);">Alimentos detectados:</h4>';
       
-      // Intentamos pintar bonito si hay predicciones, si no pintamos el JSON.
-      // Workflow responses vary highly, so we just show the raw stringified data for transparency.
-      html += '<pre style="font-size:0.75rem; color:#ccc; overflow-x:auto; white-space: pre-wrap;">' + JSON.stringify(data, null, 2) + '</pre>';
+      if (predictedClasses.length === 0) {
+         resultsEl.innerHTML = `<p style="color:#ffcdd2;">No pude reconocer ingredientes claros. ¿Has enfocado bien?</p>
+         <pre style="font-size:0.6rem; color:#666; max-height:80px; overflow:hidden;">${JSON.stringify(data)}</pre>`;
+         statusEl.textContent = 'Inténtalo de nuevo';
+         return;
+      }
+
+      const ingredList = predictedClasses.join(', ');
+      
+      let html = `<h4 style="margin:0 0 10px 0; color:var(--primary);">Ingredientes: ${ingredList}</h4>`;
+      
+      const metodos = ['Salteado rápido', 'Cazuela', 'Revuelto', 'Ensalada tibia', 'Bowl fit', 'Wrap exprés'];
+      const metodo = metodos[Math.floor(Math.random() * metodos.length)];
+      
+      html += `
+        <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px; text-align:left;">
+           <h3 style="margin:0 0 5px 0; color:#fff;">✨ Receta Freestyle: ${metodo} de ${predictedClasses[0]}</h3>
+           <p style="font-size:0.85rem; color:var(--primary); margin:0 0 10px 0;">⏳ 15 mins · 🍳 Nivel Fácil</p>
+           <ol style="margin:0; padding-left:20px; font-size:0.95rem; line-height:1.5; color:#eee;">
+              <li>Lava y prepara todo: <b>${ingredList}</b>.</li>
+              <li>Calienta una sartén con un chorrito de aceite de oliva.</li>
+              <li>Cocina a fuego medio-alto hasta que dore bien.</li>
+              <li>Sazona a tu gusto con sal, pimienta y tus especias favoritas.</li>
+              <li>¡Sirve caliente y disfruta!</li>
+           </ol>
+        </div>
+      `;
 
       resultsEl.innerHTML = html;
-      statusEl.textContent = '¡Análisis completo!';
+      statusEl.textContent = '¡Menú improvisado listo!';
 
     } catch (err) {
       statusEl.textContent = '❌ Fallo en la IA: ' + err.message;
