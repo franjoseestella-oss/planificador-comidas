@@ -1094,10 +1094,15 @@ function renderDesvan() {
       <div class="card" style="padding:12px; display:flex; justify-content:space-between; align-items:center;">
         <div style="flex:1">
           <div style="font-weight:bold; font-size:1rem; color:var(--text);">${item.nombre}</div>
-          <div style="font-size:0.85rem; color:var(--text-muted);">
-            Cantidad: <strong>${item.cantidad} ${item.unidad}</strong> 
-            ${item.vigilar ? '<span style="color:var(--primary);margin-left:5px;">👁️ Vigilado</span>' : ''}
+          <div style="font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:5px; margin-top:3px;">
+            Cantidad: 
+            <input type="number" step="0.1" value="${item.cantidad}" oninput="updateDesvanQty('${item.id}', this.value)" style="width:60px; padding:2px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); font-size:0.85rem;">
+            ${item.unidad}
           </div>
+          <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; margin-top:5px; cursor:pointer;">
+            <input type="checkbox" onchange="toggleVigilancia('${item.id}')" ${item.vigilar ? 'checked' : ''} style="accent-color:var(--primary);">
+            <span style="color:${item.vigilar ? 'var(--primary)' : 'var(--text-muted)'}">Vigilancia Activa</span>
+          </label>
         </div>
         <div style="display:flex; gap:10px; align-items:center;">
           <button class="icon-btn" onclick="removeDesvanItem('${item.id}')" style="color:var(--error);">🗑️</button>
@@ -1108,6 +1113,23 @@ function renderDesvan() {
   html += '</div>';
   container.innerHTML = html;
 }
+
+window.toggleVigilancia = function(id) {
+  const item = STATE.desvan.find(i => i.id === id);
+  if (item) {
+    item.vigilar = !item.vigilar;
+    saveState();
+    renderDesvan();
+  }
+};
+
+window.updateDesvanQty = function(id, newVal) {
+  const item = STATE.desvan.find(i => i.id === id);
+  if (item && newVal !== '') {
+    item.cantidad = parseFloat(newVal);
+    saveState();
+  }
+};
 
 window.removeDesvanItem = function(id) {
   STATE.desvan = STATE.desvan.filter(i => i.id !== id);
