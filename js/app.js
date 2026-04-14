@@ -48,6 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
       requestNotificationPermission();
     }
   });
+
+  // Biometric Setup
+  const bioBtn = document.getElementById('biometry-btn');
+  if (bioBtn) {
+    bioBtn.addEventListener('click', () => {
+      if (typeof window.openBiometrySetup === 'function') {
+        window.openBiometrySetup();
+      } else {
+        showToast('⚠️ Biometría no cargada aún', 'error');
+      }
+    });
+  }
 });
 
 // Expose switchView globally for inline onclick handlers

@@ -79,9 +79,6 @@
           <button class="lock-btn" id="lock-submit" style="flex:1;">
             <span>Entrar</span>
           </button>
-          <button class="lock-btn" id="lock-register-face" style="flex:1; background: var(--bg-card2); color: var(--text); border: 1px solid var(--border); display: none;" title="Escribe tu contraseña y registra tu rostro">
-            <span>👤 Guardar</span>
-          </button>
         </div>
 
         <p class="lock-remember-text" style="margin-top:0">Este dispositivo se recordará <strong>${SESSION_DAYS} días</strong></p>
@@ -190,7 +187,6 @@
         videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
         video.srcObject = videoStream;
         faceWrap.style.display = 'block';
-        registerBtn.style.display = 'block';
 
       } catch (err) {
         console.error("Camera/FaceAPI error", err);
@@ -251,38 +247,7 @@
       }, 100); // 10 fps aprox para ver la malla fluida
     });
 
-    registerBtn.addEventListener('click', () => {
-      const val = input.value;
-      if (!val) {
-        errorEl.textContent = 'Introduce la clave para poder guardar tu rostro';
-        errorEl.classList.add('visible');
-        shakeInput(wrap);
-        setTimeout(() => errorEl.classList.remove('visible'), 3000);
-        return;
-      }
-      if (!_verify(val)) {
-        errorEl.textContent = '❌ Contraseña incorrecta.';
-        errorEl.classList.add('visible');
-        shakeInput(wrap);
-        return;
-      }
-      if (!currentDescriptor) {
-        errorEl.textContent = '⚠️ ¡Ponte frente a la cámara primero!';
-        errorEl.classList.add('visible');
-        shakeInput(wrap);
-        setTimeout(() => errorEl.classList.remove('visible'), 3000);
-        return;
-      }
-
-      // Guardar descriptor
-      localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(currentDescriptor)));
-      registeredDescriptor = currentDescriptor;
-      statusText.textContent = '✅ ¡Rostro guardado correctamente!';
-      statusText.style.color = "var(--primary)";
-      
-      // Auto unlock
-      setTimeout(() => { tryUnlock(true); }, 1500);
-    });
+      // Registro movido a biometry setup externo
 
     // Arrancar modelos si faceapi existe
     let faceApiCheckCount = 0;
@@ -325,4 +290,159 @@
       showLockScreen();
     }
   }
+
+  // ============================================================================
+  // DEDICATED BIOMETRY SETUP SCREEN WITH MASK EFFECT
+  // ============================================================================
+  window.openBiometrySetup = async function() {
+    if (typeof faceapi === 'undefined') {
+      alert("Cargando la IA biométrica... por favor, intenta en unos segundos.");
+      return;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lock-overlay lock-visible';
+    overlay.style.zIndex = '99999';
+    overlay.style.background = 'rgba(0,0,0,0.85)';
+    overlay.style.backdropFilter = 'blur(10px)';
+    
+    overlay.innerHTML = `
+      <div class="lock-card" style="width: 360px; max-width: 90vw; padding: 25px; text-align: center; position:relative;">
+        <button id="bio-close" class="icon-btn" style="position:absolute; top: 10px; right: 10px; background:transparent; font-size:1.5rem; color:var(--text); border:none;">✖</button>
+        
+        <div class="lock-logo" style="margin-bottom: 15px;">
+          <div class="lock-logo-icon" style="font-size: 2.5rem;">👤</div>
+          <div class="lock-logo-name" style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">Configurar Rostro</div>
+        </div>
+
+        <div id="bio-face-wrap" style="position: relative; width: 220px; height: 220px; margin: 0 auto 15px auto; border-radius: 20px; overflow: hidden; background: #222; border: 3px solid var(--border);">
+          <video id="bio-video" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
+          <canvas id="bio-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; transform: scaleX(-1);"></canvas>
+        </div>
+
+        <p id="bio-status" style="font-size: 0.95rem; font-weight:bold; color: var(--text); margin-bottom: 15px;">Encendiendo cámara...</p>
+
+        <button class="lock-btn" id="bio-save-btn" disabled style="width: 100%; margin-bottom: 10px; opacity: 0.5;">
+          <span>📸 Guardar mi rostro</span>
+        </button>
+        <button class="lock-btn" id="bio-delete-btn" style="width: 100%; background: var(--error); border-color: var(--error);">
+          <span>🗑️ Borrar rostro</span>
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const video = overlay.querySelector('#bio-video');
+    const canvas = overlay.querySelector('#bio-canvas');
+    const faceWrap = overlay.querySelector('#bio-face-wrap');
+    const statusText = overlay.querySelector('#bio-status');
+    const saveBtn = overlay.querySelector('#bio-save-btn');
+    const delBtn = overlay.querySelector('#bio-delete-btn');
+    const closeBtn = overlay.querySelector('#bio-close');
+
+    if (!localStorage.getItem(FACE_DESCRIPTOR_KEY)) {
+      delBtn.style.display = 'none';
+    }
+
+    let localStream = null;
+    let bioInterval = null;
+    let latestDescriptor = null;
+
+    function cleanup() {
+      if (bioInterval) clearInterval(bioInterval);
+      if (localStream) {
+        localStream.getTracks().forEach(t => t.stop());
+      }
+      overlay.remove();
+    }
+
+    closeBtn.addEventListener('click', cleanup);
+
+    delBtn.addEventListener('click', () => {
+      localStorage.removeItem(FACE_DESCRIPTOR_KEY);
+      alert('Rostro borrado.');
+      cleanup();
+    });
+
+    saveBtn.addEventListener('click', () => {
+      if (latestDescriptor) {
+        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(latestDescriptor)));
+        statusText.textContent = '✅ ¡Rostro guardado con éxito!';
+        statusText.style.color = 'var(--primary)';
+        faceWrap.style.borderColor = 'var(--primary)';
+        saveBtn.style.display = 'none';
+        setTimeout(cleanup, 1500);
+      }
+    });
+
+    try {
+      statusText.textContent = "Cargando IA facial...";
+      if (!faceapi.nets.ssdMobilenetv1.isLoaded) await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+      if (!faceapi.nets.faceLandmark68Net.isLoaded) await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+      if (!faceapi.nets.faceRecognitionNet.isLoaded) await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+
+      statusText.textContent = "Encendiendo cámara...";
+      localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+      video.srcObject = localStream;
+    } catch (err) {
+      statusText.textContent = "Error al abrir la cámara.";
+    }
+
+    video.addEventListener('play', () => {
+      statusText.textContent = "Buscando rostro...";
+      const displaySize = { width: video.videoWidth || 220, height: video.videoHeight || 220 };
+      faceapi.matchDimensions(canvas, displaySize);
+
+      bioInterval = setInterval(async () => {
+        const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (detection) {
+          const dSize = { width: video.offsetWidth, height: video.offsetHeight };
+          faceapi.matchDimensions(canvas, dSize);
+          const resizedDetections = faceapi.resizeResults(detection, dSize);
+          
+          latestDescriptor = detection.descriptor;
+          saveBtn.disabled = false;
+          saveBtn.style.opacity = '1';
+          statusText.textContent = "Rostro detectado. Mueve la cara para alinear y pulsa Guardar.";
+          statusText.style.color = "var(--primary)";
+          faceWrap.style.borderColor = "var(--primary)";
+
+          // === DIBUJAR MALLA LLENA QUE "TAPA LA CARA" ===
+          const positions = resizedDetections.landmarks.positions;
+          
+          // Crear un polígono verde translúcido que tape la cara
+          ctx.fillStyle = 'rgba(34, 197, 94, 0.45)'; // Malla semi transparente
+          ctx.strokeStyle = '#22c55e';
+          ctx.lineWidth = 1;
+
+          ctx.beginPath();
+          // Mandíbula (0 al 16)
+          ctx.moveTo(positions[0].x, positions[0].y);
+          for(let i=1; i<=16; i++) {
+            ctx.lineTo(positions[i].x, positions[i].y);
+          }
+          // Subir por las sienes y la frente para cerrar la máscara
+          const deltaY = positions[27].y - positions[21].y; // distancia nariz a ceja
+          ctx.lineTo(positions[26].x + 10, positions[26].y - deltaY*2); 
+          ctx.lineTo(positions[17].x - 10, positions[17].y - deltaY*2);
+          ctx.closePath();
+          ctx.fill();
+
+          // Puntos y líneas de estructura sobre la máscara
+          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections, { drawLines: true, color: '#fff', lineWidth: 1.5 });
+        } else {
+          latestDescriptor = null;
+          saveBtn.disabled = true;
+          saveBtn.style.opacity = '0.5';
+          statusText.textContent = "Mirando a la cámara...";
+          statusText.style.color = "var(--text)";
+          faceWrap.style.borderColor = "var(--border)";
+        }
+      }, 100);
+    });
+  };
 })();
