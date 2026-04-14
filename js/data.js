@@ -620,7 +620,212 @@ const ALTERNATIVAS = {
     { id: 'revuelto-patatas', nombre: 'Revuelto de patatas y pimientos', icono: '🍳', tiempo: 20 },
     { id: 'pure-patatas', nombre: 'Puré de patatas con salchicha', icono: '🥔', tiempo: 20 },
     { id: 'arroz-leche-tomate', nombre: 'Arroz a la cubana', icono: '🍚', tiempo: 20 },
+    // ── Nuevas recetas del Recetario Oficial (Ministerio de Consumo) ──
+    { id: 'lentejas-arroz-curcuma', nombre: 'Lentejas con arroz y cúrcuma', icono: '🍲', tiempo: 25 },
+    { id: 'garbanzos-pisto', nombre: 'Garbanzos con pisto', icono: '🫘', tiempo: 30 },
+    { id: 'espaguetis-estudiante', nombre: 'Espaguetis del estudiante', icono: '🍝', tiempo: 15 },
+    { id: 'tortilla-calabacin', nombre: 'Tortilla de patata y calabacín', icono: '🍳', tiempo: 20 },
+    { id: 'pitas-huevo-espinacas', nombre: 'Pitas con huevo y espinacas', icono: '🥙', tiempo: 15 },
+    { id: 'ramen-casero', nombre: 'Ramen casero', icono: '🍜', tiempo: 20 },
+    { id: 'salmon-microondas', nombre: 'Salmón exprés al microondas', icono: '🐟', tiempo: 10 },
+    { id: 'brocheta-pollo', nombre: 'Brocheta de pollo especiado', icono: '🍢', tiempo: 20 },
+    { id: 'miniburger-alubias', nombre: 'Miniburger de alubias y atún', icono: '🍔', tiempo: 20 },
+    { id: 'olleta-arroz-integral', nombre: 'Olleta de arroz integral', icono: '🍱', tiempo: 35 },
   ]
+};
+
+// ── RECETAS COMPLETAS (Nuevas del Recetario Oficial) ─────────
+const RECETAS_NUEVAS = {
+  'lentejas-arroz-curcuma': {
+    id: 'lentejas-arroz-curcuma',
+    nombre: 'Lentejas con arroz y cúrcuma',
+    tipo: 'normal',
+    porciones: 4,
+    tiempo: 25,
+    icono: '🍲',
+    descripcion: 'Plato único proteico y económico inspirado en el mujaddara árabe. Las lentejas y el arroz juntos forman una proteína completa.',
+    ingredientes: [
+      { nombre: 'Lentejas pardinas', cantidad: '200g', comprar: true },
+      { nombre: 'Arroz', cantidad: '150g', comprar: true },
+      { nombre: 'Cebolla', cantidad: '2', comprar: true },
+      { nombre: 'Cúrcuma', cantidad: '1 cdta', comprar: false },
+      { nombre: 'Comino', cantidad: '1 cdta', comprar: false },
+      { nombre: 'Ajo', cantidad: '3 dientes', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '3 cdas', comprar: false },
+      { nombre: 'Sal', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Cocer las lentejas en agua con sal durante 15 min (no remojar previamente).',
+      'Añadir el arroz y la cúrcuma al mismo cazo. Cocinar 12 min más.',
+      'Mientras, cortar las cebollas en juliana y freírlas en aceite a fuego lento 15 min hasta caramelizar.',
+      'Escurrir si sobra agua. Servir con la cebolla caramelizada por encima y espolvorear comino.',
+    ],
+    nutricion: { calorias: 380, proteinas: 18, carbohidratos: 65, grasas: 7, fibra: 9 },
+    nota: '💰 Menos de 0.80€/ración · Proteína vegetal completa'
+  },
+  'garbanzos-pisto': {
+    id: 'garbanzos-pisto',
+    nombre: 'Garbanzos con pisto',
+    tipo: 'normal',
+    porciones: 4,
+    tiempo: 30,
+    icono: '🫘',
+    descripcion: 'Garbanzos cocidos mezclados con un pisto casero de tomate, calabacín y pimiento. Plato muy nutritivo y vegetariano.',
+    ingredientes: [
+      { nombre: 'Garbanzos cocidos (bote)', cantidad: '2 botes (800g)', comprar: true },
+      { nombre: 'Calabacín', cantidad: '2', comprar: true },
+      { nombre: 'Pimiento rojo', cantidad: '1', comprar: true },
+      { nombre: 'Tomate triturado', cantidad: '400g lata', comprar: true },
+      { nombre: 'Cebolla', cantidad: '1', comprar: true },
+      { nombre: 'Ajo', cantidad: '3 dientes', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '3 cdas', comprar: false },
+      { nombre: 'Sal, pimentón y orégano', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Sofreír la cebolla y el ajo picados en aceite durante 5 min.',
+      'Añadir el pimiento y el calabacín en dados. Cocinar 8 min.',
+      'Incorporar el tomate triturado, pimentón y orégano. Cocinar 10 min.',
+      'Agregar los garbanzos escurridos y lavados. Mezclar y cocinar 5 min más.',
+      'Rectificar de sal y servir caliente.',
+    ],
+    nutricion: { calorias: 340, proteinas: 16, carbohidratos: 48, grasas: 9, fibra: 12 },
+    nota: '🌱 Vegano · Ideal para tupper del día siguiente'
+  },
+  'espaguetis-estudiante': {
+    id: 'espaguetis-estudiante',
+    nombre: 'Espaguetis del estudiante',
+    tipo: 'normal',
+    porciones: 2,
+    tiempo: 15,
+    icono: '🍝',
+    descripcion: 'La receta más rápida y económica: pasta con ajo, aceite, atún y tomate cherry. Lista en 15 minutos.',
+    ingredientes: [
+      { nombre: 'Espaguetis', cantidad: '250g', comprar: true },
+      { nombre: 'Atún en aceite', cantidad: '2 latas', comprar: true },
+      { nombre: 'Tomate triturado', cantidad: '200g', comprar: true },
+      { nombre: 'Ajo', cantidad: '4 dientes', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '3 cdas', comprar: false },
+      { nombre: 'Guindilla o pimentón', cantidad: 'al gusto', comprar: false },
+      { nombre: 'Sal y perejil', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Cocer los espaguetis en agua abundante con sal según el paquete.',
+      'Dorar el ajo laminado en aceite a fuego medio. Añadir guindilla si gusta.',
+      'Incorporar el tomate, cocinar 5 min. Añadir el atún escurrido.',
+      'Escurrir la pasta reservando un poco de agua de cocción.',
+      'Mezclar todo, añadir un chorrito del agua reservada si queda seca.',
+    ],
+    nutricion: { calorias: 480, proteinas: 28, carbohidratos: 65, grasas: 11, fibra: 4 },
+    nota: '⚡ Lista en 15 min · Menos de 1€/ración'
+  },
+  'salmon-microondas': {
+    id: 'salmon-microondas',
+    nombre: 'Salmón exprés al microondas',
+    tipo: 'normal',
+    porciones: 2,
+    tiempo: 10,
+    icono: '🐟',
+    descripcion: 'Salmón cocinado al microondas en 5 minutos con limón y hierbas. Saludable, rápido y sorprendentemente jugoso.',
+    ingredientes: [
+      { nombre: 'Filetes de salmón', cantidad: '2 (300g)', comprar: true },
+      { nombre: 'Limón', cantidad: '1', comprar: true },
+      { nombre: 'Ajo', cantidad: '2 dientes', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '1 cda', comprar: false },
+      { nombre: 'Eneldo o perejil', cantidad: 'c/s', comprar: false },
+      { nombre: 'Sal y pimienta', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Colocar los filetes en un recipiente apto para microondas.',
+      'Aliñar con aceite, ajo picado, zumo de limón, sal y pimienta.',
+      'Cubrir con film transparente dejando un pequeño orificio.',
+      'Cocinar en el microondas a 800W durante 4-5 minutos.',
+      'Reposar 2 min tapado. Servir con limón y hierbas frescas.',
+    ],
+    nutricion: { calorias: 320, proteinas: 35, carbohidratos: 2, grasas: 18, fibra: 0 },
+    nota: '⚡ Solo 5 min de cocción · Muy alto en Omega-3'
+  },
+  'pitas-huevo-espinacas': {
+    id: 'pitas-huevo-espinacas',
+    nombre: 'Pitas con huevo y espinacas',
+    tipo: 'normal',
+    porciones: 2,
+    tiempo: 15,
+    icono: '🥙',
+    descripcion: 'Pan de pita relleno con huevo revuelto, espinacas salteadas y queso. Cena rápida saludable, perfecta para los niños.',
+    ingredientes: [
+      { nombre: 'Pan de pita', cantidad: '2 uds', comprar: true },
+      { nombre: 'Huevos', cantidad: '3', comprar: true },
+      { nombre: 'Espinacas frescas', cantidad: '100g', comprar: true },
+      { nombre: 'Queso en lonchas', cantidad: '2 lonchas', comprar: true },
+      { nombre: 'Ajo', cantidad: '1 diente', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '1 cda', comprar: false },
+      { nombre: 'Sal y pimienta', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Saltear las espinacas con ajo en aceite durante 2 min. Salpimentar.',
+      'Batir los huevos y hacer un revuelto cremoso en la misma sartén.',
+      'Calentar los panes de pita en una sartén seca 1 min por cada lado.',
+      'Abrir los pitas y rellenar con el revuelto de espinacas y huevo.',
+      'Añadir el queso en lonchas y servir inmediatamente.',
+    ],
+    nutricion: { calorias: 360, proteinas: 22, carbohidratos: 38, grasas: 13, fibra: 3 },
+    nota: '🧒 Les encanta a los niños · Muy fácil de preparar juntos'
+  },
+  'ramen-casero': {
+    id: 'ramen-casero',
+    nombre: 'Ramen casero express',
+    tipo: 'normal',
+    porciones: 2,
+    tiempo: 20,
+    icono: '🍜',
+    descripcion: 'Ramen sencillo con caldo de pollo, fideos, huevo duro y verduras. Una versión casera y económica del popular plato japonés.',
+    ingredientes: [
+      { nombre: 'Fideos gordos', cantidad: '200g', comprar: true },
+      { nombre: 'Caldo de pollo', cantidad: '1L', comprar: true },
+      { nombre: 'Huevos', cantidad: '2', comprar: true },
+      { nombre: 'Zanahoria', cantidad: '1', comprar: true },
+      { nombre: 'Champiñones', cantidad: '100g', comprar: true },
+      { nombre: 'Salsa de soja', cantidad: '2 cdas', comprar: true },
+      { nombre: 'Jengibre', cantidad: '1 trozo', comprar: false },
+      { nombre: 'Cebollino o puerro', cantidad: 'al gusto', comprar: false },
+    ],
+    pasos: [
+      'Cocer los huevos duros (8 min), pelar y cortar por la mitad.',
+      'Calentar el caldo con jengibre rallado y salsa de soja.',
+      'Añadir la zanahoria en rodajas y los champiñones laminados. Cocinar 5 min.',
+      'Cocer los fideos según el paquete (normalmente 3-4 min).',
+      'Servir el caldo con los fideos, el huevo y las verduras. Decorar con cebollino.',
+    ],
+    nutricion: { calorias: 410, proteinas: 24, carbohidratos: 58, grasas: 9, fibra: 4 },
+    nota: '🍜 Fuente de economía: los huevos y fideos son muy baratos'
+  },
+  'brocheta-pollo': {
+    id: 'brocheta-pollo',
+    nombre: 'Brochetas de pollo especiado',
+    tipo: 'normal',
+    porciones: 4,
+    tiempo: 20,
+    icono: '🍢',
+    descripcion: 'Brochetas de pechuga de pollo marinadas con especias mediterráneas. Ideales a la plancha o al horno. Los niños las adoran.',
+    ingredientes: [
+      { nombre: 'Pechuga de pollo', cantidad: '500g', comprar: true },
+      { nombre: 'Pimiento rojo', cantidad: '1', comprar: true },
+      { nombre: 'Limón', cantidad: '1', comprar: true },
+      { nombre: 'Ajo', cantidad: '3 dientes', comprar: false },
+      { nombre: 'Aceite de oliva', cantidad: '2 cdas', comprar: false },
+      { nombre: 'Pimentón, comino, orégano', cantidad: '1 cdta cada uno', comprar: false },
+      { nombre: 'Sal y pimienta', cantidad: 'c/s', comprar: false },
+    ],
+    pasos: [
+      'Cortar el pollo en dados de 3cm y marinar 15 min con aceite, zumo de limón, ajo y especias.',
+      'Cortar el pimiento en trozos similares.',
+      'Montar las brochetas alternando pollo y pimiento.',
+      'Cocinar en plancha caliente o horno a 200°C durante 8-10 min dándoles la vuelta a mitad.',
+      'Servir con arroz blanco o ensalada verde.',
+    ],
+    nutricion: { calorias: 280, proteinas: 38, carbohidratos: 6, grasas: 11, fibra: 1 },
+    nota: '🧒 Sin gluten · Alta proteína · Muy popular con los niños'
+  },
 };
 
 // Función para obtener el menú de la semana actual
@@ -643,4 +848,16 @@ function getComidaManana() {
   
   const semana = getSemanaActual();
   return { dia: diaKey, comidas: semana[diaKey] };
+}
+
+// Función para obtener una receta por ID (busca en menús + recetas nuevas)
+function getRecetaById(id) {
+  if (RECETAS_NUEVAS[id]) return RECETAS_NUEVAS[id];
+  for (const semana of SEMANAS) {
+    for (const dia of Object.values(semana)) {
+      if (dia.comida?.id === id) return dia.comida;
+      if (dia.cena?.id === id) return dia.cena;
+    }
+  }
+  return null;
 }
