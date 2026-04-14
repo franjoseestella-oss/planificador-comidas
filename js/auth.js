@@ -56,7 +56,7 @@
 
         <div id="lock-face-wrap" style="position: relative; width: 140px; height: 140px; margin: 0 auto 15px auto; border-radius: 50%; overflow: hidden; background: #222; border: 3px solid var(--border); display: none;">
           <video id="lock-video" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
-          <div id="lock-face-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;"></div>
+          <canvas id="lock-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; transform: scaleX(-1);"></canvas>
         </div>
 
         <p class="lock-label" id="lock-status-text" style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">Iniciando seguridad...</p>
@@ -203,11 +203,26 @@
     video.addEventListener('play', () => {
       statusText.textContent = registeredDescriptor ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
 
+      const canvas = document.getElementById('lock-canvas');
+      const displaySize = { width: video.videoWidth || 140, height: video.videoHeight || 140 };
+      faceapi.matchDimensions(canvas, displaySize);
+
       faceDetectionInterval = setInterval(async () => {
         if (submitBtn.disabled) return; 
         
         const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
+        
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         if (detection) {
+          const displaySize = { width: video.offsetWidth, height: video.offsetHeight };
+          faceapi.matchDimensions(canvas, displaySize);
+          const resizedDetections = faceapi.resizeResults(detection, displaySize);
+          
+          // === Dibujar Malla de Puntos de la Cara ===
+          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections, { drawLines: true, color: '#22c55e', lineWidth: 1 });
+
           currentDescriptor = detection.descriptor;
           if (registeredDescriptor) {
             const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
@@ -233,7 +248,7 @@
           faceWrap.style.borderColor = "var(--border)";
           currentDescriptor = null;
         }
-      }, 500);
+      }, 100); // 10 fps aprox para ver la malla fluida
     });
 
     registerBtn.addEventListener('click', () => {
