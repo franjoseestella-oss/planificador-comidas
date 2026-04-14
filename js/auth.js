@@ -248,7 +248,7 @@
           currentDescriptor = detection.descriptor;
           if (registeredDescriptor) {
             const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
-            if (distance < 0.45) { // Threshold de seguridad
+            if (distance < 0.55) { // Threshold de seguridad relajado para mejor reconocimiento
               statusText.textContent = "✅ ¡Hola Franji!";
               statusText.style.color = "var(--primary)";
               faceWrap.style.borderColor = "var(--primary)";
