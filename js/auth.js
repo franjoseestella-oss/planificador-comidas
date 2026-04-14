@@ -1,11 +1,12 @@
 // ============================================================
-// AUTH.JS — Pantalla de bloqueo con contraseña
+// AUTH.JS — Pantalla de bloqueo con contraseña y Reconocimiento Facial
 // ============================================================
 
 (function () {
   // Contraseña almacenada como hash simple (Base64 + inversión)
   const _h = 'eXJldmVyb2Fpcm9nZWlkbmVN'; // codificación interna
   const SESSION_KEY = 'mimenu_auth_session';
+  const FACE_DESCRIPTOR_KEY = 'mimenu_face_descriptor';
   const SESSION_DAYS = 30;
 
   function _verify(input) {
@@ -35,7 +36,10 @@
     localStorage.setItem(SESSION_KEY, JSON.stringify({ expiry }));
   }
 
-  function showLockScreen() {
+  let videoStream = null;
+  let faceDetectionInterval = null;
+
+  async function showLockScreen() {
     // Ocultar el contenido de la app mientras está bloqueado
     document.getElementById('app').style.visibility = 'hidden';
 
@@ -43,20 +47,21 @@
     overlay.id = 'lock-overlay';
     overlay.innerHTML = `
       <div class="lock-bg-blur"></div>
-      <div class="lock-card">
-        <div class="lock-logo">
-          <div class="lock-logo-icon">🥘</div>
-          <div class="lock-logo-name">MiMenú</div>
-          <div class="lock-logo-sub">Planificador familiar</div>
+      <div class="lock-card" style="width: 340px; padding: 25px; text-align: center;">
+        <div class="lock-logo" style="margin-bottom: 15px;">
+          <div class="lock-logo-icon" style="font-size: 2.5rem;">🥘</div>
+          <div class="lock-logo-name" style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">MiMenú</div>
+          <div class="lock-logo-sub" style="font-size: 0.85rem; color: #888;">Seguridad Inteligente</div>
         </div>
 
-        <div class="lock-icon-wrap">
-          <div class="lock-shield">🔒</div>
+        <div id="lock-face-wrap" style="position: relative; width: 140px; height: 140px; margin: 0 auto 15px auto; border-radius: 50%; overflow: hidden; background: #222; border: 3px solid var(--border); display: none;">
+          <video id="lock-video" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
+          <div id="lock-face-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;"></div>
         </div>
 
-        <p class="lock-label">Introduce tu contraseña</p>
+        <p class="lock-label" id="lock-status-text" style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">Iniciando seguridad...</p>
 
-        <div class="lock-input-wrap" id="lock-input-wrap">
+        <div class="lock-input-wrap" id="lock-input-wrap" style="margin-bottom: 10px;">
           <input
             id="lock-password"
             type="password"
@@ -64,19 +69,22 @@
             placeholder="Contraseña"
             autocomplete="current-password"
             inputmode="text"
-            autofocus
           />
           <button class="lock-eye-btn" id="lock-eye-btn" aria-label="Mostrar contraseña">👁️</button>
         </div>
 
-        <div class="lock-error" id="lock-error"></div>
+        <div class="lock-error" id="lock-error" style="margin-bottom: 10px;"></div>
 
-        <button class="lock-btn" id="lock-submit">
-          <span>Entrar</span>
-          <span class="lock-btn-arrow">→</span>
-        </button>
+        <div style="display:flex; gap:10px; margin-bottom: 15px;">
+          <button class="lock-btn" id="lock-submit" style="flex:1;">
+            <span>Entrar</span>
+          </button>
+          <button class="lock-btn" id="lock-register-face" style="flex:1; background: var(--bg-card2); color: var(--text); border: 1px solid var(--border); display: none;" title="Escribe tu contraseña y registra tu rostro">
+            <span>👤 Guardar</span>
+          </button>
+        </div>
 
-        <p class="lock-remember-text">Este dispositivo se recordará <strong>${SESSION_DAYS} días</strong></p>
+        <p class="lock-remember-text" style="margin-top:0">Este dispositivo se recordará <strong>${SESSION_DAYS} días</strong></p>
       </div>
     `;
 
@@ -89,9 +97,13 @@
 
     const input = document.getElementById('lock-password');
     const submitBtn = document.getElementById('lock-submit');
+    const registerBtn = document.getElementById('lock-register-face');
     const errorEl = document.getElementById('lock-error');
     const eyeBtn = document.getElementById('lock-eye-btn');
     const wrap = document.getElementById('lock-input-wrap');
+    const video = document.getElementById('lock-video');
+    const faceWrap = document.getElementById('lock-face-wrap');
+    const statusText = document.getElementById('lock-status-text');
 
     // Toggle mostrar contraseña
     eyeBtn.addEventListener('click', () => {
@@ -101,7 +113,21 @@
       input.focus();
     });
 
-    function tryUnlock() {
+    function cleanUpCamera() {
+      if (faceDetectionInterval) clearInterval(faceDetectionInterval);
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+      }
+    }
+
+    function tryUnlock(skipPasswordCheck = false) {
+      if (skipPasswordCheck) {
+        cleanUpCamera();
+        saveSession();
+        unlockApp(overlay);
+        return;
+      }
+
       const val = input.value;
       if (!val) {
         shakeInput(wrap);
@@ -113,12 +139,13 @@
 
       setTimeout(() => {
         if (_verify(val)) {
+          cleanUpCamera();
           saveSession();
           unlockApp(overlay);
         } else {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>Entrar</span><span class="lock-btn-arrow">→</span>';
-          errorEl.textContent = '❌ Contraseña incorrecta. Inténtalo de nuevo.';
+          submitBtn.innerHTML = '<span>Entrar</span>';
+          errorEl.textContent = '❌ Contraseña incorrecta.';
           errorEl.classList.add('visible');
           shakeInput(wrap);
           input.value = '';
@@ -128,16 +155,131 @@
       }, 500);
     }
 
-    submitBtn.addEventListener('click', tryUnlock);
+    submitBtn.addEventListener('click', () => tryUnlock(false));
     input.addEventListener('keydown', e => {
-      if (e.key === 'Enter') tryUnlock();
+      if (e.key === 'Enter') tryUnlock(false);
       if (errorEl.classList.contains('visible')) {
         errorEl.classList.remove('visible');
       }
     });
 
-    // Focus al input tras animación
-    setTimeout(() => input.focus(), 400);
+    // FACE API LOGIC
+    let isFaceApiLoaded = false;
+    let registeredDescriptor = null;
+    let currentDescriptor = null;
+
+    try {
+      const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
+      if (saved) registeredDescriptor = new Float32Array(JSON.parse(saved));
+    } catch {}
+
+    async function initFaceApi() {
+      if (typeof faceapi === 'undefined') {
+        statusText.textContent = "Introduce la contraseña.";
+        input.focus();
+        return;
+      }
+      try {
+        statusText.textContent = "Cargando IA facial...";
+        await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+        await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+        await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+        isFaceApiLoaded = true;
+
+        statusText.textContent = "Enciende la cámara...";
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+        video.srcObject = videoStream;
+        faceWrap.style.display = 'block';
+        registerBtn.style.display = 'block';
+
+      } catch (err) {
+        console.error("Camera/FaceAPI error", err);
+        statusText.textContent = "Cámara no disponible, usa la clave.";
+        faceWrap.style.display = 'none';
+        input.focus();
+      }
+    }
+
+    video.addEventListener('play', () => {
+      statusText.textContent = registeredDescriptor ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
+
+      faceDetectionInterval = setInterval(async () => {
+        if (submitBtn.disabled) return; 
+        
+        const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
+        if (detection) {
+          currentDescriptor = detection.descriptor;
+          if (registeredDescriptor) {
+            const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
+            if (distance < 0.45) { // Threshold de seguridad
+              statusText.textContent = "✅ ¡Hola Franji!";
+              statusText.style.color = "var(--primary)";
+              faceWrap.style.borderColor = "var(--primary)";
+              clearInterval(faceDetectionInterval);
+              setTimeout(() => { tryUnlock(true); }, 800);
+            } else {
+              statusText.textContent = "⚠️ Rostro no reconocido.";
+              statusText.style.color = "var(--error)";
+              faceWrap.style.borderColor = "var(--error)";
+            }
+          } else {
+            statusText.textContent = "Rostro detectado (sin registrar)";
+            statusText.style.color = "var(--text)";
+            faceWrap.style.borderColor = "var(--border)";
+          }
+        } else {
+          statusText.textContent = "Mirando a la cámara...";
+          statusText.style.color = "#aaa";
+          faceWrap.style.borderColor = "var(--border)";
+          currentDescriptor = null;
+        }
+      }, 500);
+    });
+
+    registerBtn.addEventListener('click', () => {
+      const val = input.value;
+      if (!val) {
+        errorEl.textContent = 'Introduce la clave para poder guardar tu rostro';
+        errorEl.classList.add('visible');
+        shakeInput(wrap);
+        setTimeout(() => errorEl.classList.remove('visible'), 3000);
+        return;
+      }
+      if (!_verify(val)) {
+        errorEl.textContent = '❌ Contraseña incorrecta.';
+        errorEl.classList.add('visible');
+        shakeInput(wrap);
+        return;
+      }
+      if (!currentDescriptor) {
+        errorEl.textContent = '⚠️ ¡Ponte frente a la cámara primero!';
+        errorEl.classList.add('visible');
+        shakeInput(wrap);
+        setTimeout(() => errorEl.classList.remove('visible'), 3000);
+        return;
+      }
+
+      // Guardar descriptor
+      localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(currentDescriptor)));
+      registeredDescriptor = currentDescriptor;
+      statusText.textContent = '✅ ¡Rostro guardado correctamente!';
+      statusText.style.color = "var(--primary)";
+      
+      // Auto unlock
+      setTimeout(() => { tryUnlock(true); }, 1500);
+    });
+
+    // Arrancar modelos si faceapi existe
+    let faceApiCheckCount = 0;
+    const checkFaceApi = setInterval(() => {
+      if (typeof faceapi !== 'undefined') {
+        clearInterval(checkFaceApi);
+        initFaceApi();
+      } else if (faceApiCheckCount > 10) {
+        clearInterval(checkFaceApi); // Fallback: stop trying after 2s
+      }
+      faceApiCheckCount++;
+    }, 200);
   }
 
   function unlockApp(overlay) {
