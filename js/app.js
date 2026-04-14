@@ -8,6 +8,7 @@ const STATE = {
   semana: null,
   planState: {}, // { lunes: { comida: 'accepted'|'rejected'|'pending', cena: '...' }, ... }
   shopping: [],
+  desvan: [],
   recipeFilter: 'todos',
   recipeSearch: '',
 };
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   scheduleLocalNotification();
   setupRecipeSearch();
   setupScanner();
+  setupDesvan();
 
   // Generate shopping list button
   document.getElementById('btn-generate-list').addEventListener('click', () => {
@@ -94,13 +96,15 @@ function registerServiceWorker() {
 function saveState() {
   localStorage.setItem('planState', JSON.stringify(STATE.planState));
   localStorage.setItem('shopping', JSON.stringify(STATE.shopping));
+  localStorage.setItem('desvan', JSON.stringify(STATE.desvan));
 }
 
 function loadState() {
   try {
     STATE.planState = JSON.parse(localStorage.getItem('planState') || '{}');
     STATE.shopping  = JSON.parse(localStorage.getItem('shopping')  || '[]');
-  } catch { STATE.planState = {}; STATE.shopping = []; }
+    STATE.desvan    = JSON.parse(localStorage.getItem('desvan')    || '[]');
+  } catch { STATE.planState = {}; STATE.shopping = []; STATE.desvan = []; }
 
   // Limpiar estados de semanas pasadas
   const keys = Object.keys(STATE.planState);
@@ -344,9 +348,12 @@ function toggleMealStatus(dia, tipo, newStatus, card) {
 
 function handleMealResponse(dia, tipo, status) {
   setMealStatus(dia, tipo, status);
+  if (status === 'accepted') {
+    deductFromDesvan(dia, tipo);
+    showToast('✅ Menú aceptado y descontado del desván', 'success');
+  }
   renderPlanSemanal();
   renderHoy();
-  if (status === 'accepted') showToast('✅ Menú aceptado', 'success');
   if (status === 'rejected') showAlternatives(dia, tipo);
 }
 
@@ -846,9 +853,10 @@ function openMealModal(meal, dia, tipo) {
   if (dia) {
     content.querySelector('.btn-modal-accept').addEventListener('click', () => {
       setMealStatus(dia, tipo, 'accepted');
+      deductFromDesvan(dia, tipo);
       closeModal();
       renderPlanSemanal(); renderHoy();
-      showToast('✅ Menú confirmado', 'success');
+      showToast('✅ Menú confirmado y descontado del desván', 'success');
     });
     content.querySelector('.btn-modal-reject').addEventListener('click', () => {
       setMealStatus(dia, tipo, 'rejected');
@@ -984,6 +992,164 @@ function getWeekStart(date) {
 
 // ── (All event listeners moved to main DOMContentLoaded above) ──────────────
 
+// ── DESVÁN (INVENTARIO) ─────────────────────────────────────
+function setupDesvan() {
+  document.getElementById('btn-add-desvan').addEventListener('click', () => {
+    const nameInput = document.getElementById('desvan-input-name');
+    const qtyInput = document.getElementById('desvan-input-qty');
+    const unitInput = document.getElementById('desvan-input-unit');
+    const vigilarInput = document.getElementById('desvan-input-vigilar');
+
+    if (!nameInput.value.trim() || !qtyInput.value) {
+      showToast('Rellena nombre y cantidad', 'warning');
+      return;
+    }
+
+    const item = {
+      id: Date.now().toString(),
+      nombre: nameInput.value.trim(),
+      cantidad: parseFloat(qtyInput.value),
+      unidad: unitInput.value,
+      vigilar: vigilarInput.checked
+    };
+
+    STATE.desvan.push(item);
+    saveState();
+    
+    nameInput.value = '';
+    qtyInput.value = '';
+    showToast('📦 Añadido al desván', 'success');
+    renderDesvan();
+  });
+
+  document.getElementById('btn-desvan-scan').addEventListener('click', () => {
+    // Activa el modo reabastecimiento en el scanner AI
+    window.scannerRestockMode = true;
+    document.getElementById('scanner-overlay').classList.add('open');
+    if (typeof window.startCamera === 'function') window.startCamera();
+  });
+}
+
+function renderDesvan() {
+  const container = document.getElementById('desvan-list');
+  const counter = document.getElementById('desvan-counter');
+  
+  if (!container || !counter) return;
+
+  counter.textContent = `${STATE.desvan.length} artículos`;
+
+  if (STATE.desvan.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <div class="empty-title">Tu desván está vacío</div>
+        <p class="empty-subtitle">Añade los ingredientes que tienes en casa para llevar control y descontarlos automáticamente al menú.</p>
+      </div>`;
+    return;
+  }
+
+  let html = '<div style="display:flex;flex-direction:column;gap:10px;padding:0 16px 16px;">';
+  STATE.desvan.forEach((item, index) => {
+    html += `
+      <div class="card" style="padding:12px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="flex:1">
+          <div style="font-weight:bold; font-size:1rem; color:var(--text);">${item.nombre}</div>
+          <div style="font-size:0.85rem; color:var(--text-muted);">
+            Cantidad: <strong>${item.cantidad} ${item.unidad}</strong> 
+            ${item.vigilar ? '<span style="color:var(--primary);margin-left:5px;">👁️ Vigilado</span>' : ''}
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="icon-btn" onclick="removeDesvanItem('${item.id}')" style="color:var(--error);">🗑️</button>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+window.removeDesvanItem = function(id) {
+  STATE.desvan = STATE.desvan.filter(i => i.id !== id);
+  saveState();
+  renderDesvan();
+};
+
+function deductFromDesvan(dia, tipo) {
+  // Deduce ingredientes de un menú aceptado del desván
+  const recetaRef = STATE.semana[dia][tipo];
+  if (!recetaRef || !recetaRef.recetaId) return;
+
+  const recetaIndex = RECETARIO.findIndex(r => r.id === recetaRef.recetaId);
+  if (recetaIndex === -1) return;
+
+  const receta = RECETARIO[recetaIndex];
+  if (!receta.ingredientes) return;
+
+  let somethingDeducted = false;
+
+  receta.ingredientes.forEach(ingNeed => {
+    // Buscar en el desván si existe este ingrediente
+    // Hacemos una búsqueda simple por nombre (case-insensitive)
+    const despensaItem = STATE.desvan.find(d => 
+      ingNeed.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
+      d.nombre.toLowerCase().includes(ingNeed.nombre.toLowerCase())
+    );
+
+    if (despensaItem) {
+      const needNum = parseQtyNumber(ingNeed.cantidad) || 1;
+      
+      despensaItem.cantidad -= needNum;
+      somethingDeducted = true;
+    }
+  });
+
+  if (somethingDeducted) {
+    saveState();
+    renderDesvan();
+    checkVigilancia();
+  }
+}
+
+function checkVigilancia() {
+  // Solo avisar 1 vez por item que llega a 0, si ya está en la lista de compras no duplicar
+  let toBuy = [];
+  STATE.desvan.forEach(item => {
+    if (item.vigilar && item.cantidad <= 0) {
+      // Poner a 0 exacto (evitar números negativos locos visualmente)
+      item.cantidad = 0;
+      
+      // Chequear si ya está en la lista de la compra
+      const enShopping = STATE.shopping.find(s => s.item.toLowerCase() === item.nombre.toLowerCase());
+      if (!enShopping) {
+        toBuy.push(item);
+      }
+    }
+  });
+
+  if (toBuy.length > 0) {
+    toBuy.forEach(item => {
+      STATE.shopping.push({
+        id: 'shp-' + Date.now() + Math.random(),
+        item: item.nombre,
+        info: 'Reabastecimiento automático (agostado)',
+        comprado: false
+      });
+    });
+    saveState();
+    renderShopping();
+    // Enseñar notificación
+    const nombres = toBuy.map(i => i.nombre).join(', ');
+    showToast(`⚠️ ¡Queda poco! Añadido a la compra: ${nombres}`, 'warning');
+    
+    if (Notification.permission === 'granted') {
+      new Notification('Vigilancia de Desván', {
+        body: `Se han agotado: ${nombres}. Se añadieron a la lista de compra.`
+      });
+    }
+  }
+}
+
 // ── ROBOLFLOW SCANNER INTERFACE ───────────────────────────
 function setupScanner() {
   const btnOpen = document.getElementById('btn-open-scanner');
@@ -1000,6 +1166,7 @@ function setupScanner() {
   let stream = null;
 
   btnOpen.addEventListener('click', async () => {
+    window.scannerRestockMode = false;
     overlay.style.display = 'flex';
     resultsEl.style.display = 'none';
     statusEl.innerHTML = 'Apunta a tus ingredientes...<br><small>Coloca la comida bien iluminada</small>';
@@ -1088,29 +1255,61 @@ function setupScanner() {
          return;
       }
 
-      const ingredList = predictedClasses.join(', ');
-      
-      let html = `<h4 style="margin:0 0 10px 0; color:var(--primary);">Ingredientes: ${ingredList}</h4>`;
-      
-      const metodos = ['Salteado rápido', 'Cazuela', 'Revuelto', 'Ensalada tibia', 'Bowl fit', 'Wrap exprés'];
-      const metodo = metodos[Math.floor(Math.random() * metodos.length)];
-      
-      html += `
-        <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px; text-align:left;">
-           <h3 style="margin:0 0 5px 0; color:#fff;">✨ Receta Freestyle: ${metodo} de ${predictedClasses[0]}</h3>
-           <p style="font-size:0.85rem; color:var(--primary); margin:0 0 10px 0;">⏳ 15 mins · 🍳 Nivel Fácil</p>
-           <ol style="margin:0; padding-left:20px; font-size:0.95rem; line-height:1.5; color:#eee;">
-              <li>Lava y prepara todo: <b>${ingredList}</b>.</li>
-              <li>Calienta una sartén con un chorrito de aceite de oliva.</li>
-              <li>Cocina a fuego medio-alto hasta que dore bien.</li>
-              <li>Sazona a tu gusto con sal, pimienta y tus especias favoritas.</li>
-              <li>¡Sirve caliente y disfruta!</li>
-           </ol>
-        </div>
-      `;
+      if (window.scannerRestockMode) {
+        // MODO REABASTECIMIENTO AL DESVÁN
+        predictedClasses.forEach(c => {
+          // Normaliza primera letra mayúscula
+          const nombreClass = c.charAt(0).toUpperCase() + c.slice(1).toLowerCase();
+          // Añadimos 1 o suma a la cantidad
+          const ex = STATE.desvan.find(d => d.nombre.toLowerCase() === c.toLowerCase());
+          if (ex) {
+            ex.cantidad += 1;
+          } else {
+            STATE.desvan.push({
+              id: Date.now().toString() + Math.random(),
+              nombre: nombreClass,
+              cantidad: 1,
+              unidad: 'ud',
+              vigilar: true
+            });
+          }
+        });
+        saveState();
+        renderDesvan();
+        statusEl.textContent = '✅ ¡Desván reabastecido!';
+        resultsEl.innerHTML = `
+          <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px;">
+            <p style="margin:0;color:var(--primary);">Añadido/sumado 1 ud de los siguientes alimentos:</p>
+            <h4 style="margin:5px 0 0 0; color:#fff;">${predictedClasses.join(', ')}</h4>
+          </div>
+        `;
+        window.scannerRestockMode = false; // Reset
+      } else {
+        // MODO FREESTYLE RECIPE (Por defecto de Menú Hoy)
+        const ingredList = predictedClasses.join(', ');
+        
+        let html = `<h4 style="margin:0 0 10px 0; color:var(--primary);">Ingredientes: ${ingredList}</h4>`;
+        
+        const metodos = ['Salteado rápido', 'Cazuela', 'Revuelto', 'Ensalada tibia', 'Bowl fit', 'Wrap exprés'];
+        const metodo = metodos[Math.floor(Math.random() * metodos.length)];
+        
+        html += `
+          <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px; text-align:left;">
+             <h3 style="margin:0 0 5px 0; color:#fff;">✨ Receta Freestyle: ${metodo} de ${predictedClasses[0]}</h3>
+             <p style="font-size:0.85rem; color:var(--primary); margin:0 0 10px 0;">⏳ 15 mins · 🍳 Nivel Fácil</p>
+             <ol style="margin:0; padding-left:20px; font-size:0.95rem; line-height:1.5; color:#eee;">
+                <li>Lava y prepara todo: <b>${ingredList}</b>.</li>
+                <li>Calienta una sartén con un chorrito de aceite de oliva.</li>
+                <li>Cocina a fuego medio-alto hasta que dore bien.</li>
+                <li>Sazona a tu gusto con sal, pimienta y tus especias favoritas.</li>
+                <li>¡Sirve caliente y disfruta!</li>
+             </ol>
+          </div>
+        `;
 
-      resultsEl.innerHTML = html;
-      statusEl.textContent = '¡Menú improvisado listo!';
+        resultsEl.innerHTML = html;
+        statusEl.textContent = '¡Menú improvisado listo!';
+      }
 
     } catch (err) {
       statusEl.textContent = '❌ Fallo en la IA: ' + err.message;

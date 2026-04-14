@@ -330,6 +330,46 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
+       VIEW: DESVÁN (Pantry)
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-desvan" aria-label="Desván de ingredientes">
+    <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:baseline">
+      <div>
+        <h2>📦 Mi Desván</h2>
+        <p id="desvan-counter" style="font-size:.82rem;margin-top:3px">0 ingredientes</p>
+      </div>
+      <button class="icon-btn" id="btn-desvan-scan" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;" title="Reabastecimiento con IA">📸</button>
+    </div>
+
+    <!-- Add Item form -->
+    <div class="card" style="margin: 16px; padding: 16px; display:flex; flex-direction:column; gap:10px;">
+      <h3 style="font-size:1rem; margin:0;">Añadir ingrediente</h3>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <input type="text" id="desvan-input-name" placeholder="P.ej. Arroz" style="flex:1; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;">
+        <input type="number" id="desvan-input-qty" placeholder="Cant." style="width:70px; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;" min="1" step="any">
+        <select id="desvan-input-unit" style="padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;">
+          <option value="g">gramos</option>
+          <option value="ud">uds</option>
+          <option value="ml">ml</option>
+        </select>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
+        <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; cursor:pointer;">
+          <input type="checkbox" id="desvan-input-vigilar" checked style="accent-color:var(--primary); transform:scale(1.2);"> 
+          <span>Vigilancia activa (Alerta si se agota)</span>
+        </label>
+        <button id="btn-add-desvan" class="btn-primary" style="padding:8px 16px;">Añadir</button>
+      </div>
+    </div>
+
+    <!-- Inventory List -->
+    <div id="desvan-list">
+      <!-- Items generated here -->
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
        BOTTOM NAVIGATION
   ═══════════════════════════════════════════ -->
   <nav class="bottom-nav" aria-label="Navegación principal">
@@ -352,6 +392,10 @@
     <div class="nav-item" data-view="nutricion" id="nav-nutricion" role="button" tabindex="0" aria-label="Nutrición">
       <span class="nav-icon">📊</span>
       <span class="nav-label">Nutrición</span>
+    </div>
+    <div class="nav-item" data-view="desvan" id="nav-desvan" role="button" tabindex="0" aria-label="Desván">
+      <span class="nav-icon">📦</span>
+      <span class="nav-label">Desván</span>
     </div>
   </nav>
 
