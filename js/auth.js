@@ -156,12 +156,21 @@
 
     // FACE API LOGIC
     let isFaceApiLoaded = false;
-    let registeredDescriptor = null;
+    let registeredUsers = [];
     let currentDescriptor = null;
 
     try {
       const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
-      if (saved) registeredDescriptor = new Float32Array(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Migración si era un solo array de números en la versión anterior
+        if (parsed.length > 0 && typeof parsed[0] === 'number') {
+           registeredUsers = [{ name: 'Franji', descriptor: parsed }];
+           localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(registeredUsers));
+        } else {
+           registeredUsers = parsed;
+        }
+      }
     } catch {}
 
     async function initFaceApi() {
@@ -191,7 +200,7 @@
     }
 
     video.addEventListener('play', () => {
-      statusText.textContent = registeredDescriptor ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
+      statusText.textContent = registeredUsers.length > 0 ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
 
       const canvas = document.getElementById('lock-canvas');
       const displaySize = { width: video.videoWidth || 140, height: video.videoHeight || 140 };
@@ -214,10 +223,20 @@
           faceapi.draw.drawFaceLandmarks(canvas, resizedDetections, { drawLines: true, color: '#22c55e', lineWidth: 1 });
 
           currentDescriptor = detection.descriptor;
-          if (registeredDescriptor) {
-            const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
-            if (distance < 0.45) { // Threshold de seguridad
-              statusText.textContent = "✅ ¡Hola Franji!";
+          if (registeredUsers.length > 0) {
+            let bestMatch = null;
+            let minDistance = 1.0;
+            for (let u of registeredUsers) {
+               const desc = new Float32Array(u.descriptor);
+               const distance = faceapi.euclideanDistance(desc, currentDescriptor);
+               if (distance < minDistance) {
+                 minDistance = distance;
+                 bestMatch = u;
+               }
+            }
+
+            if (minDistance < 0.45) { // Threshold de seguridad
+              statusText.textContent = "✅ ¡Hola " + bestMatch.name + "!";
               statusText.style.color = "var(--primary)";
               faceWrap.style.borderColor = "var(--primary)";
               clearInterval(faceDetectionInterval);
@@ -315,12 +334,14 @@
         </div>
 
         <p id="bio-status" style="font-size: 0.95rem; font-weight:bold; color: var(--text); margin-bottom: 15px;">Encendiendo cámara...</p>
+        
+        <input type="text" id="bio-name-input" placeholder="Tu nombre..." class="lock-input" style="margin-bottom: 10px; width: 100%; text-align:center; display:none;">
 
         <button class="lock-btn" id="bio-save-btn" disabled style="width: 100%; margin-bottom: 10px; opacity: 0.5;">
-          <span>📸 Guardar mi rostro</span>
+          <span>📸 Añadir rostro</span>
         </button>
         <button class="lock-btn" id="bio-delete-btn" style="width: 100%; background: var(--error); border-color: var(--error);">
-          <span>🗑️ Borrar rostro</span>
+          <span>🗑️ Borrar TODOS los rostros</span>
         </button>
       </div>
     `;
@@ -334,8 +355,19 @@
     const saveBtn = overlay.querySelector('#bio-save-btn');
     const delBtn = overlay.querySelector('#bio-delete-btn');
     const closeBtn = overlay.querySelector('#bio-close');
+    const nameInput = overlay.querySelector('#bio-name-input');
 
-    if (!localStorage.getItem(FACE_DESCRIPTOR_KEY)) {
+    let currentSavedUsers = [];
+    try {
+       const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
+       if (saved) currentSavedUsers = JSON.parse(saved);
+       if (currentSavedUsers.length > 0 && typeof currentSavedUsers[0] === 'number') {
+          // Migration
+          currentSavedUsers = [{name: 'Franji', descriptor: currentSavedUsers}];
+       }
+    } catch {}
+
+    if (currentSavedUsers.length === 0) {
       delBtn.style.display = 'none';
     }
 
@@ -354,18 +386,30 @@
     closeBtn.addEventListener('click', cleanup);
 
     delBtn.addEventListener('click', () => {
-      localStorage.removeItem(FACE_DESCRIPTOR_KEY);
-      alert('Rostro borrado.');
-      cleanup();
+      if (confirm('¿Seguro que quieres borrar a TODOS los usuarios?')) {
+        localStorage.removeItem(FACE_DESCRIPTOR_KEY);
+        alert('Rostros borrados.');
+        cleanup();
+      }
     });
 
     saveBtn.addEventListener('click', () => {
+      if (!nameInput.value.trim()) {
+         alert("Por favor, introduce un nombre para registrar.");
+         nameInput.focus();
+         return;
+      }
       if (latestDescriptor) {
-        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(latestDescriptor)));
-        statusText.textContent = '✅ ¡Rostro guardado con éxito!';
+        currentSavedUsers.push({
+           name: nameInput.value.trim(),
+           descriptor: Array.from(latestDescriptor)
+        });
+        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(currentSavedUsers));
+        statusText.textContent = '✅ ¡' + nameInput.value + ' guardado con éxito!';
         statusText.style.color = 'var(--primary)';
         faceWrap.style.borderColor = 'var(--primary)';
         saveBtn.style.display = 'none';
+        nameInput.style.display = 'none';
         setTimeout(cleanup, 1500);
       }
     });
@@ -401,7 +445,10 @@
           latestDescriptor = detection.descriptor;
           saveBtn.disabled = false;
           saveBtn.style.opacity = '1';
-          statusText.textContent = "Rostro detectado. Mueve la cara para alinear y pulsa Guardar.";
+          nameInput.style.display = 'block';
+          if (!nameInput.value) nameInput.focus();
+
+          statusText.textContent = "Rostro detectado. Pon nombre y pulsa Añadir.";
           statusText.style.color = "var(--primary)";
           faceWrap.style.borderColor = "var(--primary)";
 
