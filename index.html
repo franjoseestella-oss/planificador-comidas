@@ -245,6 +245,16 @@
       <button class="btn-danger-sm" id="btn-clear-list" style="flex:0.5">🗑️ Limpiar</button>
     </div>
 
+    <!-- Agregar Manualmente a Compra -->
+    <div class="card" style="margin: 0 16px 16px; padding: 12px; display:flex; flex-direction:column; gap:8px;">
+      <h3 style="font-size:0.9rem; margin:0; color:var(--primary);">➕ Añadir suelto a la compra</h3>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input type="text" id="sh-input-name" placeholder="P.ej. Leche" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:0.9rem;">
+        <input type="text" id="sh-input-qty" placeholder="Cant." style="width:70px; padding:8px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:0.9rem;">
+        <button id="btn-sh-add" class="icon-btn" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:38px;height:38px;display:flex;align-items:center;justify-content:center; border-radius:8px;" title="Añadir a la lista">+</button>
+      </div>
+    </div>
+
     <div id="shopping-list">
       <div class="empty-state">
         <div class="empty-icon">🛒</div>
@@ -432,8 +442,8 @@
 <script src="https://unpkg.com/tesseract.js@v5.0.0/dist/tesseract.min.js"></script>
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 <script src="/js/auth.js?v=5"></script>
-    <script src="js/data.js?v=7"></script>
-    <script src="js/app.js?v=25"></script>
+    <script src="js/data.js?v=8"></script>
+    <script src="js/app.js?v=26"></script>
 <script src="/js/chatbot.js?v=4"></script>
 </body>
 </html>

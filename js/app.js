@@ -39,6 +39,31 @@ document.addEventListener('DOMContentLoaded', () => {
     renderShopping();
   });
 
+  // Manual Add Shopping Item
+  document.getElementById('btn-sh-add').addEventListener('click', () => {
+    const nameInput = document.getElementById('sh-input-name');
+    const qtyInput = document.getElementById('sh-input-qty');
+    
+    if (!nameInput.value.trim()) {
+      alert("Por favor, introduce el nombre del artículo a añadir.");
+      return;
+    }
+    
+    STATE.shopping.push({
+      nombre: nameInput.value.trim(),
+      cantidad: qtyInput.value.trim() || '1 ud',
+      checked: false,
+      tengo: null,
+      originalCantidad: parseFloat(qtyInput.value) || 1
+    });
+    
+    saveState();
+    renderShopping();
+    
+    nameInput.value = '';
+    qtyInput.value = '';
+  });
+
   // Notification enable
   document.getElementById('notif-enable-btn').addEventListener('click', requestNotificationPermission);
 
