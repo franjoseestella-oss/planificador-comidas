@@ -481,6 +481,7 @@ function renderRecipes(filter, search) {
 
 // ── HELPER: EMPAREJAMIENTO DE INGREDIENTES ─────────────────────────────────
 function areIngredientsSimilar(a, b) {
+  if (!a || typeof a !== 'string' || !b || typeof b !== 'string') return false;
   const normA = a.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   const normB = b.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   
