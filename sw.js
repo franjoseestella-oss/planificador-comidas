@@ -2,7 +2,8 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v27';
+const CACHE_NAME = 'planificador-v28';
+const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v28';
 const ASSETS = [
   '/',
   '/index.html',

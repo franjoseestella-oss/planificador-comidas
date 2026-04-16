@@ -705,6 +705,16 @@ function renderShopping() {
   };
 
   STATE.shopping.forEach((item, idx) => {
+    // Sincronizar dinámicamente con Despensa en tiempo real
+    if (STATE.desvan) {
+       const dsv = STATE.desvan.find(d => areIngredientsSimilar(item.nombre, d.nombre));
+       if (dsv && dsv.cantidad > 0) {
+           item.tengo = dsv.cantidad;
+       } else {
+           item.tengo = null;
+       }
+    }
+
     const cat = categorize(item.nombre);
     // Calcular cantidad restante teniendo en cuenta el stock
     const remaining = calcRemaining(item.cantidad, item.tengo);
