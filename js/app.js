@@ -789,8 +789,14 @@ function renderShopping() {
 
     const cat = categorize(item.nombre);
     // Calcular cantidad restante teniendo en cuenta el stock y las unidades
-    const remaining = calcRemaining(item.cantidad, item.tengo, item.tengoUnit);
-    const yaCompleto  = remaining === null; // Ya tiene suficiente
+    let remaining = calcRemaining(item.cantidad, item.tengo, item.tengoUnit);
+    let yaCompleto  = remaining === null; // Ya tiene suficiente
+    
+    if (item.comprarForzado) {
+       remaining = item.cantidad; // Forzamos mostrar lo que dice
+       yaCompleto = false;
+    }
+    
     categories[cat].push({ ...item, idx, remaining, yaCompleto });
   });
 
@@ -875,6 +881,26 @@ function renderShopping() {
     });
   });
 
+  container.querySelectorAll('.sh-force-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = +btn.dataset.idx;
+      STATE.shopping[idx].comprarForzado = true;
+      saveState();
+      renderShopping();
+    });
+  });
+
+  container.querySelectorAll('.sh-unforce-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = +btn.dataset.idx;
+      STATE.shopping[idx].comprarForzado = false;
+      saveState();
+      renderShopping();
+    });
+  });
+
   container.querySelectorAll('.sh-edit-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -945,8 +971,23 @@ function shoppingItemHTML(item, remaining, tengoVal, completado) {
     }
   }
 
-  // Simplificado para la nueva UI de Shopping List, ocultando "Tengo" manual
-  const bottomRowHtml = yaCompleto && tengoVal ? `<div class="sh-bottom-row"><span class="sh-tengo-label sh-tengo-ok">Tienes en despensa: ${tengoVal} ${parseQtyUnit(item.cantidad)}</span></div>` : '';
+  const despensaUnit = item.tengoUnit ? ` ${item.tengoUnit}` : '';
+  const bottomRowHtml = `
+    <div class="sh-bottom-row" style="font-size:0.75rem; color:var(--text-muted); display:flex; justify-content:space-between; margin-top:4px;">
+      <span>Receta pide: <strong style="color:#ddd">${item.cantidad}</strong></span>
+      <span>En Despensa: <strong style="color:#ddd">${tengoVal || 0}${despensaUnit}</strong></span>
+    </div>
+  `;
+
+  let forceAddBtn = '';
+  if (yaCompleto && !item.comprarForzado) {
+    forceAddBtn = `<span class="sh-force-btn" data-idx="${item.idx}" style="font-size: 0.8rem; padding: 6px 10px; background: rgba(50,200,50,0.15); border:1px solid var(--accent); color:var(--accent); border-radius: 6px; font-weight:bold; height:auto; text-transform:uppercase;" title="Comprar de todos modos">Añadir 🛒</span>`;
+  }
+  
+  let unforceAddBtn = '';
+  if (item.comprarForzado) {
+    unforceAddBtn = `<span class="sh-unforce-btn" data-idx="${item.idx}" style="font-size: 0.8rem; padding: 6px 10px; background: rgba(200,50,50,0.15); border:1px solid var(--error); color:var(--error); border-radius: 6px; font-weight:bold; height:auto; text-transform:uppercase;" title="Dejar de forzar compra">Quitar ❌</span>`;
+  }
 
   return `
     <div class="${clases}" data-idx="${item.idx}" style="cursor: pointer; position: relative; display: flex; align-items: center;">
@@ -960,7 +1001,9 @@ function shoppingItemHTML(item, remaining, tengoVal, completado) {
         </div>
         ${bottomRowHtml}
       </div>
-      <div class="sh-actions-right" style="padding-left: 8px; display: flex; gap: 8px;">
+      <div class="sh-actions-right" style="padding-left: 8px; display: flex; gap: 8px; align-items: center;">
+        ${forceAddBtn}
+        ${unforceAddBtn}
         <span class="sh-edit-btn" data-idx="${item.idx}" style="font-size: 1.1rem; padding: 4px; background: rgba(255,255,255,0.05); border-radius: 4px;" title="Editar cantidad">✏️</span>
         <span class="sh-del-btn" data-idx="${item.idx}" style="font-size: 1.1rem; padding: 4px; background: rgba(255,100,100,0.1); border-radius: 4px;" title="Borrar artículo">🗑️</span>
       </div>
