@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate shopping list button
   document.getElementById('btn-generate-list').addEventListener('click', () => {
-    generateShoppingList();
-    showToast('🛒 Lista generada con las comidas de la semana', 'success');
+    openShoppingAssistant();
   });
 
   // Clear shopping list
@@ -143,7 +142,9 @@ function renderAll() {
 // ── HELPERS DE CANTIDAD ──────────────────────────────────────
 // Extrae el número de una cadena como "4 uds", "200g", "1/2", "400g lata"
 function parseQtyNumber(str) {
-  if (!str) return null;
+  if (str === null || str === undefined) return null;
+  if (typeof str === 'number') return str;
+  str = String(str);
   // Fracción tipo "1/2"
   const frac = str.match(/^(\d+)\/(\d+)/);
   if (frac) return parseInt(frac[1]) / parseInt(frac[2]);
@@ -155,7 +156,8 @@ function parseQtyNumber(str) {
 
 // Extrae la unidad de "4 uds" → "uds", "200g" → "g", "400g lata" → "g lata"
 function parseQtyUnit(str) {
-  if (!str) return '';
+  if (str === null || str === undefined) return '';
+  str = String(str);
   return str.replace(/^[\d.\/]+\s*/, '').trim();
 }
 
@@ -350,7 +352,7 @@ function handleMealResponse(dia, tipo, status) {
   setMealStatus(dia, tipo, status);
   if (status === 'accepted') {
     deductFromDesvan(dia, tipo);
-    showToast('✅ Menú aceptado y descontado del desván', 'success');
+    showToast('✅ Menú aceptado y descontado de la despensa', 'success');
   }
   renderPlanSemanal();
   renderHoy();
@@ -477,8 +479,32 @@ function renderRecipes(filter, search) {
 }
 
 
-// ── VIEW: COMPRA ────────────────────────────────────────────
-function generateShoppingList() {
+// ── HELPER: EMPAREJAMIENTO DE INGREDIENTES ─────────────────────────────────
+function areIngredientsSimilar(a, b) {
+  const normA = a.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  const normB = b.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  
+  if (normA === normB || normA+'s'===normB || normB+'s'===normA || normA+'es'===normB || normB+'es'===normA) return true;
+  
+  // Basic stemming for regular Spanish plurals
+  const stem = str => str.replace(/\b(\w{3,})es\b/g, '$1').replace(/\b(\w{2,})s\b/g, '$1');
+  const sA = stem(normA);
+  const sB = stem(normB);
+  
+  // Word matching logic (avoiding substring boundaries like 'sal' in 'salmon')
+  const escA = sA.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escB = sB.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  
+  if (new RegExp(`\\b${escA}\\b`).test(sB)) return true;
+  if (new RegExp(`\\b${escB}\\b`).test(sA)) return true;
+
+  return false;
+}
+
+// ── VIEW: COMPRA (ASISTENTE) ────────────────────────────────────────────
+let pendingShoppingItems = [];
+
+function openShoppingAssistant() {
   const items = {};
 
   DIAS.forEach(dia => {
@@ -490,8 +516,11 @@ function generateShoppingList() {
       diaData.comida.ingredientes.forEach(ing => {
         if (ing.comprar) {
           const key = ing.nombre.toLowerCase();
-          if (!items[key]) items[key] = { ...ing, dias: [dia], tipo: 'comida' };
-          else if (!items[key].dias.includes(dia)) items[key].dias.push(dia);
+          if (!items[key]) items[key] = { ...ing, dias: [DIAS_LABEL[dia]], recetas: [diaData.comida.nombre], tipo: 'comida' };
+          else {
+            if (!items[key].dias.includes(DIAS_LABEL[dia])) items[key].dias.push(DIAS_LABEL[dia]);
+            if (!items[key].recetas.includes(diaData.comida.nombre)) items[key].recetas.push(diaData.comida.nombre);
+          }
         }
       });
     }
@@ -499,34 +528,129 @@ function generateShoppingList() {
       diaData.cena.ingredientes.forEach(ing => {
         if (ing.comprar) {
           const key = ing.nombre.toLowerCase();
-          if (!items[key]) items[key] = { ...ing, dias: [DIAS_LABEL[dia]], tipo: 'cena' };
-          else items[key].dias.push(DIAS_LABEL[dia]);
+          if (!items[key]) items[key] = { ...ing, dias: [DIAS_LABEL[dia]], recetas: [diaData.cena.nombre], tipo: 'cena' };
+          else {
+            if (!items[key].dias.includes(DIAS_LABEL[dia])) items[key].dias.push(DIAS_LABEL[dia]);
+            if (!items[key].recetas.includes(diaData.cena.nombre)) items[key].recetas.push(diaData.cena.nombre);
+          }
         }
       });
     }
   });
 
-  STATE.shopping = Object.values(items).map(item => {
-    let checked = STATE.shopping.find(s => s.nombre === item.nombre)?.checked || false;
-    let tengo = STATE.shopping.find(s => s.nombre === item.nombre)?.tengo ?? null;
+  pendingShoppingItems = Object.values(items).map(item => {
+    let checked = false;
+    let tengo = null;
     
-    // Comparar con mi Desván automáticamente
-    if (tengo === null && STATE.desvan) {
-       const dsv = STATE.desvan.find(d => 
-         item.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
-         d.nombre.toLowerCase().includes(item.nombre.toLowerCase())
-       );
+    // Comparar con mi Despensa automáticamente
+    if (STATE.desvan) {
+       const dsv = STATE.desvan.find(d => areIngredientsSimilar(item.nombre, d.nombre));
        if (dsv && dsv.cantidad > 0) {
          tengo = dsv.cantidad;
        }
     }
     
-    return { ...item, checked, tengo };
+    return { ...item, checked, tengo, originalCantidad: parseFloat(item.cantidad) };
   });
 
-  saveState();
-  renderShopping();
+  renderShoppingAssistant();
+  document.getElementById('assistant-modal').style.display = 'flex';
 }
+
+function renderShoppingAssistant() {
+  const container = document.getElementById('assistant-items');
+  if (pendingShoppingItems.length === 0) {
+     container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding: 20px;">No hay ingredientes pendientes de revisar en el planificado.</p>`;
+     return;
+  }
+
+  let html = '';
+  pendingShoppingItems.forEach((item, i) => {
+      // Comparativa
+      const diffHtml = item.tengo !== null
+          ? `<span style="color:var(--info); font-weight:bold; font-size:1.1rem;">${item.tengo} <small style="font-size:0.7rem; font-weight:normal;">${item.unidad || 'ud'}</small></span>` 
+          : `<span style="color:var(--error); font-weight:bold; font-size:1.1rem;">0 <small style="font-size:0.7rem; font-weight:normal;">${item.unidad || 'ud'}</small></span>`;
+          
+      let proposedBuy = item.originalCantidad;
+      if (item.tengo && !isNaN(item.tengo) && !isNaN(item.originalCantidad)) {
+          proposedBuy = Math.max(0, item.originalCantidad - parseFloat(item.tengo));
+      }
+
+      html += `
+       <div class="assistant-item fade-in-up" style="display:flex; flex-direction:column; background:#111; border:1px solid #333; border-radius:12px; padding:16px;">
+         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <strong style="color:var(--primary); font-size:1.1rem;">${item.nombre}</strong>
+            <span style="font-size:0.75rem; color:var(--text-muted); background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; max-width: 120px; text-align: right; line-height: 1.2;">Para: ${item.dias ? item.dias.join(', ') : ''}</span>
+         </div>
+         <div style="display:flex; justify-content:space-between; margin-top:14px; font-size:0.9rem; align-items:flex-end;">
+            <div style="flex:1;">
+               <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">NECESITAMOS</span>
+               <strong style="font-size:1.1rem;">${item.originalCantidad}</strong> <small style="color:var(--text-muted);">${item.unidad || 'ud'}</small>
+            </div>
+            <div style="flex:1; text-align:center;">
+               <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">EN DESPENSA</span>
+               ${diffHtml}
+            </div>
+            <div style="flex:1.2; text-align:right;">
+               <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">🛒 A COMPRAR</span>
+               <input type="number" id="assist-qty-${i}" value="${proposedBuy}" step="any" min="0" style="width:65px; height: 32px; text-align:right; border-radius:6px; border:1px solid var(--accent); background:#222; color:white; font-size: 1rem; padding: 0 4px;"> <small style="color:var(--text-muted);">${item.unidad || 'ud'}</small>
+            </div>
+         </div>
+         <button class="btn-assistant-accept" onclick="acceptAssistantItem(${i})" style="margin-top:16px; background:linear-gradient(135deg, var(--accent), #15e364); color:var(--bg); border:none; padding:12px; border-radius:10px; cursor:pointer; font-weight:700; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 12px rgba(34,197,94,0.2);">
+            <span style="font-size:1.1rem;">✅</span> Incorporar a la Compra
+         </button>
+      </div>
+      `;
+  });
+  container.innerHTML = html;
+}
+
+window.acceptAssistantItem = function(index) {
+   const item = pendingShoppingItems[index];
+   const buyQtyInput = document.getElementById(`assist-qty-${index}`);
+   const buyQty = parseFloat(buyQtyInput.value);
+
+   if (!isNaN(buyQty)) {
+      const exIdx = STATE.shopping.findIndex(s => s.nombre.toLowerCase() === item.nombre.toLowerCase());
+      
+      if (buyQty > 0) {
+          if (exIdx >= 0) {
+             let currentQty = parseFloat(STATE.shopping[exIdx].cantidad) || 0;
+             STATE.shopping[exIdx].cantidad = currentQty + buyQty;
+             STATE.shopping[exIdx].tengo = null;
+             STATE.shopping[exIdx].checked = false;
+          } else {
+             item.cantidad = buyQty;
+             item.tengo = null;
+             item.checked = false;
+             STATE.shopping.unshift(item);
+          }
+      }
+      
+      saveState();
+      renderShopping();
+   }
+
+   // Animación rápida y borrar
+   pendingShoppingItems.splice(index, 1);
+   
+   if (pendingShoppingItems.length === 0) {
+      document.getElementById('assistant-modal').style.display = 'none';
+      showToast('¡Asistente finalizado! Revisa tu lista.', 'success');
+   } else {
+       if (navigator.vibrate) navigator.vibrate(50);
+       renderShoppingAssistant();
+   }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnCloseAssist = document.getElementById('btn-close-assistant');
+    if (btnCloseAssist) {
+        btnCloseAssist.addEventListener('click', () => {
+            document.getElementById('assistant-modal').style.display = 'none';
+        });
+    }
+});
 
 // Pantry: guarda lo que el usuario ya tiene de cada artículo
 function setPantry(idx, value) {
@@ -619,61 +743,81 @@ function renderShopping() {
 
   container.innerHTML = html;
 
-  // Event: checkbox (click en el área izquierda)
-  container.querySelectorAll('.sh-check-area').forEach(el => {
+  // Event: click en toda la tarjeta muestra para qué es (días y recetas)
+  container.querySelectorAll('.shopping-item').forEach(el => {
     el.addEventListener('click', e => {
       e.stopPropagation();
-      const idx = +el.closest('.shopping-item').dataset.idx;
-      STATE.shopping[idx].checked = !STATE.shopping[idx].checked;
+      const idx = +el.dataset.idx;
+      const itemNode = STATE.shopping[idx];
+      const diasStr = itemNode.dias ? itemNode.dias.join(', ') : 'Desconocido';
+      const recetasStr = itemNode.recetas ? itemNode.recetas.join(', ') : 'Desconocido';
       
-      if (STATE.shopping[idx].checked) {
-        const itemComprado = STATE.shopping[idx];
-        const remStr = calcRemaining(itemComprado.cantidad, itemComprado.tengo);
-        const remNum = parseFloat(remStr);
-        if (!isNaN(remNum) && remNum > 0) {
-           if (confirm(`¿Has comprado ${remNum} ${parseQtyUnit(itemComprado.cantidad)} de ${itemComprado.nombre}?\n\n¿Quieres ingresarlo ahora en tu Desván para regularizar el stock?`)) {
-             const dsv = STATE.desvan.find(d => 
-               itemComprado.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
-               d.nombre.toLowerCase().includes(itemComprado.nombre.toLowerCase())
-             );
+      alert(`📌 ${itemNode.nombre.toUpperCase()}\n\n📅 Días: ${diasStr}\n🍲 Recetas: ${recetasStr}`);
+    });
+  });
+
+  container.querySelectorAll('.sh-del-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = +btn.dataset.idx;
+      const itemNode = STATE.shopping[idx];
+      if (confirm(`¿Estás seguro de que deseas eliminar "${itemNode.nombre}" de la lista de la compra?`)) {
+        
+        if (confirm(`¿Quieres registrar "${itemNode.nombre}" en la Despensa antes de borrarlo?\n(Pulsa Cancelar si solo quieres borrarlo sin guardarlo)`)) {
+             const qty = parseFloat(parseQtyNumber(itemNode.cantidad)) || 1;
+             const unit = parseQtyUnit(itemNode.cantidad) || 'ud';
+             const dsv = STATE.desvan.find(d => areIngredientsSimilar(itemNode.nombre, d.nombre));
+             
              if (dsv) {
-               dsv.cantidad += remNum;
+               dsv.cantidad += qty;
              } else {
-               const nombreClass = itemComprado.nombre.charAt(0).toUpperCase() + itemComprado.nombre.slice(1).toLowerCase();
+               const nombreClass = itemNode.nombre.charAt(0).toUpperCase() + itemNode.nombre.slice(1).toLowerCase();
                STATE.desvan.push({
                  id: Date.now().toString() + Math.random(),
                  nombre: nombreClass,
-                 cantidad: remNum,
-                 unidad: parseQtyUnit(itemComprado.cantidad) || 'ud',
+                 cantidad: qty,
+                 unidad: unit,
                  vigilar: true
                });
              }
              if (typeof renderDesvan === 'function') renderDesvan();
-             showToast(`📦 Ingresado en el Desván`, 'success');
-           }
+             showToast(`📦 ${itemNode.nombre} añadido a Despensa`, 'success');
         }
-      }
 
-      saveState();
-      renderShopping();
+        STATE.shopping.splice(idx, 1);
+        // actualizamos índices de todo lo demás
+        STATE.shopping.forEach((it, i) => it.idx = i);
+        saveState();
+        renderShopping();
+      }
     });
   });
 
-  // Event: input de "tengo"
-  container.querySelectorAll('.sh-tengo-input').forEach(input => {
-    input.addEventListener('focus', () => input.select());
-    input.addEventListener('change', e => {
+  container.querySelectorAll('.sh-edit-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
       e.stopPropagation();
-      const idx = +input.dataset.idx;
-      setPantry(idx, input.value);
+      const idx = +btn.dataset.idx;
+      const itemNode = STATE.shopping[idx];
+      const unit = parseQtyUnit(itemNode.cantidad);
+      const prevNum = parseQtyNumber(itemNode.cantidad);
+      const newQty = prompt(`Introduce la nueva cantidad que necesitas comprar de "${itemNode.nombre}" (ejemplo: ${prevNum})\n\n*(Deja '${unit}' intacto o ignóralo si solo cambias el número)*`, prevNum);
+      if (newQty !== null) {
+        const floatNuevo = parseFloat(newQty);
+        if (!isNaN(floatNuevo) && floatNuevo > 0) {
+          // mantenemos la unidad original
+          itemNode.cantidad = `${floatNuevo} ${unit}`.trim();
+          saveState();
+          renderShopping();
+        } else if (floatNuevo === 0) {
+           if (confirm("Al poner 0, se eliminará o marcará como completo. ¿Deseas eliminarlo?")) {
+              STATE.shopping.splice(idx, 1);
+              STATE.shopping.forEach((it, i) => it.idx = i);
+              saveState();
+              renderShopping();
+           }
+        }
+      }
     });
-    // También actualizar al perder el foco
-    input.addEventListener('blur', e => {
-      const idx = +input.dataset.idx;
-      setPantry(idx, input.value);
-    });
-    // Prevenir que el click propague al item
-    input.addEventListener('click', e => e.stopPropagation());
   });
 
   // Actualizar contador + precio total estimado
@@ -719,37 +863,24 @@ function shoppingItemHTML(item, remaining, tengoVal, completado) {
     }
   }
 
-  const tengoInputMostrar = yaCompleto
-    ? `<span class="sh-tengo-label sh-tengo-ok">Tienes: ${tengoVal} ${parseQtyUnit(item.cantidad)}</span>`
-    : `<label class="sh-tengo-label">
-        Tengo:
-        <input
-          class="sh-tengo-input"
-          type="number"
-          min="0"
-          step="0.5"
-          value="${tengoVal}"
-          placeholder="0"
-          data-idx="${item.idx}"
-        />
-        <span class="sh-tengo-unit">${parseQtyUnit(item.cantidad)}</span>
-      </label>`;
+  // Simplificado para la nueva UI de Shopping List, ocultando "Tengo" manual
+  const bottomRowHtml = yaCompleto && tengoVal ? `<div class="sh-bottom-row"><span class="sh-tengo-label sh-tengo-ok">Tienes en despensa: ${tengoVal} ${parseQtyUnit(item.cantidad)}</span></div>` : '';
 
   return `
-    <div class="${clases}" data-idx="${item.idx}">
-      <div class="sh-check-area">
-        <div class="sh-check">${(completado || yaCompleto) ? '✓' : ''}</div>
-      </div>
-      <div class="sh-body">
+    <div class="${clases}" data-idx="${item.idx}" style="cursor: pointer; position: relative; display: flex; align-items: center;">
+      ${(completado || yaCompleto) ? '<div style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:1.2rem; filter:grayscale(1) opacity(0.5);">✅</div><div class="sh-body" style="padding-left: 28px; flex: 1;">' : '<div class="sh-body" style="flex: 1;">'}
         <div class="sh-top-row">
           <span class="sh-name ${yaCompleto ? 'sh-name-done' : ''}">${item.nombre}</span>
           <span class="sh-qty-wrap">
             ${precioBadge}
-            <span class="sh-qty-original">${item.cantidad}</span>
             ${cantidadMostrar}
           </span>
         </div>
-        <div class="sh-bottom-row">${tengoInputMostrar}</div>
+        ${bottomRowHtml}
+      </div>
+      <div class="sh-actions-right" style="padding-left: 8px; display: flex; gap: 8px;">
+        <span class="sh-edit-btn" data-idx="${item.idx}" style="font-size: 1.1rem; padding: 4px; background: rgba(255,255,255,0.05); border-radius: 4px;" title="Editar cantidad">✏️</span>
+        <span class="sh-del-btn" data-idx="${item.idx}" style="font-size: 1.1rem; padding: 4px; background: rgba(255,100,100,0.1); border-radius: 4px;" title="Borrar artículo">🗑️</span>
       </div>
     </div>`;
 }
@@ -896,7 +1027,7 @@ function openMealModal(meal, dia, tipo) {
       deductFromDesvan(dia, tipo);
       closeModal();
       renderPlanSemanal(); renderHoy();
-      showToast('✅ Menú confirmado y descontado del desván', 'success');
+      showToast('✅ Menú confirmado y descontado de la despensa', 'success');
     });
     content.querySelector('.btn-modal-reject').addEventListener('click', () => {
       setMealStatus(dia, tipo, 'rejected');
@@ -1032,7 +1163,7 @@ function getWeekStart(date) {
 
 // ── (All event listeners moved to main DOMContentLoaded above) ──────────────
 
-// ── DESVÁN (INVENTARIO) ─────────────────────────────────────
+// ── DESPENSA (INVENTARIO) ─────────────────────────────────────
 function setupDesvan() {
   document.getElementById('btn-add-desvan').addEventListener('click', () => {
     const nameInput = document.getElementById('desvan-input-name');
@@ -1058,7 +1189,7 @@ function setupDesvan() {
     
     nameInput.value = '';
     qtyInput.value = '';
-    showToast('📦 Añadido al desván', 'success');
+    showToast('📦 Añadido a la despensa', 'success');
     renderDesvan();
   });
 
@@ -1093,24 +1224,28 @@ function setupDesvan() {
         const base64Data = reader.result.split(',')[1];
         
         try {
-          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.trim()}`, {
+          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{
                 parts: [
                   { text: 'Extrae los alimentos de comida (solo comida) de este ticket o imagen. Devuelve ÚNICAMENTE un array JSON válido, sin formato markdown ni comillas extrañas. Ejemplo: [{"nombre": "Tomate", "cantidad": 2}]. Agrupa si son similares. Mantenlo ultra limplio, no añadas textos explicativos. Si no hay ingredientes devuelve []' },
-                  { inline_data: { mime_type: file.type, data: base64Data } }
+                  { inlineData: { mimeType: file.type, data: base64Data } }
                 ]
               }]
             })
           });
 
-          if (resp.status === 400 || resp.status === 403) {
-             localStorage.removeItem('gemini_api_key');
-             throw new Error("API Key inválida o caducada.");
+          if (!resp.ok) {
+            const errData = await resp.json().catch(() => ({}));
+            console.error("Gemini Error:", errData);
+            if (resp.status === 401 || resp.status === 403) {
+               localStorage.removeItem('gemini_api_key');
+               throw new Error("API Key inválida o caducada.");
+            }
+            throw new Error(`Error en Gemini: ${errData?.error?.message || resp.statusText}`);
           }
-          if (!resp.ok) throw new Error("Error conectando con Gemini");
 
           const data = await resp.json();
           const rawText = data.candidates[0].content.parts[0].text;
@@ -1150,7 +1285,7 @@ function setupDesvan() {
 
           saveState();
           renderDesvan();
-          showToast(`¡${countMsg} ingredientes guardados en el Desván con Gemini!`, 'success');
+          showToast(`¡${countMsg} ingredientes guardados en la Despensa con Gemini!`, 'success');
 
         } catch (error) {
           showToast('❌ Error: ' + error.message, 'error');
@@ -1174,7 +1309,7 @@ function renderDesvan() {
     container.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">📦</div>
-        <div class="empty-title">Tu desván está vacío</div>
+        <div class="empty-title">Tu despensa está vacía</div>
         <p class="empty-subtitle">Añade los ingredientes que tienes en casa para llevar control y descontarlos automáticamente al menú.</p>
       </div>`;
     return;
@@ -1230,7 +1365,7 @@ window.removeDesvanItem = function(id) {
 };
 
 function deductFromDesvan(dia, tipo) {
-  // Deduce ingredientes de un menú aceptado del desván
+  // Deduce ingredientes de un menú aceptado de la despensa
   const recetaRef = STATE.semana[dia][tipo];
   if (!recetaRef || !recetaRef.recetaId) return;
 
@@ -1243,7 +1378,7 @@ function deductFromDesvan(dia, tipo) {
   let somethingDeducted = false;
 
   receta.ingredientes.forEach(ingNeed => {
-    // Buscar en el desván si existe este ingrediente
+    // Buscar en la despensa si existe este ingrediente
     // Hacemos una búsqueda simple por nombre (case-insensitive)
     const despensaItem = STATE.desvan.find(d => 
       ingNeed.nombre.toLowerCase().includes(d.nombre.toLowerCase()) || 
@@ -1297,7 +1432,7 @@ function checkVigilancia() {
     showToast(`⚠️ ¡Queda poco! Añadido a la compra: ${nombres}`, 'warning');
     
     if (Notification.permission === 'granted') {
-      new Notification('Vigilancia de Desván', {
+      new Notification('Vigilancia de Despensa', {
         body: `Se han agotado: ${nombres}. Se añadieron a la lista de compra.`
       });
     }
@@ -1318,11 +1453,13 @@ function setupScanner() {
   const scanline = document.getElementById('scanner-scanline');
   
   let stream = null;
+  let zxingReader = null;
 
   btnOpen.addEventListener('click', async () => {
     window.scannerRestockMode = false;
     overlay.style.display = 'flex';
     resultsEl.style.display = 'none';
+    captureBtn.style.display = 'block';
     statusEl.innerHTML = 'Apunta a tus ingredientes...<br><small>Coloca la comida bien iluminada</small>';
     scanline.style.display = 'block';
 
@@ -1335,8 +1472,96 @@ function setupScanner() {
     }
   });
 
+  const btnDesvanScan = document.getElementById('btn-desvan-scan');
+  if (btnDesvanScan) {
+    btnDesvanScan.addEventListener('click', async () => {
+      window.scannerRestockMode = 'barcode';
+      overlay.style.display = 'flex';
+      resultsEl.style.display = 'none';
+      captureBtn.style.display = 'none'; 
+      statusEl.innerHTML = 'Enfoca el código de barras...<br><small>Reconocimiento automático</small>';
+      scanline.style.display = 'block';
+
+      try {
+        if (typeof ZXing === 'undefined') {
+            statusEl.textContent = '❌ Lector de códigos de barras (ZXing) no cargado.';
+            return;
+        }
+
+        zxingReader = new ZXing.BrowserMultiFormatReader();
+        const videoInputDevices = await zxingReader.listVideoInputDevices();
+        const selectedDeviceId = videoInputDevices.length > 1 ? videoInputDevices[videoInputDevices.length - 1].deviceId : undefined;
+        
+        zxingReader.decodeFromVideoDevice(selectedDeviceId, 'scanner-video', async (result, err) => {
+          if (result) {
+             const code = result.getText();
+             if(zxingReader) {
+               zxingReader.reset();
+               zxingReader = null;
+             }
+             await handleBarcodeFound(code);
+          }
+        });
+      } catch (err) {
+        statusEl.textContent = '❌ Error al acceder a la cámara para el lector de barras.';
+        scanline.style.display = 'none';
+      }
+    });
+  }
+
+  async function handleBarcodeFound(code) {
+      if(navigator.vibrate) navigator.vibrate(200);
+      statusEl.textContent = `Código: ${code}. Buscando datos... 🔎`;
+      scanline.style.display = 'none';
+
+      try {
+         const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`);
+         const data = await res.json();
+         if (data.status === 1) {
+            const productName = data.product.product_name_es || data.product.product_name || "Producto Desconocido";
+            
+            const nombreClass = productName.charAt(0).toUpperCase() + productName.slice(1).toLowerCase();
+            const ex = STATE.desvan.find(d => d.nombre.toLowerCase() === productName.toLowerCase());
+            if (ex) {
+              ex.cantidad += 1;
+            } else {
+              STATE.desvan.push({
+                id: Date.now().toString() + Math.random(),
+                nombre: nombreClass,
+                cantidad: 1,
+                unidad: 'ud',
+                vigilar: true
+              });
+            }
+            saveState();
+            renderDesvan();
+            
+            resultsEl.style.display = 'block';
+            statusEl.textContent = '✅ ¡Añadido a Despensa!';
+            resultsEl.innerHTML = `
+              <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid var(--primary); margin-top:10px;">
+                <p style="margin:0;color:var(--primary);">Alimento Identificado:</p>
+                <h4 style="margin:5px 0 0 0; color:#fff;">${nombreClass}</h4>
+              </div>
+            `;
+            setTimeout(closeScanner, 3000);
+         } else {
+            statusEl.textContent = `❌ Código (${code}) no encontrado en la base de datos Open Food Facts.`;
+            setTimeout(closeScanner, 3500);
+         }
+      } catch (e) {
+         statusEl.textContent = '❌ Error de conexión al buscar producto.';
+         setTimeout(closeScanner, 3000);
+      }
+  }
+
   function closeScanner() {
     overlay.style.display = 'none';
+    captureBtn.style.display = 'block';
+    if (zxingReader) {
+      zxingReader.reset();
+      zxingReader = null;
+    }
     if (stream) {
       stream.getTracks().forEach(t => t.stop());
       stream = null;
@@ -1426,7 +1651,7 @@ function setupScanner() {
         statusEl.textContent = '✅ ¡Ticket procesado!';
         resultsEl.innerHTML = `
           <div style="background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; border:1px solid #444; margin-top:10px;">
-            <p style="margin:0;color:var(--primary);">Alimentos detectados y guardados en el Desván (1 ud por defecto):</p>
+            <p style="margin:0;color:var(--primary);">Alimentos detectados y guardados en la Despensa (1 ud por defecto):</p>
             <h4 style="margin:5px 0 0 0; color:#fff;">${detectados.join(', ')}</h4>
           </div>
         `;

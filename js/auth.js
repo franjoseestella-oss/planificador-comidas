@@ -24,14 +24,32 @@
 
   // === DIBUJAR MALLA AZUL QUE TAPA LA CARA ===
   function drawBlueMesh(ctx, positions) {
+    if (!positions || positions.length < 68) return;
     const DELAUNAY_TRIANGLES = [
       [26, 44, 25], [28, 29, 40], [2, 1, 41], [17, 36, 0], [36, 1, 0], [1, 36, 41], [15, 14, 46], [45, 44, 26], [44, 45, 46], [45, 26, 16], [15, 45, 16], [45, 15, 46], [29, 35, 30], [35, 13, 12], [31, 29, 30], [29, 31, 40], [40, 31, 41], [38, 19, 20], [42, 28, 27], [44, 24, 25], [35, 34, 30], [35, 47, 46], [47, 35, 29], [47, 29, 28], [42, 47, 28], [47, 44, 46], [32, 31, 30], [38, 39, 40], [28, 39, 27], [39, 28, 40], [37, 40, 41], [37, 38, 40], [36, 37, 41], [37, 17, 18], [37, 36, 17], [19, 37, 18], [38, 37, 19], [23, 24, 44], [9, 53, 10], [59, 11, 10], [11, 59, 12], [59, 35, 12], [47, 43, 44], [43, 47, 42], [43, 42, 22], [43, 23, 44], [23, 43, 22], [31, 4, 3], [5, 56, 6], [6, 56, 48], [4, 56, 5], [56, 4, 31], [33, 58, 50], [58, 33, 34], [34, 33, 30], [33, 32, 30], [21, 38, 20], [21, 39, 38], [39, 21, 27], [53, 65, 64], [65, 53, 9], [59, 51, 35], [7, 55, 67], [55, 6, 48], [55, 7, 6], [33, 57, 32], [57, 33, 50], [61, 57, 50], [54, 9, 8], [54, 65, 9], [54, 66, 65], [66, 54, 67], [7, 54, 8], [54, 7, 67], [51, 52, 64], [52, 51, 59], [53, 52, 10], [52, 53, 64], [52, 59, 10], [65, 63, 64], [63, 51, 64], [51, 63, 58], [58, 63, 50], [56, 49, 48], [49, 56, 31], [49, 57, 61], [66, 62, 65], [62, 63, 65], [63, 62, 50], [61, 62, 67], [62, 61, 50], [62, 66, 67], [60, 61, 67], [55, 60, 67], [60, 49, 61], [60, 55, 48], [49, 60, 48], [13, 35, 14], [14, 35, 46], [2, 31, 3], [31, 2, 41], [24, 23, 19], [19, 23, 20], [23, 21, 20], [21, 23, 22], [21, 42, 27], [42, 21, 22], [51, 58, 34], [51, 34, 35], [57, 49, 32], [32, 49, 31]
     ];
     
-    ctx.lineWidth = 1.2;
-    ctx.strokeStyle = '#0096ff'; // Azul techno
-    ctx.fillStyle = 'rgba(0, 150, 255, 0.25)'; // Relleno azul
+    // 1. Dibujamos un contorno exterior gigante ("Máscara entera") usando el contorno facial y subiendo a la frente.
+    ctx.beginPath();
+    ctx.moveTo(positions[0].x, positions[0].y); // Borde izquierdo mandíbula
+    for (let i = 1; i <= 16; i++) {
+        ctx.lineTo(positions[i].x, positions[i].y); // Borde derecho mandíbula
+    }
+    // Frente: ir por las cejas sumando altura (Y hacia arriba)
+    for (let i = 26; i >= 17; i--) {
+        ctx.lineTo(positions[i].x, positions[i].y - 30);
+    }
+    ctx.closePath();
     
+    ctx.fillStyle = 'rgba(0, 150, 255, 0.2)'; // Relleno azul
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#0096ff';
+    ctx.stroke();
+
+    // 2. Dibujamos la malla interior de rasgos
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = 'rgba(0, 150, 255, 0.5)';
     DELAUNAY_TRIANGLES.forEach(tri => {
       const A = positions[tri[0]];
       const B = positions[tri[1]];
@@ -41,15 +59,14 @@
       ctx.lineTo(B.x, B.y);
       ctx.lineTo(C.x, C.y);
       ctx.closePath();
-      ctx.fill();
       ctx.stroke();
     });
     
-    // Dibujar puntos clave por encima en blanco
+    // 3. Dibujar puntos brillantes de la malla
     ctx.fillStyle = '#fff';
     positions.forEach(p => {
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+      ctx.arc(p.x, p.y, 1.5, 0, 2 * Math.PI);
       ctx.fill();
     });
   }
@@ -80,7 +97,7 @@
           <div class="lock-logo-sub" style="font-size: 0.85rem; color: #888;">Seguridad Inteligente</div>
         </div>
 
-        <div id="lock-face-wrap" style="position: relative; width: 140px; height: 140px; margin: 0 auto 15px auto; border-radius: 50%; overflow: hidden; background: #222; border: 3px solid var(--border); display: none;">
+        <div id="lock-face-wrap" style="position: relative; width: 180px; height: 180px; margin: 0 auto 15px auto; border-radius: 50%; overflow: hidden; background: #222; border: 3px solid var(--border); display: none;">
           <video id="lock-video" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
           <canvas id="lock-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; transform: scaleX(-1);"></canvas>
         </div>
@@ -188,12 +205,22 @@
 
     // FACE API LOGIC
     let isFaceApiLoaded = false;
-    let registeredDescriptor = null;
+    let registeredFaces = [];
     let currentDescriptor = null;
 
     try {
-      const saved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
-      if (saved) registeredDescriptor = new Float32Array(JSON.parse(saved));
+      const savedStr = localStorage.getItem('mimenu_faces');
+      const oldSaved = localStorage.getItem(FACE_DESCRIPTOR_KEY);
+      
+      if (savedStr) {
+        registeredFaces = JSON.parse(savedStr).map(f => ({ name: f.name, descriptor: new Float32Array(f.descriptor) }));
+      } else if (oldSaved) {
+        // Migramos el anterior a la nueva estructura de multiples caras
+        const oldDesc = JSON.parse(oldSaved);
+        registeredFaces = [{ name: 'Usuario Principal', descriptor: new Float32Array(oldDesc) }];
+        localStorage.setItem('mimenu_faces', JSON.stringify([{ name: 'Usuario Principal', descriptor: Array.from(oldDesc) }]));
+        localStorage.removeItem(FACE_DESCRIPTOR_KEY);
+      }
     } catch { }
 
     async function initFaceApi() {
@@ -223,7 +250,7 @@
     }
 
     video.addEventListener('play', () => {
-      statusText.textContent = registeredDescriptor ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
+      statusText.textContent = registeredFaces.length > 0 ? "Buscando rostro registrado..." : "Ningún rostro registrado.";
 
       const canvas = document.getElementById('lock-canvas');
       const displaySize = { width: video.videoWidth || 140, height: video.videoHeight || 140 };
@@ -246,10 +273,20 @@
           drawBlueMesh(ctx, resizedDetections.landmarks.positions);
 
           currentDescriptor = detection.descriptor;
-          if (registeredDescriptor) {
-            const distance = faceapi.euclideanDistance(registeredDescriptor, currentDescriptor);
-            if (distance < 0.55) { // Threshold de seguridad relajado para mejor reconocimiento
-              statusText.textContent = "✅ ¡Hola Franji!";
+          if (registeredFaces.length > 0) {
+            let bestMatch = null;
+            let minDistance = 1;
+            
+            registeredFaces.forEach(face => {
+               const dist = faceapi.euclideanDistance(face.descriptor, currentDescriptor);
+               if(dist < minDistance) {
+                  minDistance = dist;
+                  bestMatch = face;
+               }
+            });
+
+            if (bestMatch && minDistance < 0.55) { // Threshold de seguridad relajado para mejor reconocimiento
+              statusText.textContent = `✅ ¡Hola ${bestMatch.name}!`;
               statusText.style.color = "var(--primary)";
               faceWrap.style.borderColor = "var(--primary)";
               clearInterval(faceDetectionInterval);
@@ -332,27 +369,64 @@
     overlay.style.background = 'rgba(0,0,0,0.85)';
     overlay.style.backdropFilter = 'blur(10px)';
 
+    const facesJSON = localStorage.getItem('mimenu_faces');
+    let savedFaces = facesJSON ? JSON.parse(facesJSON) : [];
+    
+    // Migración por si acaso entran directo
+    if (!facesJSON && localStorage.getItem(FACE_DESCRIPTOR_KEY)) {
+        savedFaces = [{ name: 'Usuario Principal', descriptor: JSON.parse(localStorage.getItem(FACE_DESCRIPTOR_KEY)) }];
+        localStorage.setItem('mimenu_faces', JSON.stringify(savedFaces));
+        localStorage.removeItem(FACE_DESCRIPTOR_KEY);
+    }
+
+    let facesHTML = '';
+    if (savedFaces.length > 0) {
+       facesHTML = `<div style="margin: 15px 0; background: rgba(0,0,0,0.2); border-radius: 10px; overflow-y: auto; max-height: 150px; border: 1px solid var(--border);">
+                      <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: var(--text);">
+                        <thead style="position: sticky; top: 0; background: #222; z-index: 1;">
+                          <tr style="text-transform: uppercase; font-size: 0.75rem; color: #888;">
+                            <th style="padding: 10px; border-bottom: 1px solid var(--border);">Personas Registradas</th>
+                            <th style="padding: 10px; border-bottom: 1px solid var(--border); width: 70px; text-align: center;">Acción</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          ${savedFaces.map((f, i) => `
+                          <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid var(--border);">
+                               <span style="font-size:1.1rem; margin-right:5px;">👤</span> 
+                               <strong>${f.name}</strong>
+                            </td>
+                            <td style="padding: 10px; border-bottom: 1px solid var(--border); text-align: center;">
+                              <button class="bio-del-item" data-index="${i}" style="background: var(--error); border: none; color: white; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; font-weight: bold;" title="Borrar este rostro">Borrar</button>
+                            </td>
+                          </tr>`).join('')}
+                        </tbody>
+                      </table>
+                    </div>`;
+    }
+
     overlay.innerHTML = `
-      <div class="lock-card" style="width: 360px; max-width: 90vw; padding: 25px; text-align: center; position:relative;">
+      <div class="lock-card" style="width: 360px; max-width: 90vw; padding: 15px 25px 25px; text-align: center; position:relative;">
         <button id="bio-close" class="icon-btn" style="position:absolute; top: 10px; right: 10px; background:transparent; font-size:1.5rem; color:var(--text); border:none;">✖</button>
         
-        <div class="lock-logo" style="margin-bottom: 15px;">
-          <div class="lock-logo-icon" style="font-size: 2.5rem;">👤</div>
-          <div class="lock-logo-name" style="font-size: 1.5rem; font-weight: bold; margin-top: 5px;">Configurar Rostro</div>
+        <div class="lock-logo" style="margin-bottom: 10px;">
+          <div class="lock-logo-icon" style="font-size: 2rem;">👤</div>
+          <div class="lock-logo-name" style="font-size: 1.3rem; font-weight: bold; margin-top: 5px;">Configurar Rostro</div>
         </div>
 
-        <div id="bio-face-wrap" style="position: relative; width: 220px; height: 220px; margin: 0 auto 15px auto; border-radius: 20px; overflow: hidden; background: #222; border: 3px solid var(--border);">
+        <div id="bio-face-wrap" style="position: relative; width: 260px; height: 260px; max-width: 100%; margin: 0 auto 10px auto; border-radius: 20px; overflow: hidden; background: #222; border: 3px solid var(--border);">
           <video id="bio-video" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
           <canvas id="bio-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; transform: scaleX(-1);"></canvas>
         </div>
 
-        <p id="bio-status" style="font-size: 0.95rem; font-weight:bold; color: var(--text); margin-bottom: 15px;">Encendiendo cámara...</p>
+        ${facesHTML}
 
-        <button class="lock-btn" id="bio-save-btn" disabled style="width: 100%; margin-bottom: 10px; opacity: 0.5;">
-          <span>📸 Guardar mi rostro</span>
-        </button>
-        <button class="lock-btn" id="bio-delete-btn" style="width: 100%; background: var(--error); border-color: var(--error);">
-          <span>🗑️ Borrar rostro</span>
+        <p id="bio-status" style="font-size: 0.85rem; font-weight:bold; color: var(--text); margin-bottom: 10px;">Encendiendo cámara...</p>
+
+        <input type="text" id="bio-name-input" placeholder="Nombre de quien se registra..." style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:rgba(0,0,0,0.2); color:var(--text); margin-bottom: 10px; font-family:inherit; outline:none;">
+
+        <button class="lock-btn" id="bio-save-btn" disabled style="width: 100%; opacity: 0.5;">
+          <span>📸 Guardar rostro</span>
         </button>
       </div>
     `;
@@ -364,12 +438,8 @@
     const faceWrap = overlay.querySelector('#bio-face-wrap');
     const statusText = overlay.querySelector('#bio-status');
     const saveBtn = overlay.querySelector('#bio-save-btn');
-    const delBtn = overlay.querySelector('#bio-delete-btn');
     const closeBtn = overlay.querySelector('#bio-close');
-
-    if (!localStorage.getItem(FACE_DESCRIPTOR_KEY)) {
-      delBtn.style.display = 'none';
-    }
+    const nameInput = overlay.querySelector('#bio-name-input');
 
     let localStream = null;
     let bioInterval = null;
@@ -385,20 +455,39 @@
 
     closeBtn.addEventListener('click', cleanup);
 
-    delBtn.addEventListener('click', () => {
-      localStorage.removeItem(FACE_DESCRIPTOR_KEY);
-      alert('Rostro borrado.');
-      cleanup();
+    // Borrado individual
+    overlay.querySelectorAll('.bio-del-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = e.target.getAttribute('data-index');
+        savedFaces.splice(idx, 1);
+        localStorage.setItem('mimenu_faces', JSON.stringify(savedFaces));
+        cleanup(); 
+        setTimeout(() => window.openBiometrySetup(), 100);
+      });
     });
 
     saveBtn.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      if (!name) {
+         nameInput.style.borderColor = 'var(--error)';
+         nameInput.focus();
+         return;
+      }
+      nameInput.style.borderColor = 'var(--border)';
+
       if (latestDescriptor) {
-        localStorage.setItem(FACE_DESCRIPTOR_KEY, JSON.stringify(Array.from(latestDescriptor)));
-        statusText.textContent = '✅ ¡Rostro guardado con éxito!';
+        savedFaces.push({ name: name, descriptor: Array.from(latestDescriptor) });
+        localStorage.setItem('mimenu_faces', JSON.stringify(savedFaces));
+        
+        statusText.textContent = '✅ ¡Guardado como ' + name + '!';
         statusText.style.color = 'var(--primary)';
         faceWrap.style.borderColor = 'var(--primary)';
         saveBtn.style.display = 'none';
-        setTimeout(cleanup, 1500);
+        nameInput.style.display = 'none';
+        setTimeout(() => {
+           cleanup();
+           setTimeout(() => window.openBiometrySetup(), 50);
+        }, 1200);
       }
     });
 
@@ -433,7 +522,8 @@
           latestDescriptor = detection.descriptor;
           saveBtn.disabled = false;
           saveBtn.style.opacity = '1';
-          statusText.textContent = "Rostro detectado. Mueve la cara para alinear y pulsa Guardar.";
+          nameInput.style.display = 'block'; // Ensure input is visible
+          statusText.textContent = "¡Rostro detectado! Pon un nombre y pulsa botón para añadirte.";
           statusText.style.color = "var(--primary)";
           faceWrap.style.borderColor = "var(--primary)";
 
