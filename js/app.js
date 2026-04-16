@@ -186,17 +186,52 @@ function parseQtyUnit(str) {
   return str.replace(/^[\d.\/]+\s*/, '').trim();
 }
 
-// Dado lo que se necesita y lo que se tiene, devuelve la cantidad restante
-// Devuelve null si ya se tiene suficiente, o la cadena original si no es parseable
-function calcRemaining(cantidadStr, haveNum) {
-  if (haveNum === null || haveNum === 0) return cantidadStr;
-  const needed = parseQtyNumber(cantidadStr);
-  if (needed === null) return cantidadStr; // No parseable (c/s, etc)
-  const unit = parseQtyUnit(cantidadStr);
-  const remaining = needed - haveNum;
-  if (remaining <= 0) return null; // Ya se tiene todo
+const UNIT_GROUPS = {
+  g: { base: 'g', factor: 1, type: 'weight' },
+  kg: { base: 'g', factor: 1000, type: 'weight' },
+  ml: { base: 'ml', factor: 1, type: 'volume' },
+  l: { base: 'ml', factor: 1000, type: 'volume' },
+  ud: { base: 'ud', factor: 1, type: 'count' },
+  uds: { base: 'ud', factor: 1, type: 'count' }
+};
+
+// Dado lo que se necesita y lo que se tiene (ahora considerando unidades), devuelve la cantidad restante
+function calcRemaining(cantidadStr, haveNum, haveUnitStr) {
+  if (haveNum === null || haveNum === undefined || haveNum === 0) return cantidadStr;
+  const neededNum = parseQtyNumber(cantidadStr);
+  if (neededNum === null) return cantidadStr; // No parseable (c/s, etc)
+  
+  const rawNeededUnit = parseQtyUnit(cantidadStr).toLowerCase();
+  const rawHaveUnit = typeof haveUnitStr === 'string' ? haveUnitStr.toLowerCase().trim() : '';
+
+  const nUnitObj = UNIT_GROUPS[rawNeededUnit] || { base: rawNeededUnit, factor: 1, type: 'unknown' };
+  const hUnitObj = UNIT_GROUPS[rawHaveUnit] || { base: rawHaveUnit, factor: 1, type: 'unknown' };
+
+  // Conversión exacta si son del mismo tipo
+  if ((nUnitObj.type === hUnitObj.type && nUnitObj.type !== 'unknown') || rawNeededUnit === rawHaveUnit) {
+      const neededInBase = neededNum * nUnitObj.factor;
+      const haveInBase = haveNum * hUnitObj.factor;
+      const remInBase = neededInBase - haveInBase;
+      if (remInBase <= 0) return null; // Ya se tiene o sobrepasa
+      const remNeededUnit = remInBase / nUnitObj.factor;
+      const remStr = Number.isInteger(remNeededUnit) ? remNeededUnit : remNeededUnit.toFixed(1);
+      return parseQtyUnit(cantidadStr) ? `${remStr} ${parseQtyUnit(cantidadStr)}` : `${remStr}`;
+  }
+
+  // Incompatibles (ej. weight vs count). Asumimos que 1 'ud' en Despensa cubre lo del planificador.
+  if ((nUnitObj.type === 'weight' || nUnitObj.type === 'volume') && hUnitObj.type === 'count') {
+      if (haveNum >= 1) return null; // Tienes al menos 1 paquete, cubre la receta.
+  }
+  if (nUnitObj.type !== 'unknown' && hUnitObj.type === 'unknown' && haveNum >= 1) {
+      return null; // Si tienes algo y la unidad es rara, lo damos por bueno
+  }
+
+  // Fallback resta directa
+  const remaining = neededNum - haveNum;
+  if (remaining <= 0) return null;
   const remStr = Number.isInteger(remaining) ? remaining : remaining.toFixed(1);
-  return unit ? `${remStr} ${unit}` : `${remStr}`;
+  const u = parseQtyUnit(cantidadStr);
+  return u ? `${remStr} ${u}` : `${remStr}`;
 }
 
 // ── VIEW: HOY ───────────────────────────────────────────────
@@ -567,16 +602,18 @@ function openShoppingAssistant() {
   pendingShoppingItems = Object.values(items).map(item => {
     let checked = false;
     let tengo = null;
+    let tengoUnit = '';
     
     // Comparar con mi Despensa automáticamente
     if (STATE.desvan) {
        const dsv = STATE.desvan.find(d => areIngredientsSimilar(item.nombre, d.nombre));
        if (dsv && dsv.cantidad > 0) {
          tengo = dsv.cantidad;
+         tengoUnit = dsv.unidad || '';
        }
     }
     
-    return { ...item, checked, tengo, originalCantidad: parseFloat(item.cantidad) };
+    return { ...item, checked, tengo, tengoUnit, originalCantidad: parseFloat(item.cantidad) };
   });
 
   renderShoppingAssistant();
@@ -594,12 +631,19 @@ function renderShoppingAssistant() {
   pendingShoppingItems.forEach((item, i) => {
       // Comparativa
       const diffHtml = item.tengo !== null
-          ? `<span style="color:var(--info); font-weight:bold; font-size:1.1rem;">${item.tengo} <small style="font-size:0.7rem; font-weight:normal;">${item.unidad || 'ud'}</small></span>` 
-          : `<span style="color:var(--error); font-weight:bold; font-size:1.1rem;">0 <small style="font-size:0.7rem; font-weight:normal;">${item.unidad || 'ud'}</small></span>`;
+          ? `<span style="color:var(--info); font-weight:bold; font-size:1.1rem;">${item.tengo} <small style="font-size:0.7rem; font-weight:normal;">${item.tengoUnit}</small></span>` 
+          : `<span style="color:var(--error); font-weight:bold; font-size:1.1rem;">0 <small style="font-size:0.7rem; font-weight:normal;">${parseQtyUnit(item.cantidad)}</small></span>`;
           
       let proposedBuy = item.originalCantidad;
-      if (item.tengo && !isNaN(item.tengo) && !isNaN(item.originalCantidad)) {
-          proposedBuy = Math.max(0, item.originalCantidad - parseFloat(item.tengo));
+      if (item.tengo !== null && item.tengo > 0) {
+          // Usamos la nueva función inteligente para saber cuánto proponer
+          const remStr = calcRemaining(item.cantidad, item.tengo, item.tengoUnit);
+          if (remStr === null) {
+              proposedBuy = 0; // Ya se tiene todo
+          } else {
+              const remN = parseQtyNumber(remStr);
+              proposedBuy = remN !== null ? remN : item.originalCantidad;
+          }
       }
 
       html += `
@@ -611,7 +655,7 @@ function renderShoppingAssistant() {
          <div style="display:flex; justify-content:space-between; margin-top:14px; font-size:0.9rem; align-items:flex-end;">
             <div style="flex:1;">
                <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">NECESITAMOS</span>
-               <strong style="font-size:1.1rem;">${item.originalCantidad}</strong> <small style="color:var(--text-muted);">${item.unidad || 'ud'}</small>
+               <strong style="font-size:1.1rem;">${item.originalCantidad}</strong> <small style="color:var(--text-muted);">${parseQtyUnit(item.cantidad) || 'ud'}</small>
             </div>
             <div style="flex:1; text-align:center;">
                <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">EN DESPENSA</span>
@@ -619,7 +663,7 @@ function renderShoppingAssistant() {
             </div>
             <div style="flex:1.2; text-align:right;">
                <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">🛒 A COMPRAR</span>
-               <input type="number" id="assist-qty-${i}" value="${proposedBuy}" step="any" min="0" style="width:65px; height: 32px; text-align:right; border-radius:6px; border:1px solid var(--accent); background:#222; color:white; font-size: 1rem; padding: 0 4px;"> <small style="color:var(--text-muted);">${item.unidad || 'ud'}</small>
+               <input type="number" id="assist-qty-${i}" value="${proposedBuy}" step="any" min="0" style="width:65px; height: 32px; text-align:right; border-radius:6px; border:1px solid var(--accent); background:#222; color:white; font-size: 1rem; padding: 0 4px;"> <small style="color:var(--text-muted);">${parseQtyUnit(item.cantidad) || 'ud'}</small>
             </div>
          </div>
          <button class="btn-assistant-accept" onclick="acceptAssistantItem(${i})" style="margin-top:16px; background:linear-gradient(135deg, var(--accent), #15e364); color:var(--bg); border:none; padding:12px; border-radius:10px; cursor:pointer; font-weight:700; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 12px rgba(34,197,94,0.2);">
@@ -736,14 +780,16 @@ function renderShopping() {
        const dsv = STATE.desvan.find(d => areIngredientsSimilar(item.nombre, d.nombre));
        if (dsv && dsv.cantidad > 0) {
            item.tengo = dsv.cantidad;
+           item.tengoUnit = dsv.unidad || '';
        } else {
            item.tengo = null;
+           item.tengoUnit = '';
        }
     }
 
     const cat = categorize(item.nombre);
-    // Calcular cantidad restante teniendo en cuenta el stock
-    const remaining = calcRemaining(item.cantidad, item.tengo);
+    // Calcular cantidad restante teniendo en cuenta el stock y las unidades
+    const remaining = calcRemaining(item.cantidad, item.tengo, item.tengoUnit);
     const yaCompleto  = remaining === null; // Ya tiene suficiente
     categories[cat].push({ ...item, idx, remaining, yaCompleto });
   });
