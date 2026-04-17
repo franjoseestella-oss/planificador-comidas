@@ -484,11 +484,11 @@ function showAlternatives(dia, tipo) {
   if (typeof RECETAS_NUEVAS !== 'undefined' && Object.keys(RECETAS_NUEVAS).length > 0) {
     const allRecipes = Object.values(RECETAS_NUEVAS).filter(r => r.tipo === tipo || r.tipo === 'aprovechamiento' || r.tipo === 'normal' || !r.tipo);
     if (allRecipes.length > 0) {
-      alts = allRecipes.sort(() => 0.5 - Math.random()).slice(0, 4);
+      alts = allRecipes.sort((a, b) => a.nombre.localeCompare(b.nombre));
     }
   }
   if (alts.length === 0) {
-    alts = ALTERNATIVAS[tipo] || [];
+    alts = (ALTERNATIVAS[tipo] || []).sort((a, b) => a.nombre.localeCompare(b.nombre));
   }
 
   const modal = document.getElementById('modal-overlay');
