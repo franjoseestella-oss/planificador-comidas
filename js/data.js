@@ -2612,6 +2612,72 @@ const RECETAS_NUEVAS = {
     },
     "nota": "📖 Original NotebookLM"
 },
+  'salmon-expres-al-microondas': {
+    "id": "salmon-expres-al-microondas",
+    "nombre": "Salmón exprés al microondas",
+    "tipo": "normal",
+    "porciones": 2,
+    "tiempo": 10,
+    "icono": "🐟",
+    "descripcion": "Lomos de salmón cocinados al microondas acompañados de arroz basmati y una ensalada japonesa de pepino.",
+    "ingredientes": [
+      { "nombre": "400 g Lomo de salmón cortado en 2 porciones", "cantidad": "400 g", "comprar": true },
+      { "nombre": "125 g Arroz basmati precocido", "cantidad": "125 g", "comprar": true },
+      { "nombre": "300 g Pepino", "cantidad": "300 g", "comprar": true },
+      { "nombre": "50 g Cebolleta", "cantidad": "50 g", "comprar": true },
+      { "nombre": "1 cucharada Soja", "cantidad": "c/s", "comprar": true },
+      { "nombre": "1 cucharada Vinagre", "cantidad": "c/s", "comprar": true },
+      { "nombre": "Semillas de sésamo", "cantidad": "Al gusto", "comprar": false },
+      { "nombre": "Jengibre rallado", "cantidad": "Al gusto", "comprar": false },
+      { "nombre": "Eneldo seco", "cantidad": "Al gusto", "comprar": false },
+      { "nombre": "AOVE", "cantidad": "Al gusto", "comprar": false },
+      { "nombre": "Sal", "cantidad": "Al gusto", "comprar": false }
+    ],
+    "pasos": [
+      "Corta el pepino en tiras con un pelador o una mandolina, espolvorea con sal y reserva.",
+      "Pica la cebolla y ponla en medio vaso de agua. Reserva.",
+      "Cocina el arroz en el microondas siguiendo las indicaciones del fabricante. Reserva.",
+      "Lava el salmón, extrae las espinas y ponlo en un plato untado con AOVE. Sazona y espolvorea con eneldo. Cubre el plato y cocina 5 minutos a potencia máxima. Vigila el proceso, porque el tiempo final dependerá del tamaño del pescado.",
+      "Escurre bien el pepino y monta una ensalada japonesa mezclando con la cebolla (también escurrida). Mezcla la soja con el vinagre, el sésamo y el jengibre. Aliña y sirve con el salmón."
+    ],
+    "nutricion": {
+      "calorias": "561.81 kcal",
+      "proteinas": "44.9 g",
+      "carbohidratos": "24.25 g",
+      "grasas": "31.69 g",
+      "fibra": "No especificada"
+    },
+    "nota": "📖 Extraído con IA (NotebookLM)"
+  },
+  'batido-platano-arandanos-avena': {
+    "id": "batido-platano-arandanos-avena",
+    "nombre": "Batido de plátano y arándanos con avena",
+    "tipo": "normal",
+    "porciones": 2,
+    "tiempo": 5,
+    "icono": "🥤",
+    "descripcion": "Un batido rápido, nutritivo y refrescante a base de plátano, arándanos, avena y bebida vegetal.",
+    "ingredientes": [
+      { "nombre": "100 g Arándanos", "cantidad": "100 g", "comprar": true },
+      { "nombre": "40 g Plátano sin piel", "cantidad": "40 g", "comprar": true },
+      { "nombre": "250 ml Leche o bebida vegetal", "cantidad": "250 ml", "comprar": true },
+      { "nombre": "60 g Avena molida", "cantidad": "60 g", "comprar": true },
+      { "nombre": "Hielo picado", "cantidad": "Al gusto", "comprar": false },
+      { "nombre": "Canela o nuez moscada", "cantidad": "Al gusto", "comprar": false }
+    ],
+    "pasos": [
+      "En el vaso de la batidora pon los arándanos, el medio plátano, la avena, la leche o bebida vegetal y bate.",
+      "Añade hielo picado al gusto y espolvorea con canela molida o nuez moscada."
+    ],
+    "nutricion": {
+      "calorias": "232.60 kcal",
+      "proteinas": "8.77 g",
+      "carbohidratos": "34.08 g",
+      "grasas": "6.80 g",
+      "fibra": "No especificada"
+    },
+    "nota": "📖 Extraído con IA (NotebookLM)"
+  }
 };
 
 // Función para obtener el menú de la semana actual

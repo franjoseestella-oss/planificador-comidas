@@ -7,6 +7,7 @@ const STATE = {
   currentView: 'hoy',
   semana: null,
   planState: {}, // { lunes: { comida: 'accepted'|'rejected'|'pending', cena: '...' }, ... }
+  customMenu: {}, // { lunes: { comida: 'recipe-id' } }
   shopping: [],
   desvan: [],
   recipeFilter: 'todos',
@@ -16,7 +17,19 @@ const STATE = {
 // ── INIT ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadState();
-  STATE.semana = getSemanaActual();
+  STATE.semana = JSON.parse(JSON.stringify(getSemanaActual()));
+  
+  // Aplicar menús personalizados
+  for (const dia in STATE.customMenu) {
+    if (STATE.semana[dia]) {
+      for (const tipo in STATE.customMenu[dia]) {
+        const recipeId = STATE.customMenu[dia][tipo];
+        const rec = getRecetaById(recipeId);
+        if (rec) STATE.semana[dia][tipo] = rec;
+      }
+    }
+  }
+
   registerServiceWorker();
   renderAll();
   setupNavigation();
@@ -87,6 +100,41 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  // Refresh Recipes NotebookLM
+  const refreshBtn = document.getElementById('btn-refresh-recipes');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', async () => {
+      showToast('🤖 Consultando nuevas recetas en NotebookLM...', 'info');
+      
+      const prevIcon = refreshBtn.innerHTML;
+      refreshBtn.innerHTML = '⏳ Sincronizando...';
+      refreshBtn.disabled = true;
+
+      try {
+        const response = await fetch('./notebooklm_recipes.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const nuevas = await response.json();
+        
+        let agregadas = 0;
+        if (typeof RECETAS_NUEVAS !== 'undefined') {
+          const arrNuevas = Array.isArray(nuevas) ? nuevas : Object.values(nuevas);
+          arrNuevas.forEach(r => {
+            if (!RECETAS_NUEVAS[r.id]) agregadas++;
+            RECETAS_NUEVAS[r.id] = r;
+          });
+        }
+        
+        renderRecipes();
+        showToast(`✅ ¡${arrNuevas.length} recetas descargadas (${agregadas} nuevas) desde NotebookLM!`, 'success');
+      } catch (error) {
+        console.error('Error fetching NotebookLM recipes:', error);
+        showToast('❌ Ocurrió un error al cargar recetas. Revisa la consola.', 'error');
+      } finally {
+        refreshBtn.innerHTML = prevIcon;
+        refreshBtn.disabled = false;
+      }
+    });
+  }
 });
 
 // Expose switchView globally for inline onclick handlers
@@ -119,16 +167,23 @@ function registerServiceWorker() {
 // ── PERSISTENCIA ────────────────────────────────────────────
 function saveState() {
   localStorage.setItem('planState', JSON.stringify(STATE.planState));
+  localStorage.setItem('customMenu', JSON.stringify(STATE.customMenu));
   localStorage.setItem('shopping', JSON.stringify(STATE.shopping));
   localStorage.setItem('desvan', JSON.stringify(STATE.desvan));
 }
 
 function loadState() {
   try {
-    STATE.planState = JSON.parse(localStorage.getItem('planState') || '{}');
-    STATE.shopping  = JSON.parse(localStorage.getItem('shopping')  || '[]');
-    STATE.desvan    = JSON.parse(localStorage.getItem('desvan')    || '[]');
-  } catch { STATE.planState = {}; STATE.shopping = []; STATE.desvan = []; }
+    STATE.planState  = JSON.parse(localStorage.getItem('planState') || '{}');
+    STATE.customMenu = JSON.parse(localStorage.getItem('customMenu') || '{}');
+    STATE.shopping   = JSON.parse(localStorage.getItem('shopping')  || '[]');
+    STATE.desvan     = JSON.parse(localStorage.getItem('desvan')    || '[]');
+  } catch { 
+    STATE.planState = {}; 
+    STATE.customMenu = {}; 
+    STATE.shopping = []; 
+    STATE.desvan = []; 
+  }
 
   // Limpiar estados de semanas pasadas
   const keys = Object.keys(STATE.planState);
@@ -136,6 +191,7 @@ function loadState() {
   const semanaKey = getWeekKey();
   if (STATE.planState._semanaKey !== semanaKey) {
     STATE.planState = { _semanaKey: semanaKey };
+    STATE.customMenu = {};
     STATE.shopping = [];
     saveState();
   }
@@ -399,7 +455,8 @@ function toggleMealStatus(dia, tipo, newStatus, card) {
     showToast('🔄 Cambiando el menú…', 'info');
     showAlternatives(dia, tipo);
   } else if (status === 'accepted') {
-    showToast('✅ Menú confirmado', 'success');
+    deductFromDesvan(dia, tipo);
+    showToast('✅ Menú confirmado y descontado', 'success');
   }
 
   // Re-render plan
@@ -421,7 +478,17 @@ function handleMealResponse(dia, tipo, status) {
 
 // ── ALTERNATIVES MODAL ──────────────────────────────────────
 function showAlternatives(dia, tipo) {
-  const alts = ALTERNATIVAS[tipo];
+  let alts = [];
+  if (typeof RECETAS_NUEVAS !== 'undefined' && Object.keys(RECETAS_NUEVAS).length > 0) {
+    const allRecipes = Object.values(RECETAS_NUEVAS).filter(r => r.tipo === tipo || r.tipo === 'aprovechamiento' || r.tipo === 'normal' || !r.tipo);
+    if (allRecipes.length > 0) {
+      alts = allRecipes.sort(() => 0.5 - Math.random()).slice(0, 4);
+    }
+  }
+  if (alts.length === 0) {
+    alts = ALTERNATIVAS[tipo] || [];
+  }
+
   const modal = document.getElementById('modal-overlay');
   const content = document.getElementById('modal-content');
 
@@ -437,7 +504,7 @@ function showAlternatives(dia, tipo) {
     <div class="alternatives-list">
       ${alts.map(a => `
         <div class="alt-card" data-id="${a.id}">
-          <span class="alt-emoji">${a.icono}</span>
+          <span class="alt-emoji">${a.icono || '🍲'}</span>
           <div class="alt-info">
             <h4>${a.nombre}</h4>
             <p>⏱ ~${a.tiempo} min</p>
@@ -463,13 +530,18 @@ function showAlternatives(dia, tipo) {
     card.addEventListener('click', () => {
       const id = card.dataset.id;
       if (id === 'original') {
+        if (STATE.customMenu[dia]) delete STATE.customMenu[dia][tipo];
+        STATE.semana[dia][tipo] = getSemanaActual()[dia][tipo];
         setMealStatus(dia, tipo, 'accepted');
         showToast('✅ Menú original mantenido', 'success');
       } else {
-        // En una versión con backend guardaríamos la alternativa
+        if (!STATE.customMenu[dia]) STATE.customMenu[dia] = {};
+        STATE.customMenu[dia][tipo] = id;
+        STATE.semana[dia][tipo] = getRecetaById(id) || alts.find(a => a.id === id) || STATE.semana[dia][tipo];
         setMealStatus(dia, tipo, 'alternative');
         showToast('✅ Alternativa seleccionada', 'success');
       }
+      saveState();
       closeModal();
       renderPlanSemanal();
       renderHoy();
@@ -1491,14 +1563,8 @@ window.removeDesvanItem = function(id) {
 
 function deductFromDesvan(dia, tipo) {
   // Deduce ingredientes de un menú aceptado de la despensa
-  const recetaRef = STATE.semana[dia][tipo];
-  if (!recetaRef || !recetaRef.recetaId) return;
-
-  const recetaIndex = RECETARIO.findIndex(r => r.id === recetaRef.recetaId);
-  if (recetaIndex === -1) return;
-
-  const receta = RECETARIO[recetaIndex];
-  if (!receta.ingredientes) return;
+  const receta = STATE.semana[dia][tipo];
+  if (!receta || !receta.ingredientes) return;
 
   let somethingDeducted = false;
 
