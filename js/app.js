@@ -1375,20 +1375,29 @@ function setupDesvan() {
       return;
     }
 
-    const item = {
-      id: Date.now().toString(),
-      nombre: nameInput.value.trim(),
-      cantidad: parseFloat(qtyInput.value),
-      unidad: unitInput.value,
-      vigilar: vigilarInput.checked
-    };
-
-    STATE.desvan.push(item);
-    saveState();
+    const n = nameInput.value.trim();
+    const qty = parseFloat(qtyInput.value);
     
+    const existing = STATE.desvan.find(d => areIngredientsSimilar(d.nombre, n));
+    if (existing) {
+      existing.cantidad += qty;
+      existing.vigilar = vigilarInput.checked;
+      showToast(`📦 Sumada la cantidad a ${n} existente`, 'success');
+    } else {
+      const item = {
+        id: Date.now().toString(),
+        nombre: n,
+        cantidad: qty,
+        unidad: unitInput.value,
+        vigilar: vigilarInput.checked
+      };
+      STATE.desvan.push(item);
+      showToast('📦 Añadido a la despensa', 'success');
+    }
+
+    saveState();
     nameInput.value = '';
     qtyInput.value = '';
-    showToast('📦 Añadido a la despensa', 'success');
     renderDesvan();
   });
 
