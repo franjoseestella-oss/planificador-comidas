@@ -116,8 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const nuevas = await response.json();
         
         let agregadas = 0;
+        let numDescargadas = 0;
         if (typeof RECETAS_NUEVAS !== 'undefined') {
           const arrNuevas = Array.isArray(nuevas) ? nuevas : Object.values(nuevas);
+          numDescargadas = arrNuevas.length;
           arrNuevas.forEach(r => {
             if (!RECETAS_NUEVAS[r.id]) agregadas++;
             RECETAS_NUEVAS[r.id] = r;
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         renderRecipes();
-        showToast(`✅ ¡${arrNuevas.length} recetas descargadas (${agregadas} nuevas) desde NotebookLM!`, 'success');
+        showToast(`✅ ¡${numDescargadas} recetas descargadas (${agregadas} nuevas) desde NotebookLM!`, 'success');
       } catch (error) {
         console.error('Error fetching NotebookLM recipes:', error);
         showToast('❌ Ocurrió un error al cargar recetas. Revisa la consola.', 'error');
