@@ -33,15 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Filtrar recetas en cuarentena (forzar una alternativa elegida automáticamente o dejar pendiente)
+  // Filtrar recetas en cuarentena o eliminadas (forzar una alternativa elegida automáticamente o dejar pendiente)
   for (const dia in STATE.semana) {
     ['comida', 'cena'].forEach(tipo => {
       const meal = STATE.semana[dia][tipo];
-      if (meal && STATE.quarantineRecipes.includes(meal.id)) {
+      if (meal && (STATE.quarantineRecipes.includes(meal.id) || STATE.deletedRecipes.includes(meal.id))) {
         // Encontrar primera alternativa válida no en cuarentena
-        let availableAlts = (ALTERNATIVAS[tipo] || []).filter(a => !STATE.quarantineRecipes.includes(a.id));
+        let availableAlts = (ALTERNATIVAS[tipo] || []).filter(a => !STATE.quarantineRecipes.includes(a.id) && !STATE.deletedRecipes.includes(a.id));
         if (typeof RECETAS_NUEVAS !== 'undefined') {
-          const newAlts = Object.values(RECETAS_NUEVAS).filter(r => (r.tipo === tipo || !r.tipo) && !STATE.quarantineRecipes.includes(r.id));
+          const newAlts = Object.values(RECETAS_NUEVAS).filter(r => (r.tipo === tipo || !r.tipo) && !STATE.quarantineRecipes.includes(r.id) && !STATE.deletedRecipes.includes(r.id));
           availableAlts = [...availableAlts, ...newAlts];
         }
         if (availableAlts.length > 0) {
@@ -163,6 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Quarantine Modal
+  const quarantineBtn = document.getElementById('btn-show-quarantine');
+  if (quarantineBtn) {
+    quarantineBtn.addEventListener('click', () => {
+      showQuarantineModal();
+    });
+  }
 });
 
 // Expose switchView globally for inline onclick handlers
@@ -205,6 +213,7 @@ function saveState() {
   localStorage.setItem('comedorMenu', JSON.stringify(STATE.comedorMenu));
   localStorage.setItem('customRecipes', JSON.stringify(STATE.customRecipes));
   localStorage.setItem('quarantineRecipes', JSON.stringify(STATE.quarantineRecipes));
+  localStorage.setItem('deletedRecipes', JSON.stringify(STATE.deletedRecipes));
 }
 
 function loadState() {
@@ -216,6 +225,7 @@ function loadState() {
     STATE.comedorMenu = JSON.parse(localStorage.getItem('comedorMenu') || '{}');
     STATE.customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '{}');
     STATE.quarantineRecipes = JSON.parse(localStorage.getItem('quarantineRecipes') || '[]');
+    STATE.deletedRecipes = JSON.parse(localStorage.getItem('deletedRecipes') || '[]');
   } catch { 
     STATE.planState = {}; 
     STATE.customMenu = {}; 
@@ -224,6 +234,7 @@ function loadState() {
     STATE.comedorMenu = {};
     STATE.customRecipes = {};
     STATE.quarantineRecipes = [];
+    STATE.deletedRecipes = [];
   }
 
   // Limpiar estados de semanas pasadas
@@ -559,8 +570,8 @@ function showAlternatives(dia, tipo) {
     alts = (ALTERNATIVAS[tipo] || []).sort((a, b) => a.nombre.localeCompare(b.nombre));
   }
   
-  // Filtrar cuarentenas
-  alts = alts.filter(a => !STATE.quarantineRecipes.includes(a.id));
+  // Filtrar cuarentenas y borradas
+  alts = alts.filter(a => !STATE.quarantineRecipes.includes(a.id) && !STATE.deletedRecipes.includes(a.id));
 
 
   const modal = document.getElementById('modal-overlay');
@@ -625,6 +636,96 @@ function showAlternatives(dia, tipo) {
   document.getElementById('modal-close-btn').addEventListener('click', closeModal);
 }
 
+// ── QUARANTINE MODAL ──────────────────────────────────────────
+function showQuarantineModal() {
+  const modal = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+
+  // Asegurar que exista state de borrados
+  if (!STATE.deletedRecipes) STATE.deletedRecipes = [];
+
+  let listHTML = '';
+
+  if (!STATE.quarantineRecipes || STATE.quarantineRecipes.length === 0) {
+    listHTML = `<div class="empty-state" style="padding:40px 20px">
+                  <div class="empty-icon">✨</div>
+                  <h3>No hay recetas en cuarentena</h3>
+                  <p>Las recetas que mandes a cuarentena aparecerán aquí.</p>
+                </div>`;
+  } else {
+    listHTML = `<div class="alternatives-list" style="margin-top:10px;">` + 
+      STATE.quarantineRecipes.map(id => {
+        const recipe = getRecetaById(id) || { id, nombre: 'Receta desconocida', icono: '🍽️' };
+        return `
+          <div class="alt-card" style="display:flex; justify-content:space-between; align-items:center; cursor:default;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="alt-emoji">${recipe.icono || '🍽️'}</span>
+              <div class="alt-info">
+                <h4>${recipe.nombre}</h4>
+                <p style="font-size:0.75rem;">En cuarentena</p>
+              </div>
+            </div>
+            <div style="display:flex; gap: 8px;">
+              <button class="icon-btn btn-restore-quarantine" data-id="${id}" style="background:var(--success);color:var(--bg);font-size:1rem;width:35px;height:35px;" title="Devolver al recetario">♻️</button>
+              <button class="icon-btn btn-delete-quarantine" data-id="${id}" style="background:var(--danger);color:var(--bg);font-size:1rem;width:35px;height:35px;" title="Eliminar para siempre">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('') + `</div>`;
+  }
+
+  content.innerHTML = `
+    <div class="modal-handle"></div>
+    <div class="modal-header" style="text-align:center;padding:20px 20px 10px;">
+      <div class="modal-emoji">🚫</div>
+      <div class="modal-title">Recetas en Cuarentena</div>
+      <p style="text-align:center;padding:0 20px;color:var(--text-muted);font-size:.88rem">
+        Gestiona las recetas bloqueadas. Puedes devolverlas o eliminarlas permanentemente.
+      </p>
+    </div>
+    ${listHTML}
+    <div class="modal-close-btn" style="margin-top:20px;">
+      <button class="btn-full" id="close-quarantine-btn">Cerrar</button>
+    </div>`;
+
+  modal.classList.add('open');
+
+  // Event Listeners
+  document.querySelectorAll('.btn-restore-quarantine').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.currentTarget.dataset.id;
+      STATE.quarantineRecipes = STATE.quarantineRecipes.filter(r => r !== id);
+      saveState();
+      showToast('✅ Receta devuelta al recetario', 'success');
+      showQuarantineModal(); // Refresh modal
+    });
+  });
+
+  document.querySelectorAll('.btn-delete-quarantine').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if(confirm('¿Estás seguro de eliminar esta receta para siempre?')) {
+        const id = e.currentTarget.dataset.id;
+        STATE.quarantineRecipes = STATE.quarantineRecipes.filter(r => r !== id);
+        if (!STATE.deletedRecipes.includes(id)) {
+          STATE.deletedRecipes.push(id);
+        }
+        // Cleanup custom recipe
+        if (STATE.customRecipes && STATE.customRecipes[id]) {
+          delete STATE.customRecipes[id];
+        }
+        saveState();
+        showToast('🗑️ Receta eliminada para siempre', 'error');
+        showQuarantineModal(); // Refresh modal
+      }
+    });
+  });
+
+  document.getElementById('close-quarantine-btn').addEventListener('click', () => {
+    closeModal();
+    renderRecipes(); // Render recipes to sync views
+  });
+}
+
 // ── VIEW: RECETAS ───────────────────────────────────────────
 function renderRecipes(filter, search) {
   filter = filter || STATE.recipeFilter;
@@ -655,6 +756,9 @@ function renderRecipes(filter, search) {
   let filtered = allMeals;
   if (filter !== 'todos')      filtered = filtered.filter(m => m.mealType === filter || m.tipo === filter);
   if (search)                   filtered = filtered.filter(m => m.nombre.toLowerCase().includes(search));
+
+  // Filtrar cuarentenas y borradas para no listarlas en el recetario principal
+  filtered = filtered.filter(m => !STATE.quarantineRecipes.includes(m.id) && !STATE.deletedRecipes.includes(m.id));
 
   const listEl = document.getElementById('recipe-list');
   if (!filtered.length) {
