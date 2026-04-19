@@ -658,7 +658,8 @@ const RECETAS_NUEVAS = {
       "Batir con batidora eléctrica."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/crema-tibia-de-puerro-y-patata.jpg"
   },
   "chips-de-kale": {
     "id": "chips-de-kale",
@@ -699,7 +700,8 @@ const RECETAS_NUEVAS = {
       "Dejar enfriar 5 minutos para que crispen completemente."
     ],
     "nutricion": {},
-    "nota": "Puedes comerlos como snack o añadirlos a tus ensaladas."
+    "nota": "Puedes comerlos como snack o añadirlos a tus ensaladas.",
+    "imagen": "images/recipes/chips-de-kale.jpg"
   },
   "merluza-con-patatas-a-la-importancia": {
     "id": "merluza-con-patatas-a-la-importancia",
@@ -737,7 +739,8 @@ const RECETAS_NUEVAS = {
       "Hiervejarlas solitas pa 15, meter merluzas y los bolitos (guisantazo) últimos 4 y servir hondo de mojar barras de painetes de trigos enteros crujos."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/merluza-con-patatas-a-la-importancia.jpg"
   },
   "curry-rapido-de-garbanzos-y-espinacas": {
     "id": "curry-rapido-de-garbanzos-y-espinacas",
@@ -764,7 +767,8 @@ const RECETAS_NUEVAS = {
       "Sirve caliente."
     ],
     "nutricion": {},
-    "nota": "Puede acompañarse de arroz."
+    "nota": "Puede acompañarse de arroz.",
+    "imagen": "images/recipes/curry-rapido-de-garbanzos-y-espinacas.jpg"
   },
   "quinoa-con-verduras-asadas-y-huevo-poche": {
     "id": "quinoa-con-verduras-asadas-y-huevo-poche",
@@ -791,7 +795,8 @@ const RECETAS_NUEVAS = {
       "Mezcla la quinoa con las verduras y pon el huevo poché encima."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/quinoa-con-verduras-asadas-y-huevo-poche.jpg"
   },
   "fajitas-de-pollo-y-pimientos": {
     "id": "fajitas-de-pollo-y-pimientos",
@@ -817,7 +822,8 @@ const RECETAS_NUEVAS = {
       "Calienta tortillas y sirve."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/fajitas-de-pollo-y-pimientos.jpg"
   },
   "frittata-de-aprovechamiento": {
     "id": "frittata-de-aprovechamiento",
@@ -843,7 +849,8 @@ const RECETAS_NUEVAS = {
       "Termina de cuajar en el horno o dándole la vuelta."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/frittata-de-aprovechamiento.jpg"
   },
   "arroz-frito-tres-delicias-de-aprovechamiento": {
     "id": "arroz-frito-tres-delicias-de-aprovechamiento",
@@ -870,7 +877,8 @@ const RECETAS_NUEVAS = {
       "Añade el huevo, la soja y saltea a fuego fuerte. Sirve."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/arroz-frito-tres-delicias-de-aprovechamiento.jpg"
   },
   "mix-crocante": {
     "id": "mix-crocante",
@@ -891,7 +899,8 @@ const RECETAS_NUEVAS = {
       "Servir la porción en cono de papel."
     ],
     "nutricion": {},
-    "nota": "Dificultad fácil."
+    "nota": "Dificultad fácil.",
+    "imagen": "images/recipes/mix-crocante.jpg"
   },
   "hamburguesa-de-lentejas": {
     "id": "hamburguesa-de-lentejas",
@@ -917,7 +926,8 @@ const RECETAS_NUEVAS = {
       "Sofreir."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/hamburguesa-de-lentejas.jpg"
   },
   "batido-delicioso-para-las-defensas": {
     "id": "batido-delicioso-para-las-defensas",
@@ -940,7 +950,8 @@ const RECETAS_NUEVAS = {
       "Mezclar bien y servirlo fresco."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/batido-delicioso-para-las-defensas.jpg"
   },
   "batido-de-coco-guineo-y-cacao": {
     "id": "batido-de-coco-guineo-y-cacao",
@@ -961,7 +972,8 @@ const RECETAS_NUEVAS = {
       "Servir."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/batido-de-coco-guineo-y-cacao.jpg"
   },
   "batido-energetico": {
     "id": "batido-energetico",
@@ -987,7 +999,8 @@ const RECETAS_NUEVAS = {
       "Servir fresco."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/batido-energetico.jpg"
   },
   "ensalada-arco-iris-con-pollo": {
     "id": "ensalada-arco-iris-con-pollo",
@@ -1014,7 +1027,8 @@ const RECETAS_NUEVAS = {
       "Añadir el aliño y el pollo."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/ensalada-arco-iris-con-pollo.jpg"
   },
   "ensalada-de-tres-colores": {
     "id": "ensalada-de-tres-colores",
@@ -1038,7 +1052,8 @@ const RECETAS_NUEVAS = {
       "Mezclar todos los ingredientes y servir."
     ],
     "nutricion": {},
-    "nota": "Puedes sustituir el pollo por cubitos de queso fresco o ricota."
+    "nota": "Puedes sustituir el pollo por cubitos de queso fresco o ricota.",
+    "imagen": "images/recipes/ensalada-de-tres-colores.jpg"
   },
   "guisado-de-carne-y-verdura": {
     "id": "guisado-de-carne-y-verdura",
@@ -1065,7 +1080,8 @@ const RECETAS_NUEVAS = {
       "Cubrir con agua y cocinar hasta que los vegetales estén tiernos."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/guisado-de-carne-y-verdura.jpg"
   },
   "ensalada-de-torrejitas-de-coliflor-y-tuna": {
     "id": "ensalada-de-torrejitas-de-coliflor-y-tuna",
@@ -1114,7 +1130,8 @@ const RECETAS_NUEVAS = {
       "Rellenar los filetes y hornear."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/rollitos-de-pescado-con-ricota-y-perejil.jpg"
   },
   "croqueta-de-pescado": {
     "id": "croqueta-de-pescado",
@@ -1141,7 +1158,8 @@ const RECETAS_NUEVAS = {
       "Hornear en bandeja aceitada hasta que se doren."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/croqueta-de-pescado.jpg"
   },
   "pescado-empanizado-con-salsa-verde": {
     "id": "pescado-empanizado-con-salsa-verde",
@@ -1171,7 +1189,8 @@ const RECETAS_NUEVAS = {
       "Cocinar el pescado y servir con la salsa y espinaca."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/pescado-empanizado-con-salsa-verde.jpg"
   },
   "arroz-con-coco-y-leche": {
     "id": "arroz-con-coco-y-leche",
@@ -1198,7 +1217,8 @@ const RECETAS_NUEVAS = {
       "Sirve espolvoreado con canela."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/arroz-con-coco-y-leche.jpg"
   },
   "tajaditas-de-platano-con-guacamole": {
     "id": "tajaditas-de-platano-con-guacamole",
@@ -1218,7 +1238,8 @@ const RECETAS_NUEVAS = {
       "Sirve acompañadas con el guacamole."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tajaditas-de-platano-con-guacamole.jpg"
   },
   "huevos-escalfados-en-un-bote-de-aguacate": {
     "id": "huevos-escalfados-en-un-bote-de-aguacate",
@@ -1245,7 +1266,8 @@ const RECETAS_NUEVAS = {
       "Añadir tomate, queso cottage y cilantro."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/huevos-escalfados-en-un-bote-de-aguacate.jpg"
   },
   "galletas-de-avena-y-manzana": {
     "id": "galletas-de-avena-y-manzana",
@@ -1271,7 +1293,8 @@ const RECETAS_NUEVAS = {
       "Mezclar los ingredientes y hornear."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/galletas-de-avena-y-manzana.jpg"
   },
   "galletas-saladas-de-hierbas": {
     "id": "galletas-saladas-de-hierbas",
@@ -1296,7 +1319,8 @@ const RECETAS_NUEVAS = {
       "Formar masa, cortar en círculos y hornear a 230 ºC por 12 minutos."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/galletas-saladas-de-hierbas.jpg"
   },
   "bizcocho-de-frutas": {
     "id": "bizcocho-de-frutas",
@@ -1321,7 +1345,8 @@ const RECETAS_NUEVAS = {
       "Mezclar ingredientes y hornear."
     ],
     "nutricion": {},
-    "nota": "Puedes utilizar melón, durazno, fresa, kiwi, guineo o coco."
+    "nota": "Puedes utilizar melón, durazno, fresa, kiwi, guineo o coco.",
+    "imagen": "images/recipes/bizcocho-de-frutas.jpg"
   },
   "guacamole-con-palitos-de-zanahoria": {
     "id": "guacamole-con-palitos-de-zanahoria",
@@ -1383,7 +1408,8 @@ const RECETAS_NUEVAS = {
       "azucares": 7.9,
       "calorias": 244.3
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/guacamole-con-palitos-de-zanahoria.jpg"
   },
   "zanahorias-encurtidas": {
     "id": "zanahorias-encurtidas",
@@ -1418,7 +1444,8 @@ const RECETAS_NUEVAS = {
       "azucares": 6.21,
       "calorias": 131.51
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/zanahorias-encurtidas.jpg"
   },
   "hummus-de-remolacha-con-crudites": {
     "id": "hummus-de-remolacha-con-crudites",
@@ -1454,7 +1481,8 @@ const RECETAS_NUEVAS = {
       "azucares": 10.7,
       "calorias": 461.97
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/hummus-de-remolacha-con-crudites.jpg"
   },
   "patatitas-dos-salsas": {
     "id": "patatitas-dos-salsas",
@@ -1499,7 +1527,8 @@ const RECETAS_NUEVAS = {
       "Servir las patatas rociadas de ambas mezclas."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/patatitas-dos-salsas.jpg"
   },
   "falso-sushi-de-pepino-yogur-y-queso-feta": {
     "id": "falso-sushi-de-pepino-yogur-y-queso-feta",
@@ -1550,7 +1579,8 @@ const RECETAS_NUEVAS = {
       "azucares": 8.25,
       "calorias": 185.78
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/falso-sushi-de-pepino-yogur-y-queso-feta.jpg"
   },
   "gazpacho-de-sandia-y-feta": {
     "id": "gazpacho-de-sandia-y-feta",
@@ -1587,7 +1617,8 @@ const RECETAS_NUEVAS = {
       "azucares": 17.43,
       "calorias": 310.4
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/gazpacho-de-sandia-y-feta.jpg"
   },
   "carpaccio-de-remolacha-y-champinon": {
     "id": "carpaccio-de-remolacha-y-champinon",
@@ -1622,7 +1653,8 @@ const RECETAS_NUEVAS = {
       "azucares": 11.37,
       "calorias": 361.92
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/carpaccio-de-remolacha-y-champinon.jpg"
   },
   "dip-de-guisantes-con-hierbabuena-y-totopos-caseros": {
     "id": "dip-de-guisantes-con-hierbabuena-y-totopos-caseros",
@@ -1673,7 +1705,8 @@ const RECETAS_NUEVAS = {
       "azucares": 11.35,
       "calorias": 366
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/dip-de-guisantes-con-hierbabuena-y-totopos-caseros.jpg"
   },
   "escarola-con-granada": {
     "id": "escarola-con-granada",
@@ -1718,7 +1751,8 @@ const RECETAS_NUEVAS = {
       "azucares": 12.44,
       "calorias": 242.06
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/escarola-con-granada.jpg"
   },
   "tosta-de-aguacate-con-requeson": {
     "id": "tosta-de-aguacate-con-requeson",
@@ -1750,7 +1784,8 @@ const RECETAS_NUEVAS = {
       "azucares": 3.75,
       "calorias": 350.61
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tosta-de-aguacate-con-requeson.jpg"
   },
   "barquitas-de-berenjena-con-yogur-y-manzana": {
     "id": "barquitas-de-berenjena-con-yogur-y-manzana",
@@ -1801,7 +1836,8 @@ const RECETAS_NUEVAS = {
       "azucares": 18.07,
       "calorias": 191.88
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/barquitas-de-berenjena-con-yogur-y-manzana.jpg"
   },
   "escabeche-de-sardinas": {
     "id": "escabeche-de-sardinas",
@@ -1847,7 +1883,8 @@ const RECETAS_NUEVAS = {
       "azucares": 0.9,
       "calorias": 542.33
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/escabeche-de-sardinas.jpg"
   },
   "crema-de-calabaza-y-queso-azul": {
     "id": "crema-de-calabaza-y-queso-azul",
@@ -1893,7 +1930,8 @@ const RECETAS_NUEVAS = {
       "azucares": 5.46,
       "calorias": 375.74
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/crema-de-calabaza-y-queso-azul.jpg"
   },
   "alubia-confetti": {
     "id": "alubia-confetti",
@@ -1938,7 +1976,8 @@ const RECETAS_NUEVAS = {
       "azucares": 7.6,
       "calorias": 403.95
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/alubia-confetti.jpg"
   },
   "salmon-expres-al-microondas": {
     "id": "salmon-expres-al-microondas",
@@ -1974,7 +2013,8 @@ const RECETAS_NUEVAS = {
       "azucares": 3.73,
       "calorias": 561.81
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/salomon-expres-al-microondas.jpg"
   },
   "tallarines-de-calabacin-y-zanahoria-con-vinagreta-de-nueces": {
     "id": "tallarines-de-calabacin-y-zanahoria-con-vinagreta-de-nueces",
@@ -2009,7 +2049,8 @@ const RECETAS_NUEVAS = {
       "azucares": 6.94,
       "calorias": 222.14
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tallarines-de-calabacin-y-zanahoria-con-vinagreta-de-nueces.jpg"
   },
   "brocheta-de-pollo-especiado": {
     "id": "brocheta-de-pollo-especiado",
@@ -2047,7 +2088,8 @@ const RECETAS_NUEVAS = {
       "azucares": 9.62,
       "calorias": 316.08
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/brocheta-de-pollo-especiado.jpg"
   },
   "miniburger-de-alubias-y-atun": {
     "id": "miniburger-de-alubias-y-atun",
@@ -2123,7 +2165,8 @@ const RECETAS_NUEVAS = {
       "azucares": 14.38,
       "calorias": 450.76
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/poke-de-pollo-al-estilo-harvard.jpg"
   },
   "rainbow-wrap-con-salsa-de-anchoas": {
     "id": "rainbow-wrap-con-salsa-de-anchoas",
@@ -2159,7 +2202,8 @@ const RECETAS_NUEVAS = {
       "azucares": 8.7,
       "calorias": 274.17
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/rainbow-wrap-con-salsa-de-anchoas.jpg"
   },
   "mini-green-pizza": {
     "id": "mini-green-pizza",
@@ -2194,7 +2238,8 @@ const RECETAS_NUEVAS = {
       "azucares": 1.88,
       "calorias": 408.48
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/mini-green-pizza.jpg"
   },
   "lubina-con-patatas-y-cama-de-verduras": {
     "id": "lubina-con-patatas-y-cama-de-verduras",
@@ -2226,7 +2271,8 @@ const RECETAS_NUEVAS = {
       "azucares": 6.42,
       "calorias": 388.86
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/lubina-con-patatas-y-cama-de-verduras.jpg"
   },
   "ensalada-de-frutos-rojos-setas-y-cuscus": {
     "id": "ensalada-de-frutos-rojos-setas-y-cuscus",
@@ -2261,7 +2307,8 @@ const RECETAS_NUEVAS = {
       "azucares": 10.75,
       "calorias": 387.62
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/ensalada-de-frutos-rojos-setas-y-cuscus.jpg"
   },
   "espaguetis-del-estudiante": {
     "id": "espaguetis-del-estudiante",
@@ -2293,7 +2340,8 @@ const RECETAS_NUEVAS = {
       "azucares": 4.59,
       "calorias": 515.62
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/espaguetis-del-estudiante.jpg"
   },
   "tortilla-de-patata-y-calabacin": {
     "id": "tortilla-de-patata-y-calabacin",
@@ -2324,7 +2372,8 @@ const RECETAS_NUEVAS = {
       "azucares": 1.35,
       "calorias": 229.34
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tortilla-de-patata-y-calabacin.jpg"
   },
   "pitas-con-huevo-espinacas-y-queso": {
     "id": "pitas-con-huevo-espinacas-y-queso",
@@ -2357,7 +2406,8 @@ const RECETAS_NUEVAS = {
       "azucares": 3.99,
       "calorias": 302.68
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/pitas-con-huevo-espinacas-y-queso.jpg"
   },
   "alcachofas-con-langostinos": {
     "id": "alcachofas-con-langostinos",
@@ -2388,7 +2438,8 @@ const RECETAS_NUEVAS = {
       "azucares": 3.9,
       "calorias": 242.59
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/alcachofas-con-langostinos.jpg"
   },
   "lentejas-con-arroz-y-curcuma": {
     "id": "lentejas-con-arroz-y-curcuma",
@@ -2422,7 +2473,8 @@ const RECETAS_NUEVAS = {
       "azucares": 10.26,
       "calorias": 593
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/lentejas-con-arroz-y-curcuma.jpg"
   },
   "garbanzos-con-pisto-y-ras-el-hanout": {
     "id": "garbanzos-con-pisto-y-ras-el-hanout",
@@ -2451,7 +2503,8 @@ const RECETAS_NUEVAS = {
       "azucares": 6.38,
       "calorias": 297.95
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/garbanzos-con-pisto-y-ras-el-hanout.jpg"
   },
   "escalivada-con-alma-de-germinados-y-bacalao": {
     "id": "escalivada-con-alma-de-germinados-y-bacalao",
@@ -2484,7 +2537,8 @@ const RECETAS_NUEVAS = {
       "azucares": 7.33,
       "calorias": 395.86
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/escalivada-con-alma-de-germinados-y-bacalao.jpg"
   },
   "copazo-de-ensaladilla": {
     "id": "copazo-de-ensaladilla",
@@ -2517,7 +2571,8 @@ const RECETAS_NUEVAS = {
       "azucares": 4.25,
       "calorias": 247.28
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/copazo-de-ensaladilla.jpg"
   },
   "tortilla-de-setas-y-espinacas": {
     "id": "tortilla-de-setas-y-espinacas",
@@ -2548,7 +2603,8 @@ const RECETAS_NUEVAS = {
       "azucares": 3.62,
       "calorias": 210.73
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tortilla-de-setas-y-espinacas.jpg"
   },
   "olleta-de-arroz-integral": {
     "id": "olleta-de-arroz-integral",
@@ -2585,7 +2641,8 @@ const RECETAS_NUEVAS = {
       "azucares": 4.01,
       "calorias": 424.8
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/olleta-de-arroz-integral.jpg"
   },
   "ramen-casero": {
     "id": "ramen-casero",
@@ -2619,7 +2676,8 @@ const RECETAS_NUEVAS = {
       "azucares": 5.45,
       "calorias": 311.15
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/ramen-casero.jpg"
   },
   "helado-casero-de-yogur-chocolate-y-platano": {
     "id": "helado-casero-de-yogur-chocolate-y-platano",
@@ -2647,7 +2705,8 @@ const RECETAS_NUEVAS = {
       "azucares": 5.67,
       "calorias": 121.59
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/helado-casero-de-yogur-chocolate-y-platano.jpg"
   },
   "batido-de-platano-y-arandanos-con-avena": {
     "id": "batido-de-platano-y-arandanos-con-avena",
@@ -2677,7 +2736,8 @@ const RECETAS_NUEVAS = {
       "azucares": 4.43,
       "calorias": 232.6
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/batido-de-platano-y-arandanos-con-avena.jpg"
   },
   "pudding-de-chia-con-mango": {
     "id": "pudding-de-chia-con-mango",
@@ -2705,7 +2765,8 @@ const RECETAS_NUEVAS = {
       "azucares": 23.55,
       "calorias": 277.76
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/pudding-de-chia-con-mango.jpg"
   },
   "pina-a-la-plancha-con-cardamomo": {
     "id": "pina-a-la-plancha-con-cardamomo",
@@ -2735,7 +2796,8 @@ const RECETAS_NUEVAS = {
       "azucares": 26.43,
       "calorias": 131.68
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/pina-a-la-plancha-con-cardamomo.jpg"
   },
   "gajos-de-naranja-con-menta-y-chocolate": {
     "id": "gajos-de-naranja-con-menta-y-chocolate",
@@ -2763,7 +2825,8 @@ const RECETAS_NUEVAS = {
       "azucares": 25.06,
       "calorias": 318.09
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/gajos-de-naranja-con-menta-y-chocolate.jpg"
   },
   "lentejas-con-verduras-o-viudas": {
     "id": "lentejas-con-verduras-o-viudas",
@@ -2793,7 +2856,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 281
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/lentejas-con-verduras-o-viudas.jpg"
   },
   "cazuela-de-garbanzos-con-chorizo": {
     "id": "cazuela-de-garbanzos-con-chorizo",
@@ -2818,7 +2882,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 305
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/cazuela-de-garbanzos-con-chorizo.jpg"
   },
   "crema-de-calabacin-facil": {
     "id": "crema-de-calabacin-facil",
@@ -2841,7 +2906,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 230
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/crema-de-calabacin-facil.jpg"
   },
   "patatas-viudas": {
     "id": "patatas-viudas",
@@ -2865,7 +2931,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 285
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/patatas-viudas.jpg"
   },
   "sopa-de-pollo": {
     "id": "sopa-de-pollo",
@@ -2889,7 +2956,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 235
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/sopa-de-pollo.jpg"
   },
   "tallarines-o-tagliatelle-con-salmon": {
     "id": "tallarines-o-tagliatelle-con-salmon",
@@ -2912,7 +2980,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 290
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tallarines-o-tagliatelle-con-salmon.jpg"
   },
   "arroz-con-pollo": {
     "id": "arroz-con-pollo",
@@ -2946,7 +3015,8 @@ const RECETAS_NUEVAS = {
       "Añadir arroz, caldo y cocer."
     ],
     "nutricion": {},
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/arroz-con-pollo.jpg"
   },
   "pollo-a-la-cerveza": {
     "id": "pollo-a-la-cerveza",
@@ -2977,7 +3047,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 306
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/pollo-a-la-cerveza.jpg"
   },
   "tortilla-de-champinones": {
     "id": "tortilla-de-champinones",
@@ -3001,7 +3072,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 190
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tortilla-de-champinones.jpg"
   },
   "tortilla-de-patatas-al-microondas-rechupete": {
     "id": "tortilla-de-patatas-al-microondas-rechupete",
@@ -3026,7 +3098,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 255
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/tortilla-de-patatas-al-microondas-rechupete.jpg"
   },
   "bocadillo-vegetal-con-atun": {
     "id": "bocadillo-vegetal-con-atun",
@@ -3051,7 +3124,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 272
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/bocadillo-vegetal-con-atun.jpg"
   },
   "guacamole-mexicano-facil": {
     "id": "guacamole-mexicano-facil",
@@ -3074,7 +3148,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 182
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/guacamole-mexicano-facil.jpg"
   },
   "bizcocho-en-taza-mug-cake": {
     "id": "bizcocho-en-taza-mug-cake",
@@ -3100,7 +3175,8 @@ const RECETAS_NUEVAS = {
     "nutricion": {
       "calorias": 340
     },
-    "nota": ""
+    "nota": "",
+    "imagen": "images/recipes/bizcocho-en-taza-mug-cake.jpg"
   },
   "zanahorias-encurtidas-para-ma-ana": {
     "id": "zanahorias-encurtidas-para-ma-ana",
@@ -3155,7 +3231,8 @@ const RECETAS_NUEVAS = {
       "grasas": 0,
       "fibra": 3
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/zanahorias-encurtidas.jpg"
   },
   "hummus-de-remolacha-con-crudit-s": {
     "id": "hummus-de-remolacha-con-crudit-s",
@@ -3215,7 +3292,8 @@ const RECETAS_NUEVAS = {
       "grasas": 14,
       "fibra": 11
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/hummus-de-remolacha-con-crudites.jpg"
   },
   "gazpacho-de-sand-a-y-feta": {
     "id": "gazpacho-de-sand-a-y-feta",
@@ -3270,7 +3348,8 @@ const RECETAS_NUEVAS = {
       "grasas": 6,
       "fibra": 2
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/gazpacho-de-sandia-y-feta.jpg"
   },
   "carpaccio-de-remolacha-y-champi-n": {
     "id": "carpaccio-de-remolacha-y-champi-n",
@@ -3325,7 +3404,8 @@ const RECETAS_NUEVAS = {
       "grasas": 9,
       "fibra": 4
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/carpaccio-de-remolacha-y-champinon.jpg"
   },
   "tosta-de-aguacate-con-reques-n": {
     "id": "tosta-de-aguacate-con-reques-n",
@@ -3370,7 +3450,8 @@ const RECETAS_NUEVAS = {
       "grasas": 21,
       "fibra": 8
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/tosta-de-aguacate-con-requeson.jpg"
   },
   "salm-n-expr-s-al-microondas": {
     "id": "salm-n-expr-s-al-microondas",
@@ -3409,7 +3490,8 @@ const RECETAS_NUEVAS = {
       "grasas": 21,
       "fibra": 4
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/salomon-expres-al-microondas.jpg"
   },
   "pechugas-de-pollo-empanadas-con-kikos": {
     "id": "pechugas-de-pollo-empanadas-con-kikos",
@@ -3449,7 +3531,8 @@ const RECETAS_NUEVAS = {
       "grasas": 18,
       "fibra": 2
     },
-    "nota": "📖 Original NotebookLM (Mejorado)"
+    "nota": "📖 Original NotebookLM (Mejorado)",
+    "imagen": "images/recipes/pechugas-de-pollo-empanadas-con-kikos.jpg"
   },
   "miniburger-de-alubias-y-at-n": {
     "id": "miniburger-de-alubias-y-at-n",
@@ -3523,7 +3606,8 @@ const RECETAS_NUEVAS = {
       "grasas": 7,
       "fibra": 6
     },
-    "nota": "📖 Extraído con IA (NotebookLM) / Custom "
+    "nota": "📖 Extraído con IA (NotebookLM) / Custom ",
+    "imagen": "images/recipes/batido-de-platano-y-arandanos-con-avena.jpg"
   }
 };
 
