@@ -804,10 +804,14 @@ function renderRecipes(filter, search) {
       </div>`).join('');
 
     return `
-      <div class="recipe-category">
-        <h3 style="margin: 20px 0 10px; font-size: 1.1rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 5px;">${cat}</h3>
-        ${recipesHtml}
-      </div>
+      <details class="recipe-category" style="margin-bottom: 5px;">
+        <summary style="font-size: 1.1rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 5px; margin: 20px 0 10px; cursor: pointer; font-weight: bold; list-style: none;">
+          ${cat} <span style="float: right; font-size: 0.9rem; margin-top: 4px;">▼</span>
+        </summary>
+        <div style="margin-top: 10px;">
+          ${recipesHtml}
+        </div>
+      </details>
     `;
   }).join('');
 
