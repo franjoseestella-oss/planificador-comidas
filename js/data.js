@@ -629,7 +629,7 @@ const ALTERNATIVAS = {
     { id: 'ramen-casero', nombre: 'Ramen casero', icono: '🍜', tiempo: 20 },
     { id: 'salmon-microondas', nombre: 'Salmón exprés al microondas', icono: '🐟', tiempo: 10 },
     { id: 'brocheta-pollo', nombre: 'Brocheta de pollo especiado', icono: '🍢', tiempo: 20 },
-    { id: 'miniburger-alubias', nombre: 'Miniburger de alubias y atún', icono: '🍔', tiempo: 20 },
+    { id: 'miniburger-alubias', nombre: 'Miniburger de alubias y atún', icono: '🍔', tiempo: 20, imagen: "images/recipes/miniburger-de-alubias-y-at-n.png" },
     { id: 'olleta-arroz-integral', nombre: 'Olleta de arroz integral', icono: '🍱', tiempo: 35 },
   ]
 };
