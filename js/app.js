@@ -1358,9 +1358,9 @@ function openMealModal(meal, dia, tipo) {
 
   content.innerHTML = `
     <div class="modal-handle"></div>
-    ${meal.imagen ? `<div style="width:100%; height:200px; border-radius:12px; margin-bottom:15px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-      <img src="${meal.imagen}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="${meal.nombre}">
-    </div>` : ''}
+    <div style="width:100%; height:200px; border-radius:12px; margin-bottom:15px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1); background:#111;">
+      <img src="${meal.imagen || `https://image.pollinations.ai/prompt/delicious%20professional%20food%20photography%20of%20${encodeURIComponent(meal.nombre)}?width=600&height=400&nologo=true`}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="${meal.nombre}" loading="lazy">
+    </div>
     <div class="modal-header">
       <div class="modal-emoji">${meal.icono}</div>
       <div class="modal-title">${meal.nombre}</div>
