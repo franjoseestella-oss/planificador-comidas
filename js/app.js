@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       refreshBtn.disabled = true;
 
       try {
-        const response = await fetch('./notebooklm_recipes.json');
+        const response = await fetch('./notebooklm_recipes.json?v=' + new Date().getTime(), { cache: "no-store" });
         if (!response.ok) throw new Error('Network response was not ok');
         const nuevas = await response.json();
         
