@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // APP.JS — Lógica principal del Planificador de Comidas
 // ============================================================
 
@@ -1415,18 +1415,26 @@ function openMealModal(meal, dia, tipo) {
         <button id="btn-add-ingredient" style="font-size:1.2rem; background:none; border:none; cursor:pointer;" title="Añadir ingrediente">➕</button>
       </div>
       <ul class="ingredient-list">
-        ${meal.ingredientes.map((ing, idx) => `
-          <li class="ingredient-item" style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="flex:1">
-              <span class="ingredient-name">${ing.nombre}</span>
-              <span class="ingredient-qty" style="color:var(--text-muted); font-size:0.85rem; margin-left:8px;">${ing.cantidad}</span>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn-edit-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Editar">✏️</button>
-              <button class="btn-del-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Eliminar">🗑️</button>
-            </div>
-          </li>`).join('')}
-      </ul>
+         ${meal.ingredientes.map((ing, idx) => {
+           let nombre, cantidad;
+           if (typeof ing === 'string') {
+             const m = ing.match(/^([\d,.\/ ]+(?:g|kg|ml|l|cl|ud|uds|cdas?|cditas?|tazas?|latas?))?(.+)$/i);
+             if (m && m[1] && m[1].trim()) { cantidad = m[1].trim(); nombre = m[2].trim(); }
+             else { cantidad = ''; nombre = ing; }
+           } else { nombre = ing.nombre || ''; cantidad = ing.cantidad || ''; }
+           return `
+           <li class="ingredient-item" style="display:flex; justify-content:space-between; align-items:center;">
+             <div style="flex:1">
+               <span class="ingredient-name">${nombre}</span>
+               <span class="ingredient-qty" style="color:var(--text-muted); font-size:0.85rem; margin-left:8px;">${cantidad}</span>
+             </div>
+             <div style="display:flex; gap:8px;">
+               <button class="btn-edit-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Editar">✏️</button>
+               <button class="btn-del-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Eliminar">🗑️</button>
+             </div>
+           </li>`;
+         }).join('')}
+      </ul>      </ul>
     </div>
 
     <div class="modal-section">
