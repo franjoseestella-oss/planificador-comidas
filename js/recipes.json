@@ -2971,5 +2971,528 @@
     },
     "nota": "📖 Extraído con IA (NotebookLM) / Custom ",
     "imagen": "images/recipes/batido-de-platano-y-arandanos-con-avena.jpg"
+  },
+  "ensalada-garbanzos-atun": {
+    "id": "ensalada-garbanzos-atun",
+    "nombre": "Ensalada de Garbanzos y Atún",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🥗",
+    "descripcion": "Ensalada rápida de legumbres",
+    "ingredientes": [
+      "400g garbanzos cocidos",
+      "2 latas atún",
+      "2 huevos",
+      "10 tomates cherry",
+      "media cebolla morada",
+      "aceite",
+      "vinagre",
+      "sal"
+    ],
+    "pasos": [
+      "Cuece los huevos 10 min",
+      "Enjuaga garbanzos",
+      "Pica cebolla y tomate",
+      "Mezcla y aliña"
+    ],
+    "nutricion": {
+      "calorias": 350
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/ensalada-garbanzos-atun.jpg"
+  },
+  "salmon-horno-esparragos": {
+    "id": "salmon-horno-esparragos",
+    "nombre": "Salmón al Horno con Espárragos",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🐟",
+    "descripcion": "Salmón asado con verduras",
+    "ingredientes": [
+      "2 lomos salmón",
+      "1 manojo espárragos trigueros",
+      "1 limón",
+      "aceite de oliva",
+      "sal",
+      "pimienta"
+    ],
+    "pasos": [
+      "Precalienta horno a 200°C",
+      "Lava espárragos",
+      "Salpimenta y añade limón y aceite",
+      "Hornea 12-15 min"
+    ],
+    "nutricion": {
+      "calorias": 320
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/salmon-horno-esparragos.jpg"
+  },
+  "espaguetis-carbonara": {
+    "id": "espaguetis-carbonara",
+    "nombre": "Espaguetis a la Carbonara (Tradicional)",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🍝",
+    "descripcion": "Pasta clásica italiana auténtica",
+    "ingredientes": [
+      "200g espaguetis",
+      "100g panceta curada",
+      "2 yemas huevo",
+      "50g parmesano",
+      "pimienta negra"
+    ],
+    "pasos": [
+      "Cuece pasta al dente",
+      "Fríe panceta",
+      "Mezcla yemas con parmesano",
+      "Combina fuera del fuego"
+    ],
+    "nutricion": {
+      "calorias": 520
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/espaguetis-carbonara.jpg"
+  },
+  "lentejas-rapidas-verduras": {
+    "id": "lentejas-rapidas-verduras",
+    "nombre": "Lentejas Rápidas con Verduras",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 25,
+    "icono": "🍲",
+    "descripcion": "Guiso de lentejas fácil",
+    "ingredientes": [
+      "400g lentejas cocidas",
+      "1 zanahoria",
+      "1 patata",
+      "1 cebolla",
+      "1 cdita pimentón dulce",
+      "500ml caldo verduras"
+    ],
+    "pasos": [
+      "Sofríe verduras 10 min",
+      "Añade pimentón y lentejas",
+      "Cubre con caldo",
+      "Cuece 15 min"
+    ],
+    "nutricion": {
+      "calorias": 280
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/lentejas-con-verduras-o-viudas.jpg"
+  },
+  "salteado-ternera-brocoli": {
+    "id": "salteado-ternera-brocoli",
+    "nombre": "Salteado de Ternera y Brócoli",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🥩",
+    "descripcion": "Carne salteada estilo oriental",
+    "ingredientes": [
+      "300g filetes ternera",
+      "1 brócoli",
+      "2 ajos",
+      "salsa de soja",
+      "sésamo"
+    ],
+    "pasos": [
+      "Corta ternera y brócoli",
+      "Saltea carne con ajos",
+      "Saltea brócoli al vapor",
+      "Mezcla todo con soja y sésamo"
+    ],
+    "nutricion": {
+      "calorias": 310
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/salteado-ternera-brocoli.jpg"
+  },
+  "wok-fideos-pollo": {
+    "id": "wok-fideos-pollo",
+    "nombre": "Wok de Fideos de Arroz y Pollo",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🍜",
+    "descripcion": "Fideos asiáticos salteados",
+    "ingredientes": [
+      "150g fideos arroz",
+      "1 pechuga pollo",
+      "1 zanahoria",
+      "1 calabacín",
+      "salsa teriyaki"
+    ],
+    "pasos": [
+      "Hidrata fideos",
+      "Corta ingredientes",
+      "Saltea pollo y verduras",
+      "Añade fideos y teriyaki"
+    ],
+    "nutricion": {
+      "calorias": 380
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/wok-fideos-pollo.jpg"
+  },
+  "shakshuka": {
+    "id": "shakshuka",
+    "nombre": "Shakshuka (Huevos en Salsa de Tomate)",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 25,
+    "icono": "🍳",
+    "descripcion": "Huevos cuajados en salsa de tomate especiada",
+    "ingredientes": [
+      "3 o 4 huevos",
+      "400g tomate triturado",
+      "1 cebolla",
+      "1 pimiento rojo",
+      "comino",
+      "pimentón",
+      "pan"
+    ],
+    "pasos": [
+      "Pocha cebolla y pimiento",
+      "Añade tomate y especias 15 min",
+      "Casca huevos encima",
+      "Tapa y cuaja 5 min"
+    ],
+    "nutricion": {
+      "calorias": 260
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/shakshuka.jpg"
+  },
+  "poke-bowl-salmon": {
+    "id": "poke-bowl-salmon",
+    "nombre": "Poke Bowl de Salmón Ahumado",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 10,
+    "icono": "🥗",
+    "descripcion": "Bol de arroz y salmón al estilo hawaiano",
+    "ingredientes": [
+      "2 vasitos arroz",
+      "100g salmón ahumado",
+      "1 aguacate",
+      "edamame cocido",
+      "salsa de soja",
+      "sésamo"
+    ],
+    "pasos": [
+      "Calienta arroz",
+      "Corta salmón y aguacate",
+      "Coloca ingredientes en bol",
+      "Aliña con soja y sésamo"
+    ],
+    "nutricion": {
+      "calorias": 420
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/poke-bowl-salmon.jpg"
+  },
+  "tortilla-campera": {
+    "id": "tortilla-campera",
+    "nombre": "Tortilla Campera Exprés",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🥔",
+    "descripcion": "Tortilla rápida con microondas",
+    "ingredientes": [
+      "4 huevos",
+      "2 patatas",
+      "1 pimiento verde",
+      "media cebolla",
+      "aceite",
+      "sal"
+    ],
+    "pasos": [
+      "Corta verduras y microondas 10-12 min",
+      "Bate huevos",
+      "Mezcla verduras y huevos",
+      "Cuaja en sartén"
+    ],
+    "nutricion": {
+      "calorias": 280
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/tortilla-de-patatas-al-microondas-rechupete.jpg"
+  },
+  "ensalada-pasta-pesto": {
+    "id": "ensalada-pasta-pesto",
+    "nombre": "Ensalada de Pasta al Pesto",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🍝",
+    "descripcion": "Ensalada fría de pasta al pesto",
+    "ingredientes": [
+      "200g pasta corta",
+      "1 bola mozzarella",
+      "tomates cherry",
+      "3 cdas pesto",
+      "aceitunas negras"
+    ],
+    "pasos": [
+      "Cuece pasta",
+      "Corta mozzarella y cherrys",
+      "Pon en ensaladera",
+      "Incorpora pesto y mezcla"
+    ],
+    "nutricion": {
+      "calorias": 480
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/ensalada-pasta-pesto.jpg"
+  },
+  "pechugas-caprese": {
+    "id": "pechugas-caprese",
+    "nombre": "Pechugas Caprese al Horno",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 30,
+    "icono": "🍗",
+    "descripcion": "Pollo relleno estilo italiano",
+    "ingredientes": [
+      "2 pechugas pollo",
+      "1 tomate",
+      "1 mozzarella",
+      "albahaca",
+      "aceite",
+      "sal"
+    ],
+    "pasos": [
+      "Precalienta horno 200°C",
+      "Haz cortes en el pollo",
+      "Introduce tomate y mozzarella",
+      "Hornea 25 min"
+    ],
+    "nutricion": {
+      "calorias": 350
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/pechugas-caprese.jpg"
+  },
+  "revuelto-setas-gambas": {
+    "id": "revuelto-setas-gambas",
+    "nombre": "Revuelto de Setas, Ajetes y Gambas",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🍳",
+    "descripcion": "Revuelto jugoso mar y tierra",
+    "ingredientes": [
+      "4 huevos",
+      "1 manojo ajetes",
+      "150g setas",
+      "100g gambas",
+      "aceite",
+      "sal"
+    ],
+    "pasos": [
+      "Sofríe ajetes y setas",
+      "Incorpora gambas",
+      "Baja fuego y añade huevos",
+      "Remueve hasta cuajar"
+    ],
+    "nutricion": {
+      "calorias": 290
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/revuelto-setas-gambas.jpg"
+  },
+  "tacos-carne-picada": {
+    "id": "tacos-carne-picada",
+    "nombre": "Tacos de Carne Picada",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🌮",
+    "descripcion": "Tacos mexicanos clásicos",
+    "ingredientes": [
+      "300g carne picada",
+      "1 sazonador tacos",
+      "tortillas",
+      "lechuga",
+      "queso rallado"
+    ],
+    "pasos": [
+      "Fríe carne",
+      "Añade sazonador y reduce",
+      "Calienta tortillas",
+      "Rellena al gusto"
+    ],
+    "nutricion": {
+      "calorias": 420
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/tacos-carne-picada.jpg"
+  },
+  "macarrones-gratinados": {
+    "id": "macarrones-gratinados",
+    "nombre": "Macarrones Gratinados al Microondas",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🧀",
+    "descripcion": "Pasta gratinada exprés",
+    "ingredientes": [
+      "200g macarrones",
+      "salsa tomate",
+      "2 latas atún",
+      "orégano",
+      "queso para gratinar"
+    ],
+    "pasos": [
+      "Cuece macarrones",
+      "Mezcla con tomate, atún y orégano",
+      "Cubre con queso",
+      "Gratina en microondas 4-5 min"
+    ],
+    "nutricion": {
+      "calorias": 450
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/macarrones-gratinados.jpg"
+  },
+  "pollo-ajillo": {
+    "id": "pollo-ajillo",
+    "nombre": "Pollo al Ajillo Exprés",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 25,
+    "icono": "🍗",
+    "descripcion": "Pollo tradicional rápido al ajillo",
+    "ingredientes": [
+      "4 contramuslos pollo",
+      "6 ajos",
+      "100ml vino blanco",
+      "aceite",
+      "sal",
+      "perejil"
+    ],
+    "pasos": [
+      "Fríe ajos y retira",
+      "Dora pollo en aceite",
+      "Añade ajos y vino",
+      "Cuece 10 min tapado"
+    ],
+    "nutricion": {
+      "calorias": 380
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/pollo-ajillo.jpg"
+  },
+  "falsas-pizzas-pita": {
+    "id": "falsas-pizzas-pita",
+    "nombre": "Falsas Pizzas en Pan de Pita",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🍕",
+    "descripcion": "Pizza fácil con base de pita",
+    "ingredientes": [
+      "4 panes pita",
+      "salsa tomate",
+      "mozzarella rallada",
+      "jamón cocido",
+      "champiñones",
+      "orégano"
+    ],
+    "pasos": [
+      "Precalienta horno 200°C",
+      "Extiende tomate sobre pitas",
+      "Cubre con queso e ingredientes",
+      "Hornea 8-10 min"
+    ],
+    "nutricion": {
+      "calorias": 380
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/falsas-pizzas-pita.jpg"
+  },
+  "sopa-frijol": {
+    "id": "sopa-frijol",
+    "nombre": "Sopa de Frijol",
+    "tipo": "comida",
+    "porciones": 4,
+    "tiempo": 40,
+    "icono": "🥣",
+    "descripcion": "Sopa reconfortante de legumbres",
+    "ingredientes": [
+      "1 kg frijol bayo",
+      "3L agua",
+      "1/4 cebolla",
+      "2 ajos",
+      "cilantro"
+    ],
+    "pasos": [
+      "Cocer frijoles hasta tiernos",
+      "Procesar parte de los frijoles",
+      "Servir con complementos"
+    ],
+    "nutricion": {
+      "calorias": 320
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/sopa-de-pollo.jpg"
+  },
+  "paletas-fresa": {
+    "id": "paletas-fresa",
+    "nombre": "Paletas de Fresa",
+    "tipo": "postre",
+    "porciones": 4,
+    "tiempo": 15,
+    "icono": "🍦",
+    "descripcion": "Helado natural de fresa y naranja",
+    "ingredientes": [
+      "1/2 kg fresas",
+      "jugo y ralladura de 1/2 naranja"
+    ],
+    "pasos": [
+      "Licuar fresas con naranja",
+      "Congelar en moldes",
+      "Desmoldar y servir"
+    ],
+    "nutricion": {
+      "calorias": 80
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/paletas-fresa.jpg"
+  },
+  "tres-leches": {
+    "id": "tres-leches",
+    "nombre": "Tres Leches",
+    "tipo": "postre",
+    "porciones": 8,
+    "tiempo": 50,
+    "icono": "🍰",
+    "descripcion": "Bizcocho tradicional bañado en tres leches",
+    "ingredientes": [
+      "12 huevos",
+      "380g azúcar",
+      "270g harina",
+      "vainilla",
+      "3 latas leche condensada",
+      "3 latas leche evaporada",
+      "2 tzas crema leche"
+    ],
+    "pasos": [
+      "Hacer bizcocho",
+      "Hornear 20 min",
+      "Mezclar leches y calentar",
+      "Bañar bizcocho y enfriar"
+    ],
+    "nutricion": {
+      "calorias": 420
+    },
+    "nota": "NotebookLM",
+    "imagen": "images/recipes/tres-leches.jpg"
   }
 }
