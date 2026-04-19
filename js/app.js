@@ -1311,10 +1311,15 @@ function openMealModal(meal, dia, tipo) {
   const content = document.getElementById('modal-content');
   const status  = dia ? getMealStatus(dia, tipo) : null;
 
-  const totalMacros = meal.nutricion.proteinas + meal.nutricion.carbohidratos + meal.nutricion.grasas;
-  const protPct = Math.round((meal.nutricion.proteinas / totalMacros) * 100);
-  const carbPct = Math.round((meal.nutricion.carbohidratos / totalMacros) * 100);
-  const fatPct  = Math.round((meal.nutricion.grasas / totalMacros) * 100);
+  // Fallbacks para datos ausentes (común en recetas externas)
+  meal.ingredientes = meal.ingredientes || [];
+  meal.pasos = meal.pasos && meal.pasos.length > 0 ? meal.pasos : ["Sigue tu instinto en la cocina o busca inspiración online."];
+  meal.nutricion = meal.nutricion || { calorias: 0, proteinas: 0, carbohidratos: 0, grasas: 0 };
+
+  const totalMacros = (meal.nutricion.proteinas || 0) + (meal.nutricion.carbohidratos || 0) + (meal.nutricion.grasas || 0) || 1;
+  const protPct = Math.round(((meal.nutricion.proteinas || 0) / totalMacros) * 100);
+  const carbPct = Math.round(((meal.nutricion.carbohidratos || 0) / totalMacros) * 100);
+  const fatPct  = Math.round(((meal.nutricion.grasas || 0) / totalMacros) * 100);
 
   content.innerHTML = `
     <div class="modal-handle"></div>
