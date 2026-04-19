@@ -760,25 +760,56 @@ function renderRecipes(filter, search) {
   // Filtrar cuarentenas y borradas para no listarlas en el recetario principal
   filtered = filtered.filter(m => !STATE.quarantineRecipes.includes(m.id) && !STATE.deletedRecipes.includes(m.id));
 
+  function getRecipeCategory(meal) {
+    const text = ((meal.nombre || '') + " " + (meal.descripcion || '')).toLowerCase();
+    
+    if (/pescado|salmón|salmon|sardina|boqueron|merluza|atún|atun|marisco|langostino|calamar|pulpo|bacalao|lubina|dorada/i.test(text)) return '🐟 Pescados y Mariscos';
+    if (/carne|pollo|cerdo|ternera|pavo|lomo|hamburguesa|burger|pechuga|albóndigas|albondigas|salchicha|costilla/i.test(text)) return '🥩 Carnes y Aves';
+    if (/pasta|macarrones|espagueti|spaghetti|arroz|risotto|fideo|gnocchi/i.test(text)) return '🍝 Pasta y Arroces';
+    if (/garbanzo|lenteja|alubia|hummus|guisante|frijol/i.test(text)) return '🫘 Legumbres';
+    if (/ensa[l|r]ada|verdura|calabaza|pepino|pimiento|berenjena|setas|champiñon|champiñón|tomate|gazpacho|zanahoria|kale|aguacate/i.test(text)) return '🥗 Verduras y Ensaladas';
+    
+    return '🍽️ Variados / Otros';
+  }
+
   const listEl = document.getElementById('recipe-list');
   if (!filtered.length) {
     listEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Sin resultados</h3><p>Prueba con otra búsqueda</p></div>`;
     return;
   }
 
-  listEl.innerHTML = filtered.map(m => `
-    <div class="recipe-card ${m.esNueva ? 'recipe-card-nueva' : ''}" data-id="${m.id}" data-tipo="${m.mealType || 'cena'}">
-      <div class="recipe-emoji">${m.icono}</div>
-      <div class="recipe-info">
-        <h3>${m.nombre}</h3>
-        <div class="recipe-meta">
-          <span>⏱ ${m.tiempo} min</span>
-          <span>👥 ${m.porciones} pers.</span>
-          <span>${m.tipo === 'aprovechamiento' ? '♻️ Aprovech.' : m.esNueva ? '📖 Recetario' : '🥗 Menú'}</span>
+  // Agrupar por género
+  const categories = {};
+  filtered.forEach(m => {
+    const cat = getRecipeCategory(m);
+    if (!categories[cat]) categories[cat] = [];
+    categories[cat].push(m);
+  });
+
+  const sortedCategories = Object.keys(categories).sort();
+
+  listEl.innerHTML = sortedCategories.map(cat => {
+    const recipesHtml = categories[cat].map(m => `
+      <div class="recipe-card ${m.esNueva ? 'recipe-card-nueva' : ''}" data-id="${m.id}" data-tipo="${m.mealType || 'cena'}">
+        <div class="recipe-emoji">${m.icono}</div>
+        <div class="recipe-info">
+          <h3 style="margin-bottom:4px;">${m.nombre}</h3>
+          <div class="recipe-meta">
+            <span>⏱ ${m.tiempo} min</span>
+            <span>👥 ${m.porciones} pers.</span>
+            <span>${m.tipo === 'aprovechamiento' ? '♻️ Aprovech.' : m.esNueva ? '📖 Recetario' : '🥗 Menú'}</span>
+          </div>
         </div>
+        <span class="recipe-chevron">›</span>
+      </div>`).join('');
+
+    return `
+      <div class="recipe-category">
+        <h3 style="margin: 20px 0 10px; font-size: 1.1rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 5px;">${cat}</h3>
+        ${recipesHtml}
       </div>
-      <span class="recipe-chevron">›</span>
-    </div>`).join('');
+    `;
+  }).join('');
 
   listEl.querySelectorAll('.recipe-card').forEach(card => {
     card.addEventListener('click', () => {
