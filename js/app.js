@@ -1346,6 +1346,23 @@ function openMealModal(meal, dia, tipo) {
   const content = document.getElementById('modal-content');
   const status  = dia ? getMealStatus(dia, tipo) : null;
 
+  // 🔍 Buscar versión completa de la receta (con imagen) en RECETAS_NUEVAS
+  if (typeof RECETAS_NUEVAS !== 'undefined') {
+    const fullById = RECETAS_NUEVAS[meal.id];
+    // Buscar también por nombre similar si no coincide el ID
+    const fullByName = !fullById ? Object.values(RECETAS_NUEVAS).find(r =>
+      r.nombre && meal.nombre && r.nombre.toLowerCase().trim() === meal.nombre.toLowerCase().trim()
+    ) : null;
+    const full = fullById || fullByName;
+    if (full) {
+      if (full.imagen && !meal.imagen) meal.imagen = full.imagen;
+      if (full.ingredientes && full.ingredientes.length > 0 && (!meal.ingredientes || meal.ingredientes.length === 0)) meal.ingredientes = full.ingredientes;
+      if (full.pasos && full.pasos.length > 0 && (!meal.pasos || meal.pasos.length === 0)) meal.pasos = full.pasos;
+      if (full.descripcion && !meal.descripcion) meal.descripcion = full.descripcion;
+      if (full.nutricion) meal.nutricion = Object.assign({}, full.nutricion, meal.nutricion);
+    }
+  }
+
   // Fallbacks para datos ausentes (común en recetas externas)
   meal.ingredientes = meal.ingredientes || [];
   meal.pasos = meal.pasos && meal.pasos.length > 0 ? meal.pasos : ["Sigue tu instinto en la cocina o busca inspiración online."];
