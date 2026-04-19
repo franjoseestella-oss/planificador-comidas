@@ -636,98 +636,6 @@ const ALTERNATIVAS = {
 
 // ── RECETAS COMPLETAS (Nuevas del Recetario Oficial) ─────────
 const RECETAS_NUEVAS = {
-  "crema-tibia-puerro-patata": {
-    "id": "crema-tibia-puerro-patata",
-    "nombre": "Crema tibia de puerro y patata",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 60,
-    "icono": "🍲",
-    "descripcion": "Crema tibia ideal para la primavera.",
-    "ingredientes": [
-      {
-        "nombre": "Puerros",
-        "cantidad": "4",
-        "comprar": false
-      },
-      {
-        "nombre": "Patata",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "2 cucharadas",
-        "comprar": false
-      },
-      {
-        "nombre": "Caldo de verduras",
-        "cantidad": "500 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Nata para cocinar",
-        "cantidad": "100 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal y pimienta",
-        "cantidad": "al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Lavar y cortar los puerros y la patata.",
-      "Rehogar los puerros con el aceite de oliva en una olla.",
-      "Añadir la patata y el caldo de verduras, y dejar cocer.",
-      "Triturar con batidora eléctrica y añadir la nata.",
-      "Salpimentar al gusto y servir tibio."
-    ]
-  },
-  "bacalao-al-pil-pil": {
-    "id": "bacalao-al-pil-pil",
-    "nombre": "Bacalao al pil pil",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 30,
-    "icono": "🐟",
-    "descripcion": "Bacalao al pil pil con el truco para templar rápido el aceite.",
-    "ingredientes": [
-      {
-        "nombre": "Ajos",
-        "cantidad": "Varios dientes",
-        "comprar": false
-      },
-      {
-        "nombre": "Guindillas",
-        "cantidad": "Un par",
-        "comprar": false
-      },
-      {
-        "nombre": "Lomitos de bacalao desalado",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Raspas de bacalao",
-        "cantidad": "Opcional",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "Abundante",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Picar los ajos en láminas finas y confitarlos a fuego suave junto con las guindillas hasta que estén crujientes. Reservar.",
-      "En el mismo aceite, poner los lomos de bacalao con la piel hacia arriba y confitar al mínimo por 15-20 minutos, añadiendo raspas para soltar colágeno.",
-      "Retirar el bacalao cuando las lascas empiecen a despegarse.",
-      "Templar rápidamente el aceite colado colocando la cazuela sobre placas de congelar.",
-      "Emulsionar el pil pil vertiendo el aceite poco a poco.",
-      "Devolver el bacalao y los ajos a la cazuela para dar un último meneo y servir."
-    ]
-  },
   "chips-de-kale": {
     "id": "chips-de-kale",
     "nombre": "Chips de kale",
@@ -735,2864 +643,471 @@ const RECETAS_NUEVAS = {
     "porciones": 2,
     "tiempo": 15,
     "icono": "🥬",
-    "descripcion": "Un snack crujiente y saludable a base de kale horneado.",
+    "descripcion": "Un snack ligero y crujiente para acompañar cenas o como entrante saludable.",
     "ingredientes": [
-      {
-        "nombre": "Kale",
-        "cantidad": "1 manojo",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimentón",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Cúrcuma",
-        "cantidad": "Opcional",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo en polvo",
-        "cantidad": "Opcional",
-        "comprar": false
-      }
+        { "nombre": "Kale", "cantidad": "150g", "comprar": true },
+        { "nombre": "Aceite de Oliva (AOVE)", "cantidad": "15ml", "comprar": false },
+        { "nombre": "Sal fina", "cantidad": "1 pizca", "comprar": false },
+        { "nombre": "Pimentón dulce", "cantidad": "1 cucharadita", "comprar": false }
     ],
     "pasos": [
-      "Precalentar el horno a 180°C - 200°C con calor arriba y abajo.",
-      "Lavar muy bien el kale y secarlo con papel absorbente.",
-      "Quitar los tallos gruesos y cortar en trozos de unos 4 cm.",
-      "Masajear en un bol las hojas con el AOVE hasta que estén impregnadas.",
-      "Extender sin amontonar en la bandeja del horno con papel vegetal y hornear 10-12 min.",
-      "Dejar enfriar y añadir sal y especias al gusto."
-    ]
+        "Precalentar el horno a 180°C con calor arriba y abajo.",
+        "Lavar muy bien bajo el grifo el kale y secarlo con papel absorbente.",
+        "Quitar los tallos gruesos y trocear las hojas en trozos de un bocado.",
+        "Masajear en un bol las hojas con el AOVE, la sal y el pimentón hasta que estén impregnadas.",
+        "Extender sin amontonar en la bandeja del horno y hornear 10-12 min.",
+        "Dejar enfriar 5 minutos para que crispen completemente."
+    ],
+    "nutricion": { "calorias": 100, "proteinas": 5, "carbohidratos": 10, "grasas": 5, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
   },
-  "guisote-marinero-merluza": {
-    "id": "guisote-marinero-merluza",
+  "guacamole-con-palitos-de-zanahoria": {
+    "id": "guacamole-con-palitos-de-zanahoria",
+    "nombre": "Guacamole casero con palitos de zanahoria",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🥑",
+    "descripcion": "Cena muy ligera y fresca ideal para compartir.",
+    "ingredientes": [
+        { "nombre": "Aguacate maduro", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Cebolla morada", "cantidad": "20g", "comprar": true },
+        { "nombre": "Tomate", "cantidad": "50g", "comprar": true },
+        { "nombre": "Lima", "cantidad": "1/2 unidad", "comprar": true },
+        { "nombre": "Cilantro fresco", "cantidad": "1 ramito", "comprar": true },
+        { "nombre": "Sal gorda", "cantidad": "1 pizca", "comprar": false },
+        { "nombre": "Zanahorias para dipear", "cantidad": "2 unidades", "comprar": true }
+    ],
+    "pasos": [
+        "Pelar las zanahorias y cortarlas en bastones de 5 cm. Reservar en un vaso con hielos.",
+        "Picar la cebolla morada y el tomate (sin semillas) en trocitos muy pequeños.",
+        "Moler la pulpa del aguacate con un tenedor dejando grumos rústicos.",
+        "Añadir lima, sal, tomate, cebolla, el cilantro picado, y remover.",
+        "Servir junto con las zanahorias."
+    ],
+    "nutricion": { "calorias": 220, "proteinas": 3, "carbohidratos": 15, "grasas": 15, "fibra": 8 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "zanahorias-encurtidas-para-ma-ana": {
+    "id": "zanahorias-encurtidas-para-ma-ana",
+    "nombre": "Zanahorias encurtidas caseras",
+    "tipo": "cena",
+    "porciones": 4,
+    "tiempo": 15,
+    "icono": "🥕",
+    "descripcion": "Un excelente acompañamiento en frío para guarnición.",
+    "ingredientes": [
+        { "nombre": "Zanahorias", "cantidad": "400g", "comprar": true },
+        { "nombre": "Vinagre de manzana", "cantidad": "200ml", "comprar": true },
+        { "nombre": "Agua mineral", "cantidad": "200ml", "comprar": false },
+        { "nombre": "Sal gorda", "cantidad": "1 cucharada", "comprar": false },
+        { "nombre": "Laurel", "cantidad": "2 hojas", "comprar": false },
+        { "nombre": "Ajo", "cantidad": "2 dientes", "comprar": false }
+    ],
+    "pasos": [
+        "Pelar las zanahorias y cortarlas en rodajas.",
+        "Hervir el agua con el vinagre, sal y laurel 3 minutos.",
+        "Colocar zanahorias y los ajos machacados en un tarro.",
+        "Verter líquido caliente, dejar enfriar tapado en nevera hasta el día siguiente."
+    ],
+    "nutricion": { "calorias": 45, "proteinas": 1, "carbohidratos": 10, "grasas": 0, "fibra": 3 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "hummus-de-remolacha-con-crudit-s": {
+    "id": "hummus-de-remolacha-con-crudit-s",
+    "nombre": "Hummus de remolacha y crudités",
+    "tipo": "comida",
+    "porciones": 4,
+    "tiempo": 15,
+    "icono": "🧆",
+    "descripcion": "Plato completo lleno de color con mucha fibra.",
+    "ingredientes": [
+        { "nombre": "Garbanzos de frasco", "cantidad": "400g", "comprar": true },
+        { "nombre": "Remolacha cocida", "cantidad": "150g", "comprar": true },
+        { "nombre": "Pasta tahini", "cantidad": "30g", "comprar": true },
+        { "nombre": "Aceite de oliva (AOVE)", "cantidad": "30ml", "comprar": false },
+        { "nombre": "Limón", "cantidad": "1/2 unidad", "comprar": true },
+        { "nombre": "Pimentón dulce", "cantidad": "1 cucharadita", "comprar": false },
+        { "nombre": "Verduras tipo apio y pepino", "cantidad": "250g", "comprar": true }
+    ],
+    "pasos": [
+        "Lavar y escurrir muy bien la legumbre.",
+        "Triturar en batidora garbanzos, remolacha troceada, tahini, limón y sal.",
+        "Agregar hilo de AOVE y unas gotas de agua para que la crema quede sedosa.",
+        "Servir junto a los palos de verduras para mojar."
+    ],
+    "nutricion": { "calorias": 320, "proteinas": 12, "carbohidratos": 36, "grasas": 14, "fibra": 11 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "patatitas-dos-salsas": {
+    "id": "patatitas-dos-salsas",
+    "nombre": "Patatitas asadas dos salsas",
+    "tipo": "comida",
+    "porciones": 4,
+    "tiempo": 30,
+    "icono": "🥔",
+    "descripcion": "Patatas sabrosas acompañadas con salsa yogur y pimentón.",
+    "ingredientes": [
+        { "nombre": "Patatas baby", "cantidad": "500g", "comprar": true },
+        { "nombre": "Yogur natural (sin endulzar)", "cantidad": "125g", "comprar": true },
+        { "nombre": "Ajo o ajo en polvo", "cantidad": "1 cucharilla", "comprar": false },
+        { "nombre": "Perejil fresco", "cantidad": "1 puñado", "comprar": true },
+        { "nombre": "Pimentón dulce y picante", "cantidad": "Media cda", "comprar": false }
+    ],
+    "pasos": [
+        "Cocer patatas con piel 15min. Secar.",
+        "Dorarlas en sartén caliente con poco de AOVE hasta que crujan por su piel.",
+        "Salsa Yogur: Mezclar yogur con ajo granulado y perejil picado.",
+        "Salsa brava: Caldentar un dedo de AOVE en sartén e infundir los dos pimentones al apartar.",
+        "Servir las patatas rociadas de ambas mezclas."
+    ],
+    "nutricion": { "calorias": 280, "proteinas": 5, "carbohidratos": 42, "grasas": 10, "fibra": 5 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "falso-sushi-de-pepino-yogur-y-queso-feta": {
+    "id": "falso-sushi-de-pepino-yogur-y-queso-feta",
+    "nombre": "Falso sushi fresco de pepino",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🍣",
+    "descripcion": "Rollitos rellenos de yogur feta sin nada de pesadez para la noche.",
+    "ingredientes": [
+        { "nombre": "Pepino largo y firme", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Yogur griego", "cantidad": "125g", "comprar": true },
+        { "nombre": "Queso feta", "cantidad": "50g", "comprar": true },
+        { "nombre": "Hojas de menta", "cantidad": "1 ramito", "comprar": true },
+        { "nombre": "Nueces peladas", "cantidad": "20g", "comprar": false }
+    ],
+    "pasos": [
+        "Cortar con mandolina largas y finas tiras de pepino (longitudinalmente). Secarlas en papel.",
+        "Mezclar el yogur con feta machacado, menta picadita y la nuez triturada.",
+        "Rellenar un extremo de la cinta de pepino y girar creando rollos como de maki.",
+        "Servir inmediatamente en bandeja bien fríos."
+    ],
+    "nutricion": { "calorias": 140, "proteinas": 6, "carbohidratos": 6, "grasas": 10, "fibra": 1 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "gazpacho-de-sand-a-y-feta": {
+    "id": "gazpacho-de-sand-a-y-feta",
+    "nombre": "Gazpacho de sandía con feta",
+    "tipo": "cena",
+    "porciones": 4,
+    "tiempo": 15,
+    "icono": "🍅",
+    "descripcion": "Gazpacho andaluz tradicional dulcificado para el verano.",
+    "ingredientes": [
+        { "nombre": "Tomates maduros", "cantidad": "500g", "comprar": true },
+        { "nombre": "Sandía sin pepitas", "cantidad": "500g", "comprar": true },
+        { "nombre": "Pimiento verde", "cantidad": "50g", "comprar": false },
+        { "nombre": "Pepino", "cantidad": "Media ud.", "comprar": false },
+        { "nombre": "Vinagre y AOVE", "cantidad": "3 cdas", "comprar": false },
+        { "nombre": "Queso feta", "cantidad": "50g", "comprar": true }
+    ],
+    "pasos": [
+        "Lavar y trocear las verduras y la sandía en cachos de batidora.",
+        "Pasar todo por batidora un buen rato hasta licuar.",
+        "Emulsionar vertiendo AOVE en hilo y sal, vinagre.",
+        "Refrigerarlo y tomarlo helado, desmenuzando feta por encima como guarnición salada."
+    ],
+    "nutricion": { "calorias": 130, "proteinas": 3, "carbohidratos": 18, "grasas": 6, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "carpaccio-de-remolacha-y-champi-n": {
+    "id": "carpaccio-de-remolacha-y-champi-n",
+    "nombre": "Carpaccio vegetal con parmesano",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🍄",
+    "descripcion": "Cena ultra ligera. Sabor tierra con mucha clase.",
+    "ingredientes": [
+        { "nombre": "Remolacha cocida", "cantidad": "200g", "comprar": true },
+        { "nombre": "Champiñones portobello muy crudos", "cantidad": "100g", "comprar": true },
+        { "nombre": "Piñones tostados", "cantidad": "10g", "comprar": true },
+        { "nombre": "Parmesano en taco", "cantidad": "20g", "comprar": true },
+        { "nombre": "Brotes de rúcula", "cantidad": "50g", "comprar": true },
+        { "nombre": "Zumo de limón natural", "cantidad": "Medio exprimid", "comprar": true }
+    ],
+    "pasos": [
+        "Limpiar de posible tierra frotando los champis en seco. Sin mojarlos.",
+        "Con un cuchillo hiper afilado o mandolina cortar remolacha y setas en hojas de papel de finos.",
+        "Emplatar plano tipo abanico entrelazándolas sobre hojas de rúcula lavadas.",
+        "Aliñar generosamente con zumo crudo de limón, polvo de sal y viruta sacadas de parmesano."
+    ],
+    "nutricion": { "calorias": 150, "proteinas": 6, "carbohidratos": 11, "grasas": 9, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "dip-de-guisantes-con-hierbabuena-y-totopos-caseros": {
+    "id": "dip-de-guisantes-con-hierbabuena-y-totopos-caseros",
+    "nombre": "Crema untable de guisantes a la menta",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 15,
+    "icono": "🫛",
+    "descripcion": "Mezcla de legumbre muy refrescante, acompañado de tostas de la abuela.",
+    "ingredientes": [
+        { "nombre": "Guisantes", "cantidad": "300g", "comprar": true },
+        { "nombre": "Queso fresco batido p burgos", "cantidad": "250g", "comprar": true },
+        { "nombre": "Pistachos repelados", "cantidad": "15g", "comprar": true },
+        { "nombre": "Tortillas mejicanas redondas (trigo/maíz)", "cantidad": "2 unidades", "comprar": true },
+        { "nombre": "Hojas menta/hierbabuena", "cantidad": "Pequeño manojo", "comprar": true }
+    ],
+    "pasos": [
+        "Para los totopos caseros cortar a cuartos u octavos de pizza las tortitas, asare o tostar hasta endurecer en el centro.",
+        "Escaldar guisantes 2 min para verdear fuerte y resfrescar bajo grifo.",
+        "Batir la verdura, queso, pizquita de sal, medio ajo descabezado y la hierba.",
+        "Bañar de pistachos por arriba y mojar el dorito en este fabuloso entrante."
+    ],
+    "nutricion": { "calorias": 360, "proteinas": 22, "carbohidratos": 38, "grasas": 12, "fibra": 10 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "escarola-con-granada": {
+    "id": "escarola-con-granada",
+    "nombre": "Ensalada de escarola crujiente y frutos rubíes",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 10,
+    "icono": "🥗",
+    "descripcion": "Guarnición puramente digestiva, excelente para descansar.",
+    "ingredientes": [
+        { "nombre": "Escarola blanca lavada", "cantidad": "150g", "comprar": true },
+        { "nombre": "Granada roja", "cantidad": "1 media", "comprar": true },
+        { "nombre": "Avellanas naturales o nuez", "cantidad": "20g", "comprar": true },
+        { "nombre": "Sal, vinagres y aceites.", "cantidad": "A capricho", "comprar": false }
+    ],
+    "pasos": [
+        "Desgranar y recoger todos las pepitas carnosas de media granada en el plato.",
+        "Si compras en bolsa ensalada de escarola, disponer la ración, echar dentro un buen puñado trozado de picadillo de frutos secano.",
+        "El cítrico o toque de mostazas son perfectas a su vinagreta, lo mezclas al sentarte para que sus hojas rizadas nunca claudiquen ahogadas en salsa blanda y mustia."
+    ],
+    "nutricion": { "calorias": 120, "proteinas": 3, "carbohidratos": 14, "grasas": 10, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "tosta-de-aguacate-con-reques-n": {
+    "id": "tosta-de-aguacate-con-reques-n",
+    "nombre": "Gran tosta de aguacate y proteína láctea",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 10,
+    "icono": "🍞",
+    "descripcion": "Perfecta como primer plato rápido cargado de proteína rápida y grasa excelente vegetal.",
+    "ingredientes": [
+        { "nombre": "Pan rústico, de masa mater", "cantidad": "2 buenas lonchas", "comprar": true },
+        { "nombre": "Aguacate madurito", "cantidad": "1 completo", "comprar": true },
+        { "nombre": "Requesón grumoso de buena calidad", "cantidad": "100g", "comprar": true },
+        { "nombre": "Semillas de sésamo negra", "cantidad": "Espolvoreado", "comprar": false }
+    ],
+    "pasos": [
+        "Tuestalo bastante a tope el pan, sea duro de corteza.",
+        "Embadurna con tenazidad unos generosos cazos de requesón (queso whey fresco sin sala) de sabor suave lechoso al pan.",
+        "Apostar en rodaje de gajos precisos un medio del fruto mantecoso de aguacatero por rebanadita individual. Echar sésamo arriba.",
+        "Gota afilada de AOVE rematadora al festin de paladar!"
+    ],
+    "nutricion": { "calorias": 310, "proteinas": 10, "carbohidratos": 25, "grasas": 21, "fibra": 8 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "barquitas-de-berenjena-con-yogur-y-manzana": {
+    "id": "barquitas-de-berenjena-con-yogur-y-manzana",
+    "nombre": "Berenjenas rellenas de fruta especiada india",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 35,
+    "icono": "🍆",
+    "descripcion": "Exotismo sin par. Relleno vegano pero ultra condimentado.",
+    "ingredientes": [
+        { "nombre": "Berenjenas (medianas de asar rectilíneas)", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Manzana dulce ácida", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Yogur natural no azucarado o de coco", "cantidad": "125g", "comprar": true },
+        { "nombre": "Especias (polvo madrás de curry)", "cantidad": "1 cucharón", "comprar": false },
+        { "nombre": "Puñado nuez", "cantidad": "30 gr", "comprar": false }
+    ],
+    "pasos": [
+        "Divídase por medio. Raya o acuchilla de trama cruz la carnosidad y mete asadora temperatura 200 gradiños hasta ablandar (min. 25 min).",
+        "Pela un manzano de temporada crudo como fuji, rompe micro en cubos de ajedréz enanito muy fríos.",
+        "Al sacar tu vegetal asadito recoge raspando la pulposidad al bol. Júntalo con manzanita, el polvito amarillísimo de curry y blanco del yofugo. Remover todo.",
+        "Sirvete su re-mezcla rehundida entre sus pellejitos, adorna arriba de lascas nuecería y disfrútalo"
+    ],
+    "nutricion": { "calorias": 220, "proteinas": 7, "carbohidratos": 28, "grasas": 8, "fibra": 9 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "escabeche-de-sardinas": {
+    "id": "escabeche-de-sardinas",
+    "nombre": "Sardinas sutiles del maritorio en escabeche",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 25,
+    "icono": "🐟",
+    "descripcion": "Clásico que aguantará en la despensa hasta tres semanotas (y sin bote).",
+    "ingredientes": [
+        { "nombre": "Sardinetas plata o boquerón", "cantidad": "250 gramos limpios", "comprar": true },
+        { "nombre": "Zanahoria / Cebollino / lauros y clavo/ajo machacado", "cantidad": "Fondo potásico clásico", "comprar": false },
+        { "nombre": "Vinabres", "cantidad": "Vaso vinagre blanco / y pizco pimenton", "comprar": false },
+        { "nombre": "Aceite bueno.", "cantidad": "50cc en la olla", "comprar": false }
+    ],
+    "pasos": [
+        "Asume que descamar y eviscerar con dos manos el pez sin malobrar la forma, pasar por agüilla a limpiar.",
+        "Hacer sudar el lecho o sofrito base hortalizo al punto (pocilgar), y de pronto retirar lumbre, añadir pimiento molido sin quemar color, y seguido tu vinagre agrio tapando para el vaporazo de ebulle.",
+        "Sumar agua pelín y hiervelo por 10 o dobles minutitos la base salsante.",
+        "Deposita pezcau fresco allí apaga flama, deja asentar enfríe hermetico. Plato majestuoso y barato."
+    ],
+    "nutricion": { "calorias": 380, "proteinas": 28, "carbohidratos": 7, "grasas": 26, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "crema-de-calabaza-y-queso-azul": {
+    "id": "crema-de-calabaza-y-queso-azul",
+    "nombre": "Crema fuerte de Calabaza Asada y Roquefort",
+    "tipo": "cena",
+    "porciones": 4,
+    "tiempo": 30,
+    "icono": "🥣",
+    "descripcion": "Puré espeso cremosísimo que rompe el salado feroz con lo dulcesote de temporada de otono.",
+    "ingredientes": [
+        { "nombre": "Calabaza cacahueteras pelada", "cantidad": "Ochocientos gr", "comprar": true },
+        { "nombre": "Cebolla", "cantidad": "1 Ud Gigante", "comprar": false },
+        { "nombre": "Fondo vegetal caldo", "cantidad": "1 Brick literario", "comprar": true },
+        { "nombre": "Quesito Azul intenso o roquefórte", "cantidad": "40gramillo", "comprar": true }
+    ],
+    "pasos": [
+        "Pochado violento en granolla y aceitaron con los cebaques grandes asomándolos transparentosos.",
+        "Corte calabacíl y lo rehagas a fuego par. Salseas / inunda en caldeos su cocimiento lento de un cuarto 20 mins.",
+        "Rompe lo deshecho asuporado pasándole batidos integrando caliente unos porciotos la mirtad de queso podrit azulíto, licuándolo al tacto deséau.",
+        "Sírvalo calentíto esparciéndolas otras mitades al natural grumosos de quesazo para rematillo fuerte o picatosta crocanti."
+    ],
+    "nutricion": { "calorias": 160, "proteinas": 5, "carbohidratos": 22, "grasas": 6, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "alubia-confetti": {
+    "id": "alubia-confetti",
+    "nombre": "Alubia de carnaval Confetti Ensaladazo",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 10,
+    "icono": "🫘",
+    "descripcion": "Ensalada mega colorida en frío (o semi caliente a opción). Saciantísima.",
+    "ingredientes": [
+        { "nombre": "Alubia de lata cocida suave mantecosa", "cantidad": "1Bota 400", "comprar": true },
+        { "nombre": "Pimenteros varioscuba verde amarillos rojazos", "cantidad": "1 enterito por cuartas", "comprar": true },
+        { "nombre": "Aguacate duro firme al taglio", "cantidad": "1 medio", "comprar": true },
+        { "nombre": "Mijo gordo o grano maíz lata", "cantidad": "50 gs y de aliño al aceto", "comprar": true }
+    ],
+    "pasos": [
+        "Exige lavar a saco la aluviación hasta irse la gomosidad bote.",
+        "Picazos y re cuadeados miniatura todo al morro del pimiento para confundirl la vista entre legumbriña en un Confetti pergeñado.",
+        "Baño aceite, ácidos vinagretos o limeños de frescor al centro mesillero para pinche de festivo diurno entre platos proteínicos a mogollon!"
+    ],
+    "nutricion": { "calorias": 360, "proteinas": 15, "carbohidratos": 45, "grasas": 12, "fibra": 18 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "salm-n-expr-s-al-microondas": {
+    "id": "salm-n-expr-s-al-microondas",
+    "nombre": "Salmón Noruego express a vaporización al ONDAS 10mins",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 12,
+    "icono": "🥘",
+    "descripcion": "Rapidísimo que no cede calidad ni mancha las sartén. Súper limpio al asado de agua.",
+    "ingredientes": [
+        { "nombre": "Salmón troncos", "cantidad": "2 Piezas unos 300gsudos", "comprar": true },
+        { "nombre": "Calabacín o Zucchini tierno pelado / cachelo gordo", "cantidad": "Las rodajas finas, 1 grande", "comprar": true },
+        { "nombre": "Limón gordo al jugo eneldo pastosillo", "cantidad": "Medio limonaje al llovizn", "comprar": true }
+    ],
+    "pasos": [
+        "Hacer escamas planas con pealdoros del calabazin y papa asar o cacheles tierneciros. Asarlos sólos base en taper de microonidas o del vapori 5 m a topoteo potencia.",
+        "Coronar depositándo arriba el lomarrosa y salpincarlo acidón de los limón o limas verdes perfumero.",
+        "Sellar / Tapillar plástico e intrudice 4 / 5 minuto de sauna max. No levantar el hule hacia tus caretos ni gafas por calores vivos!!"
+    ],
+    "nutricion": { "calorias": 420, "proteinas": 34, "carbohidratos": 25, "grasas": 21, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "merluza-con-patatas-a-la-importancia": {
+    "id": "merluza-con-patatas-a-la-importancia",
     "nombre": "Guisote marinero de Merluza con Cachelos 'importantes'",
     "tipo": "comida",
     "porciones": 2,
     "tiempo": 40,
-    "icono": "🍲",
-    "descripcion": "Un guiso tradicional con sabor a mar.",
+    "icono": "🐟",
+    "descripcion": "El guisantes en fondo caldoso o perol grande ahumadito. Tradiciona.",
     "ingredientes": [
-      {
-        "nombre": "Merluza gruesa",
-        "cantidad": "Medallones o rodajas",
-        "comprar": true
-      },
-      {
-        "nombre": "Patatas",
-        "cantidad": "500g",
-        "comprar": true
-      },
-      {
-        "nombre": "Caldo de pescado",
-        "cantidad": "1 botella",
-        "comprar": true
-      },
-      {
-        "nombre": "Azafrán en hebras",
-        "cantidad": "2 sobres",
-        "comprar": true
-      },
-      {
-        "nombre": "Guisantes dulces",
-        "cantidad": "1 puñado",
-        "comprar": false
-      }
+        { "nombre": "Merluza gruesa del pincha centro lomo", "cantidad": "Los medallones o las rodajas", "comprar": true },
+        { "nombre": "Patatales para rebozitos.", "cantidad": "Medio quilitero", "comprar": true },
+        { "nombre": "Marisco puro pescados y Azafrán hilazas", "cantidad": "Botellas caldo 1 y 2 sobres.", "comprar": true },
+        { "nombre": "Guisantes dulces", "cantidad": "Puñado para coloretes.", "comprar": false }
     ],
     "pasos": [
-      "Sofreír las patatas y agregar el azafrán.",
-      "Añadir el caldo de pescado y dejar cocinar las patatas a fuego medio.",
-      "En los últimos minutos, incorporar los medallones de merluza y los guisantes.",
-      "Dejar cocer hasta que el pescado esté en su punto y servir."
-    ]
+        "Mete moneda de rodaja gorda empaná a huevo rápido salteada, asentar fritos dorados y al plato (patata base).",
+        "Porchear cevas transparantes y echaz el caldi maritimino a borobteones sutilones introdujo el patator",
+        "Hiervejarlas solitas pa 15, meter merluzas y los bolitos (guisantazo) últimos 4 y servir hondo de mojar barras de painetes de trigos enteros crujos."
+    ],
+    "nutricion": { "calorias": 360, "proteinas": 26, "carbohidratos": 32, "grasas": 12, "fibra": 5 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
   },
-  "puerros-asados-carbonara-kimchi": {
-    "id": "puerros-asados-carbonara-kimchi",
-    "nombre": "Puerros asados con carbonara de kimchi",
+  "pechugas-de-pollo-empanadas-con-kikos": {
+    "id": "pechugas-de-pollo-empanadas-con-kikos",
+    "nombre": "Crujipollo a los pechuga empaná en KIKO de maíz",
     "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 30,
-    "icono": "🧅",
-    "descripcion": "Puerros al horno bañados en una deliciosa y original carbonara de kimchi.",
-    "ingredientes": [
-      {
-        "nombre": "Puerros tiernos",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Mantequilla",
-        "cantidad": "Unos dados",
-        "comprar": false
-      },
-      {
-        "nombre": "Yemas de huevo",
-        "cantidad": "2 unidades",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso de oveja rallado",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Aliño de kimchi",
-        "cantidad": "Un chorrito",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal y pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Quitar el verde a los puerros y cortar en tajadas un poco gruesas.",
-      "Colocar en bandeja de horno, añadir daditos de mantequilla, sal y pimienta.",
-      "Tapar con aluminio y hornear 20 minutos a 200°C.",
-      "Mezclar las yemas, el queso, pimienta y el aliño de kimchi.",
-      "Destapar los puerros, dar un golpe de grill y verter la crema por encima al servir."
-    ]
-  },
-  "curry-rapido-garbanzos-espinacas": {
-    "id": "curry-rapido-garbanzos-espinacas",
-    "nombre": "Curry rápido de garbanzos y espinacas",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍛",
-    "descripcion": "Un plato de cuchara caliente, completo y rápido de preparar.",
-    "ingredientes": [
-      {
-        "nombre": "Garbanzos cocidos",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Espinacas baby",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Leche de coco",
-        "cantidad": "200ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Pasta de curry",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "1/2 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "1 diente",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pica finamente la cebolla y el ajo y sofríelos en una sartén con el aceite de oliva.",
-      "Añade la pasta de curry y remueve un minuto para que suelte sus aromas.",
-      "Incorpora los garbanzos escurridos y la leche de coco. Deja cocer a fuego medio durante 10 minutos.",
-      "En el último minuto apaga el fuego, añade las espinacas baby y tápalo.",
-      "Sirve caliente."
-    ]
-  },
-  "quinoa-verduras-huevo-poche": {
-    "id": "quinoa-verduras-huevo-poche",
-    "nombre": "Quinoa con verduras asadas y huevo poché",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 30,
-    "icono": "🥗",
-    "descripcion": "Bol nutricionalmente completo con cereales tostados y huevo.",
-    "ingredientes": [
-      {
-        "nombre": "Quinoa",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Calabacín",
-        "cantidad": "1 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento rojo",
-        "cantidad": "1 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "2 unidades",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla morada",
-        "cantidad": "1/2 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Vinagre",
-        "cantidad": "Un chorrito",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "2 cucharadas",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal y pimienta",
-        "cantidad": "al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pica calabacín, pimiento y cebolla en dados. Hornea a 200ºC por 20 minutos con sal, pimienta y aceite.",
-      "Lava bien la quinoa y cuécela unos 15 minutos. Escúrrela bien.",
-      "Para el huevo poché: hierve agua con vinagre, haz un remolino, echa el huevo y cuece 3 minutos.",
-      "Mezcla la quinoa con las verduras y sirve con el huevo poché encima."
-    ]
-  },
-  "fajitas-pollo-pimientos": {
-    "id": "fajitas-pollo-pimientos",
-    "nombre": "Fajitas de pollo y pimientos",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🌯",
-    "descripcion": "Pollo y verduras salteadas en una sola sartén ideales para enrollar.",
-    "ingredientes": [
-      {
-        "nombre": "Pechuga de pollo",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimientos variados",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "1 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Tortillas de trigo o maíz",
-        "cantidad": "4 unidades",
-        "comprar": false
-      },
-      {
-        "nombre": "Sazonador de fajitas",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta el pollo, los pimientos y la cebolla en tiras finas.",
-      "Saltea cebolla y pimientos a fuego fuerte en una sartén con aceite.",
-      "Añade el pollo y saltea hasta que esté cocinado.",
-      "Espolvorea el sazonador, remueve y aparta del fuego.",
-      "Calienta las tortillas y sirve la mezcla dentro."
-    ]
-  },
-  "frittata-aprovechamiento": {
-    "id": "frittata-aprovechamiento",
-    "nombre": "Frittata de aprovechamiento",
-    "tipo": "aprovechamiento",
     "porciones": 2,
     "tiempo": 25,
-    "icono": "🍳",
-    "descripcion": "Ideal para gastar cualquier verdura, queso o embutido suelto en la nevera.",
+    "icono": "🍗",
+    "descripcion": "A los zagales gustara bestial el empanizarlo rudo estilo Kfc pero sano de gusanito cric cri.",
     "ingredientes": [
-      {
-        "nombre": "Huevos",
-        "cantidad": "4 unidades",
-        "comprar": false
-      },
-      {
-        "nombre": "Restos de verduras",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Restos de queso",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Leche o nata",
-        "cantidad": "Un chorrito",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite de oliva",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal y hierbas",
-        "cantidad": "al gusto",
-        "comprar": false
-      }
+        { "nombre": "Fieltes blando de corraleta a de pechugas finísimas", "cantidad": "2 libritas gordotas al cortes", "comprar": true },
+        { "nombre": "Maíz dorado horneaditos (Mister Kiko frito grueso)", "cantidad": "Gran bolsa gorda", "comprar": true },
+        { "nombre": "Huevina gorda camperes bación", "cantidad": "Los dos enteros.", "comprar": false }
     ],
     "pasos": [
-      "Bate los huevos con leche, sal y hierbas.",
-      "Añade los restos de verduras y queso troceado.",
-      "Precalienta aceite en una sartén y vierte la mezcla.",
-      "Deja cuajar 5 minutos a fuego medio.",
-      "Termina en el horno con grill o dale la vuelta."
-    ]
-  },
-  "arroz-frito-tres-delicias": {
-    "id": "arroz-frito-tres-delicias",
-    "nombre": "Arroz frito tres delicias de aprovechamiento",
-    "tipo": "aprovechamiento",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍚",
-    "descripcion": "La clásica forma de darle vida al arroz blanco sobrante.",
-    "ingredientes": [
-      {
-        "nombre": "Arroz cocido frío",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "2 unidades",
-        "comprar": false
-      },
-      {
-        "nombre": "Guisantes",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Restos de fiambre o carne",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Zanahoria",
-        "cantidad": "1 unidad",
-        "comprar": false
-      },
-      {
-        "nombre": "Salsa de soja",
-        "cantidad": "2 cucharadas",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      }
+        "Aplasta los gusanitos frito duros en un embolse hasta picazos irregulores sin harina (mortheros valen o rulos de pasta)",
+        "Las gallinitas en finas yemas huevos sumergir rebodidas, al envuelve o panko maízero adherido al aprietes maximos entre mano y fileteón gruesales",
+        "Posa un papel a asar caldeados de airfirer super tostadoras u de orno comun a 8 y doce minuteletes.",
+        "Se quema enseuguida sin el ojometreado constante al final."
     ],
-    "pasos": [
-      "Pica zanahoria y carne. Bate los huevos.",
-      "Haz un revuelto rápido en sartén con aceite y retira.",
-      "Sofríe zanahoria y carne, añade guisantes.",
-      "Incorpora arroz frío desmenuzado y saltea a fuego fuerte.",
-      "Añade huevo, soja y remueve vigorosamente 1 minuto. Sirve."
-    ]
+    "nutricion": { "calorias": 420, "proteinas": 34, "carbohidratos": 25, "grasas": 18, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
   },
-  "guacamole-palitos-zanahoria": {
-    "id": "guacamole-palitos-zanahoria",
-    "nombre": "Guacamole con palitos de zanahoria",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥑",
-    "descripcion": "Guacamole fresco servido con saludables palitos de zanahoria.",
-    "ingredientes": [
-      {
-        "nombre": "Zanahorias",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Aguacates",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolleta",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomate",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Zumo de limón",
-        "cantidad": "10 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Cilantro fresco",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Lava y corta la zanahoria en bastones.",
-      "Lava el tomate y pica la cebolleta.",
-      "Extrae la pulpa del aguacate y machaca con un tenedor.",
-      "Añade tomate, cebolla y cilantro al aguacate, mezcla y sazona.",
-      "Riega con limón y sirve con los bastones de zanahoria."
-    ]
-  },
-  "zanahorias-encurtidas": {
-    "id": "zanahorias-encurtidas",
-    "nombre": "Zanahorias encurtidas 'para mañana'",
-    "tipo": "snack",
+  "miniburger-de-alubias-y-at-n": {
+    "id": "miniburger-de-alubias-y-at-n",
+    "nombre": "Miniburger vegetarianos (de legumbre y atún)",
+    "imagen": "images/recipes/miniburger-de-alubias-y-at-n.png",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 20,
-    "icono": "🥕",
-    "descripcion": "Zanahorias encurtidas frescas, ideales como snack.",
-    "ingredientes": [
-      {
-        "nombre": "Zanahorias",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Perejil fresco",
-        "cantidad": "10g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "4-5g",
-        "comprar": false
-      },
-      {
-        "nombre": "Hierbabuena o menta",
-        "cantidad": "10g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimienta negra",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE",
-        "cantidad": "20 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Vinagre",
-        "cantidad": "30 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta las zanahorias en tiras.",
-      "Pica el ajo, salpimienta y reposa 15 minutos.",
-      "Añade hierbas picadas a la zanahoria.",
-      "Mezcla AOVE y vinagre, e incorpora junto con el ajo.",
-      "Deja reposar 24 horas antes de comer."
-    ]
-  },
-  "hummus-remolacha-crudites": {
-    "id": "hummus-remolacha-crudites",
-    "nombre": "Hummus de remolacha con crudités",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 5,
-    "icono": "🥣",
-    "descripcion": "Colorido hummus de remolacha acompañado de verduras frescas.",
-    "ingredientes": [
-      {
-        "nombre": "Ajo",
-        "cantidad": "5g",
-        "comprar": false
-      },
-      {
-        "nombre": "Remolacha cocida",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Garbanzos cocidos",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE",
-        "cantidad": "40 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Zumo de limón",
-        "cantidad": "10 ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Yogur natural",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Tahini",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Comino, sal, pimentón",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento rojo y apio",
-        "cantidad": "Para acompañar",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Bate la remolacha, garbanzos, yogur, tahini, ajo, AOVE, comino, sal y limón.",
-      "Ajusta consistencia con agua si es necesario.",
-      "Espolvorea pimentón y sirve con bastones de pimiento y apio."
-    ]
-  },
-  "patatitas-dos-salsas": {
-    "id": "patatitas-dos-salsas",
-    "nombre": "Patatitas dos salsas",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥔",
-    "descripcion": "Patatas baby al microondas acompañadas de dos ricas salsas de yogur.",
-    "ingredientes": [
-      {
-        "nombre": "Patatas baby",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Yogures griegos",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "3g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE y limón",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Curry",
-        "cantidad": "8g",
-        "comprar": false
-      },
-      {
-        "nombre": "Hierbabuena, sal y pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece patatas al microondas.",
-      "Para salsa 1: mezcla un yogur con hierbabuena, ajo, AOVE, limón y sal.",
-      "Para salsa 2: mezcla el otro yogur con curry, pimienta y AOVE.",
-      "Sirve patatas con las salsas."
-    ]
-  },
-  "falso-sushi-pepino": {
-    "id": "falso-sushi-pepino",
-    "nombre": "Falso sushi de pepino, yogur y queso feta",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🥒",
-    "descripcion": "Originales rollitos de pepino rellenos de crema de yogur y feta.",
-    "ingredientes": [
-      {
-        "nombre": "Pepino holandés",
-        "cantidad": "270g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento amarillo",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla morada",
-        "cantidad": "40g",
-        "comprar": false
-      },
-      {
-        "nombre": "Yogur griego",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso feta",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "3g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ralladura de limón",
-        "cantidad": "3g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE y pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta tiras de pepino y sécalas.",
-      "Corta pimiento y cebolla finamente.",
-      "Mezcla yogur, feta, ajo, limón, pimienta y AOVE.",
-      "Pon crema y verduras sobre la tira de pepino y enrolla."
-    ]
-  },
-  "gazpacho-sandia-feta": {
-    "id": "gazpacho-sandia-feta",
-    "nombre": "Gazpacho de sandía y feta",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍉",
-    "descripcion": "Refrescante gazpacho combinando tomate, sandía y queso feta.",
-    "ingredientes": [
-      {
-        "nombre": "Tomates pera",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Sandía",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento rojo",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolleta",
-        "cantidad": "40g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "5g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso feta",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Albahaca, AOVE, vinagre, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Bate tomates, sandía, cebolleta, pimiento y albahaca escaldada.",
-      "Añade AOVE, vinagre y sal, bate de nuevo.",
-      "Sirve con trozos de sandía y queso feta."
-    ]
-  },
-  "carpaccio-remolacha-champinon": {
-    "id": "carpaccio-remolacha-champinon",
-    "nombre": "Carpaccio de remolacha y champiñón",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥗",
-    "descripcion": "Carpaccio vegetal con vinagreta de avellanas.",
-    "ingredientes": [
-      {
-        "nombre": "Remolacha cocida",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Champiñones",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Rúcula",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Avellanas",
-        "cantidad": "30g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso manchego",
-        "cantidad": "30g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, vinagre, sal, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta remolacha y champiñones en láminas finas y emplata.",
-      "Añade rúcula y queso manchego.",
-      "Prepara vinagreta con AOVE, vinagre, avellanas picadas y sal, y aliña."
-    ]
-  },
-  "dip-guisantes-hierbabuena": {
-    "id": "dip-guisantes-hierbabuena",
-    "nombre": "Dip de guisantes con hierbabuena y totopos",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🥣",
-    "descripcion": "Crema untable de guisantes servida con totopos horneados.",
-    "ingredientes": [
-      {
-        "nombre": "Guisantes congelados",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso fresco",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tortillas de trigo integral",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pistachos",
-        "cantidad": "15g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "3g",
-        "comprar": false
-      },
-      {
-        "nombre": "Hierbabuena, AOVE, pimentón",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Hornea triángulos de tortilla con AOVE 10 min a 180°C.",
-      "Cocina guisantes en microondas 4 min y tritura.",
-      "Mezcla queso, ajo, pistachos, hierbabuena y guisantes. Sirve con totopos."
-    ]
-  },
-  "escarola-granada": {
-    "id": "escarola-granada",
-    "nombre": "Escarola con granada",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 8,
-    "icono": "🥗",
-    "descripcion": "Ensalada fresca y crujiente de escarola y granada con toque de comino.",
-    "ingredientes": [
-      {
-        "nombre": "Escarola",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Granada",
-        "cantidad": "275g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "8g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, vinagre, sal, comino",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Desgrana la granada y trocea la escarola.",
-      "Tuesta el comino y tritúralo con el ajo, añade AOVE, vinagre y sal.",
-      "Aliña la escarola y añade la granada."
-    ]
-  },
-  "tosta-aguacate-requeson": {
-    "id": "tosta-aguacate-requeson",
-    "nombre": "Tosta de aguacate con requesón",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 5,
-    "icono": "🍞",
-    "descripcion": "Tosta rápida y nutritiva para cualquier momento.",
-    "ingredientes": [
-      {
-        "nombre": "Pan integral",
-        "cantidad": "90g",
-        "comprar": false
-      },
-      {
-        "nombre": "Requesón",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Aguacate",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomates cherry",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE y sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Tuesta el pan.",
-      "Extiende el requesón, coloca aguacate y tomate troceados encima.",
-      "Añade sal y riega con AOVE."
-    ]
-  },
-  "barquitas-berenjena-yogur": {
-    "id": "barquitas-berenjena-yogur",
-    "nombre": "Barquitas de berenjena con yogur y manzana",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍆",
-    "descripcion": "Berenjena asada y rellena con una refrescante mezcla.",
-    "ingredientes": [
-      {
-        "nombre": "Berenjena",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Manzana verde",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Yogur natural",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla roja",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "8g",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, AOVE, sal, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pica la cebolla y marina en limón.",
-      "Asa mitades de berenjena en microondas 10 min, vacía la carne.",
-      "Mezcla carne de berenjena con manzana, ajo, yogur y cebolla.",
-      "Rellena la piel y decora con más manzana."
-    ]
-  },
-  "escabeche-sardinas": {
-    "id": "escabeche-sardinas",
-    "nombre": "Escabeche de sardinas",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🐟",
-    "descripcion": "Clásico escabeche de sardinas rápido.",
-    "ingredientes": [
-      {
-        "nombre": "Sardinas limpias",
-        "cantidad": "500g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE",
-        "cantidad": "60ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Vinagre",
-        "cantidad": "30ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "8g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimentón",
-        "cantidad": "6g",
-        "comprar": false
-      },
-      {
-        "nombre": "Laurel, pimienta, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Dora el ajo en AOVE, añade pimentón, vinagre y coce.",
-      "Incorpora laurel, pimienta y sardinas, cocina 10 min.",
-      "Deja enfriar para consumir al día siguiente."
-    ]
-  },
-  "crema-calabaza-queso-azul": {
-    "id": "crema-calabaza-queso-azul",
-    "nombre": "Crema de calabaza y queso azul",
-    "tipo": "snack",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🥣",
-    "descripcion": "Crema caliente y dulce contrastada con intenso queso azul.",
-    "ingredientes": [
-      {
-        "nombre": "Calabaza cacahuete",
-        "cantidad": "500g",
-        "comprar": false
-      },
-      {
-        "nombre": "Puerro",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso azul",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Semillas de calabaza",
-        "cantidad": "10g",
-        "comprar": false
-      },
-      {
-        "nombre": "Caldo de verduras",
-        "cantidad": "250ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimentón, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Saltea puerro en AOVE.",
-      "Añade pimentón, calabaza y caldo. Cuece 10 min.",
-      "Tritura y sirve sobre dados de queso azul, espolvoreando semillas."
-    ]
-  },
-  "alubia-confetti": {
-    "id": "alubia-confetti",
-    "nombre": "Alubia confetti",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 5,
-    "icono": "🥗",
-    "descripcion": "Ensalada colorida de alubias y verduras.",
-    "ingredientes": [
-      {
-        "nombre": "Alubias rojas",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz integral",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento rojo",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Maíz",
-        "cantidad": "140g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolleta",
-        "cantidad": "30g",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, AOVE, cilantro, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta la cebolleta y reposa en limón.",
-      "Cocina arroz en microondas, enfría.",
-      "Mezcla alubias, maíz, pimiento, arroz y cebolleta.",
-      "Aliña con AOVE, sal y cilantro."
-    ]
-  },
-  "salmon-expres-microondas": {
-    "id": "salmon-expres-microondas",
-    "nombre": "Salmón exprés al microondas",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍣",
-    "descripcion": "Salmón cocinado al microondas con guarnición japonesa.",
-    "ingredientes": [
-      {
-        "nombre": "Lomo de salmón",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz basmati",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pepino",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolleta",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Soja, vinagre",
-        "cantidad": "1 cucharada c/u",
-        "comprar": false
-      },
-      {
-        "nombre": "Sésamo, jengibre, eneldo, sal, AOVE",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Corta pepino en tiras y sala.",
-      "Cocina salmón con eneldo en microondas 5 min.",
-      "Mezcla pepino escurrido con cebolleta, aliña con soja, vinagre, sésamo y jengibre.",
-      "Sirve salmón con arroz y ensalada."
-    ]
-  },
-  "tallarines-calabacin-zanahoria": {
-    "id": "tallarines-calabacin-zanahoria",
-    "nombre": "Tallarines de calabacín y zanahoria con vinagreta de nueces",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍝",
-    "descripcion": "Falsa pasta vegetal salteada con toque crujiente.",
-    "ingredientes": [
-      {
-        "nombre": "Zanahorias",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Calabacín",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "5g",
-        "comprar": false
-      },
-      {
-        "nombre": "Nueces",
-        "cantidad": "25g",
-        "comprar": false
-      },
-      {
-        "nombre": "Sésamo",
-        "cantidad": "12g",
-        "comprar": false
-      },
-      {
-        "nombre": "Mostaza",
-        "cantidad": "3g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, vinagre, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Forma tallarines con espiralizador.",
-      "Saltea tallarines con ajo a fuego fuerte.",
-      "Mezcla AOVE, vinagre y mostaza. Aliña y espolvorea nueces y sésamo."
-    ]
-  },
-  "brocheta-pollo-especiado": {
-    "id": "brocheta-pollo-especiado",
-    "nombre": "Brocheta de pollo especiado",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍢",
-    "descripcion": "Sanas brochetas de pechuga con fruta y verduras.",
-    "ingredientes": [
-      {
-        "nombre": "Pechuga pollo",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "40g",
-        "comprar": false
-      },
-      {
-        "nombre": "Nectarina",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomates cherry",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimiento verde",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Rúcula y nueces",
-        "cantidad": "Para acompañar",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, AOVE, pimentón, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Marina pollo en dados con cebolla, pimentón, limón y AOVE.",
-      "Ensarta pollo alternando con fruta y verdura.",
-      "Cocina a la plancha y sirve con ensalada."
-    ]
-  },
-  "miniburger-alubias-atun": {
-    "id": "miniburger-alubias-atun",
-    "nombre": "Miniburger de alubias y atún",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
     "icono": "🍔",
-    "descripcion": "Hamburguesas nutritivas de legumbre y pescado.",
+    "descripcion": "Burger sana perfecta que agrupa proteína alta de pescador y la alúbias triturón a base terrosa densisima.",
     "ingredientes": [
-      {
-        "nombre": "Alubias blancas",
-        "cantidad": "240g",
-        "comprar": false
-      },
-      {
-        "nombre": "Atún",
-        "cantidad": "185g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevo",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pan rallado",
-        "cantidad": "30g",
-        "comprar": false
-      },
-      {
-        "nombre": "Hojas verdes",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Mostaza, orégano, limón, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
+        { "nombre": "Alubias blancas precocinadas, muy pastis", "cantidad": "250 gramos", "comprar": true },
+        { "nombre": "Atún a de bote claro aceitetas girazol u aguas del natu.", "cantidad": "A Lata drenada sequita sin gota", "comprar": true }
     ],
     "pasos": [
-      "Aplasta alubias, mezcla con atún, huevo, pan rallado y condimentos.",
-      "Forma hamburguesas y dora en sartén.",
-      "Sirve con ensalada."
-    ]
-  },
-  "poke-pollo-harvard": {
-    "id": "poke-pollo-harvard",
-    "nombre": "Poke de pollo al estilo Harvard",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥗",
-    "descripcion": "Plato completo siguiendo la proporción del plato de Harvard.",
-    "ingredientes": [
-      {
-        "nombre": "Pechuga pollo",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz integral",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Melocotón",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Melón",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Canónigos, pepino, tomate cherry",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Anacardos",
-        "cantidad": "8g",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
+        "Escacha leguminosas. Dejari un pocot de enteras pare dentelleada rústicas de no pasta gomasia pura fina..",
+        "Tirar todo pescadazo y de amalgamar los dos sin paros en la bolas masadas de tus handazos grandes o un cacillazo heladores redondas..",
+        "Pasee a aplastar tipo torrezna ancha pero fínisimas parrilleando dorado. A engullir con lechuguina tomate y quesero tierno derretos encima un panaco integral crujosazo gordo!!"
     ],
-    "pasos": [
-      "Saltea dados de pollo.",
-      "Cocina arroz, prepara frutas y vegetales.",
-      "Monta boles y aliña con limón y AOVE."
-    ]
+    "nutricion": { "calorias": 280, "proteinas": 22, "carbohidratos": 28, "grasas": 8, "fibra": 9 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
   },
-  "rainbow-wrap-salsa-anchoas": {
-    "id": "rainbow-wrap-salsa-anchoas",
-    "nombre": "Rainbow wrap con salsa de anchoas",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🌯",
-    "descripcion": "Wrap colorido de vegetales y huevo con deliciosa salsa.",
-    "ingredientes": [
-      {
-        "nombre": "Tortillas integrales",
-        "cantidad": "75g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso fresco",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "120g",
-        "comprar": false
-      },
-      {
-        "nombre": "Espinacas, cebolla, zanahoria, pimiento",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Anchoas",
-        "cantidad": "4 filetes",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, AOVE, ajo",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece huevos.",
-      "Para la salsa: bate huevos, ajo, anchoas, aceite y limón.",
-      "Unta tortillas, rellena con vegetales y queso, enrolla."
-    ]
-  },
-  "mini-green-pizza": {
-    "id": "mini-green-pizza",
-    "nombre": "Mini green pizza",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍕",
-    "descripcion": "Pizzas rápidas sobre base de pan de pita integral.",
-    "ingredientes": [
-      {
-        "nombre": "Pitas integrales",
-        "cantidad": "180g",
-        "comprar": false
-      },
-      {
-        "nombre": "Brócoli",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Mozzarella fresca",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Rúcula",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Nueces y parmesano",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo, AOVE, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cocina brócoli en microondas.",
-      "Bate rúcula, ajo, parmesano, nueces y AOVE para el pesto.",
-      "Pon pesto, mozzarella y brócoli sobre las pitas. Gratina."
-    ]
-  },
-  "lubina-patatas-verduras": {
-    "id": "lubina-patatas-verduras",
-    "nombre": "Lubina con patatas y cama de verduras",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🐟",
-    "descripcion": "Plato de pescado completo al microondas.",
-    "ingredientes": [
-      {
-        "nombre": "Lomos de lubina",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Patatas",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla, tomate, pimientos",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece patatas en microondas.",
-      "Cocina cebolla, tomate y pimientos en microondas por intervalos.",
-      "Pon el pescado sobre las verduras, cocina 5 min más. Sirve con patatas."
-    ]
-  },
-  "ensalada-frutos-rojos-cuscus": {
-    "id": "ensalada-frutos-rojos-cuscus",
-    "nombre": "Ensalada de frutos rojos, setas y cuscús",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥗",
-    "descripcion": "Ensalada tibia contrastada.",
-    "ingredientes": [
-      {
-        "nombre": "Queso de cabra",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Frutos rojos",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Setas ostra",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cuscús",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Brotes lechuga",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, ajo, cebollino, vinagre, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Hidrata el cuscús.",
-      "Saltea setas con ajo, tuesta el queso.",
-      "Monta ensalada con lechuga, queso, frutos rojos y setas. Sirve con cuscús."
-    ]
-  },
-  "espaguetis-estudiante": {
-    "id": "espaguetis-estudiante",
-    "nombre": "Espaguetis del estudiante",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍝",
-    "descripcion": "Plato de pasta fácil y con ingredientes de despensa.",
-    "ingredientes": [
-      {
-        "nombre": "Espaguetis",
-        "cantidad": "160g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomate triturado",
-        "cantidad": "290g",
-        "comprar": false
-      },
-      {
-        "nombre": "Sardinas en conserva",
-        "cantidad": "88g",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceitunas negras",
-        "cantidad": "25g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo, AOVE, orégano",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece la pasta.",
-      "Calienta ajos, añade tomate y orégano, cocina en microondas.",
-      "Mezcla pasta, salsa, sardinas y aceitunas."
-    ]
-  },
-  "tortilla-patata-calabacin-microondas": {
-    "id": "tortilla-patata-calabacin-microondas",
-    "nombre": "Tortilla de patata y calabacín al microondas",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍳",
-    "descripcion": "Versión rápida de tortilla con verduras.",
-    "ingredientes": [
-      {
-        "nombre": "Patatas",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Calabacín",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "40g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "4",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pica verduras y cocínalas en el microondas hasta que estén tiernas.",
-      "Bate huevos y mezcla con las verduras calientes.",
-      "Cuaja en sartén."
-    ]
-  },
-  "pitas-huevo-espinacas-queso": {
-    "id": "pitas-huevo-espinacas-queso",
-    "nombre": "Pitas con huevo, espinacas y queso",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🥙",
-    "descripcion": "Bocadillos en pan de pita rellenos de revuelto jugoso.",
-    "ingredientes": [
-      {
-        "nombre": "Pitas integrales",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "3",
-        "comprar": false
-      },
-      {
-        "nombre": "Espinacas",
-        "cantidad": "150g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomates secos",
-        "cantidad": "15g",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso de cabra",
-        "cantidad": "180g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, sal, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Hidrata tomates secos.",
-      "Bate huevos y cuaja en sartén ligeramente.",
-      "Calienta pitas y rellena con huevo, espinacas frescas, queso y tomates."
-    ]
-  },
-  "alcachofas-langostinos": {
-    "id": "alcachofas-langostinos",
-    "nombre": "Alcachofas con langostinos",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍤",
-    "descripcion": "Salteado rápido de alcachofas y marisco.",
-    "ingredientes": [
-      {
-        "nombre": "Alcachofas congeladas",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Langostinos congelados",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Descongela langostinos.",
-      "Cocina alcachofas en microondas.",
-      "Sofríe cebolla y ajo. Añade alcachofas y langostinos, y saltea."
-    ]
-  },
-  "lentejas-arroz-curcuma": {
-    "id": "lentejas-arroz-curcuma",
-    "nombre": "Lentejas con arroz y cúrcuma",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍲",
-    "descripcion": "Crema rápida especiada servida con arroz.",
-    "ingredientes": [
-      {
-        "nombre": "Lentejas cocidas",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz integral",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla, zanahoria, tomate",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Cúrcuma, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Sofríe verduras.",
-      "Añade lentejas y un poco de agua, hierve 5 minutos.",
-      "Tritura todo con cúrcuma y sirve acompañado de arroz cocido."
-    ]
-  },
-  "garbanzos-pisto-ras-el-hanout": {
-    "id": "garbanzos-pisto-ras-el-hanout",
-    "nombre": "Garbanzos con pisto y ras el hanout",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥘",
-    "descripcion": "Guiso ultrarrápido aprovechando conservas.",
-    "ingredientes": [
-      {
-        "nombre": "Garbanzos cocidos",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Pisto en conserva",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Ras el hanout",
-        "cantidad": "1 cucharada",
-        "comprar": false
-      },
-      {
-        "nombre": "Cilantro/hierbabuena",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Calienta garbanzos en olla con agua.",
-      "Añade el pisto y cuece todo junto.",
-      "Incorpora el ras el hanout y sirve con hierbas."
-    ]
-  },
-  "escalivada-germinados-bacalao": {
-    "id": "escalivada-germinados-bacalao",
-    "nombre": "Escalivada con alma de germinados y bacalao",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🥗",
-    "descripcion": "Ensalada contundente con base de verduras asadas.",
-    "ingredientes": [
-      {
-        "nombre": "Escalivada conserva",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Bacalao desalado",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla morada",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Germinados",
-        "cantidad": "15g",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, vinagre, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece y ralla huevos.",
-      "Monta escalivada en un plato.",
-      "Añade bacalao, cebolla, huevo rallado y germinados. Aliña."
-    ]
-  },
-  "copazo-ensaladilla": {
-    "id": "copazo-ensaladilla",
-    "nombre": "Copazo de ensaladilla",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🥗",
-    "descripcion": "Ensaladilla exprés y casera.",
-    "ingredientes": [
-      {
-        "nombre": "Patatas",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Zanahoria",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Atún al natural",
-        "cantidad": "185g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, limón, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece patatas, zanahorias y huevos en microondas.",
-      "Pica todo y mezcla con atún.",
-      "Bate yemas de huevo con AOVE y limón para salsa, mezcla y sirve."
-    ]
-  },
-  "tortilla-setas-espinacas": {
-    "id": "tortilla-setas-espinacas",
-    "nombre": "Tortilla de setas y espinacas",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍳",
-    "descripcion": "Sana tortilla rellena de vegetales.",
-    "ingredientes": [
-      {
-        "nombre": "Espinacas congeladas",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Setas",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "4",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Saltea espinacas y setas troceadas.",
-      "Bate huevos, añade la verdura.",
-      "Cuaja la tortilla en sartén."
-    ]
-  },
-  "olleta-arroz-integral": {
-    "id": "olleta-arroz-integral",
-    "nombre": "Olleta de arroz integral",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍲",
-    "descripcion": "Plato de cuchara tradicional.",
-    "ingredientes": [
-      {
-        "nombre": "Arroz integral",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Patata, acelgas, judías verdes, nabo",
-        "cantidad": "Variado",
-        "comprar": false
-      },
-      {
-        "nombre": "Alubias blancas",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Agua, azafrán, comino, AOVE, sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece patata, añade el resto de vegetales y hierve.",
-      "Añade arroz cocido y alubias.",
-      "Termina cocción y añade AOVE."
-    ]
-  },
-  "ramen-casero": {
-    "id": "ramen-casero",
-    "nombre": "Ramen casero",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍜",
-    "descripcion": "Ramen rápido con vegetales crujientes y fideos integrales.",
-    "ingredientes": [
-      {
-        "nombre": "Caldo vegetal",
-        "cantidad": "1l",
-        "comprar": false
-      },
-      {
-        "nombre": "Fideos arroz",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Zanahoria, brotes soja, cebolleta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Sésamo, alga nori",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cuece huevos y fideos.",
-      "Calienta caldo y vierte sobre fideos.",
-      "Añade vegetales, huevo y decora con nori y sésamo."
-    ]
-  },
-  "helado-yogur-chocolate-platano": {
-    "id": "helado-yogur-chocolate-platano",
-    "nombre": "Helado casero de yogur, chocolate y plátano",
-    "tipo": "postre",
-    "porciones": 2,
-    "tiempo": 10,
-    "icono": "🍦",
-    "descripcion": "Helado saludable sin azúcares añadidos.",
-    "ingredientes": [
-      {
-        "nombre": "Yogur natural",
-        "cantidad": "125g",
-        "comprar": false
-      },
-      {
-        "nombre": "Plátano",
-        "cantidad": "80g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cacao puro",
-        "cantidad": "15g",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Machaca el plátano y mezcla con yogur y cacao.",
-      "Coloca en moldes, añade palitos.",
-      "Congela."
-    ]
-  },
-  "batido-platano-arandanos": {
-    "id": "batido-platano-arandanos",
-    "nombre": "Batido de plátano y arándanos con avena",
-    "tipo": "postre",
+  "batido-platano-arandanos-avena": {
+    "id": "batido-platano-arandanos-avena",
+    "nombre": "Batidazo rápido deportivo Plátano Fresón o Moresco Fríos + Avenón",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 5,
     "icono": "🥤",
-    "descripcion": "Smoothie energético para recargar.",
+    "descripcion": "Recomponedor liquidos. Cena rácana exprén para el gimnás o al caloruzo estival gordo denso para buche rellenitas pero livianotes nocturno",
     "ingredientes": [
-      {
-        "nombre": "Arándanos",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Plátano",
-        "cantidad": "40g",
-        "comprar": false
-      },
-      {
-        "nombre": "Leche o bebida vegetal",
-        "cantidad": "250ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Avena molida",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Canela, hielo",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
+        { "nombre": "Arándano oscuro antioxidantes crudos congelsados (heladero)", "cantidad": "100 gramos puros", "comprar": true },
+        { "nombre": "Platanillo ultra blando muy oscuro.", "cantidad": "Medio (40 gr.)", "comprar": true },
+        { "nombre": "La bebida de Sojas, de las almendrables. (cualquier lactera natural base líquideses yemas blancones)", "cantidad": "1 vasos de cuartos / y unos copos para enpesores. Cúbicos hierlerías fríon.", "comprar": true }
     ],
     "pasos": [
-      "Bate frutas, avena y leche.",
-      "Añade hielo, espolvorea canela."
-    ]
-  },
-  "pudding-chia-mango": {
-    "id": "pudding-chia-mango",
-    "nombre": "Pudding de chía con mango",
-    "tipo": "postre",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍮",
-    "descripcion": "Postre cremoso de chía con frescor tropical.",
-    "ingredientes": [
-      {
-        "nombre": "Mango duro",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Semillas de chía",
-        "cantidad": "50g",
-        "comprar": false
-      },
-      {
-        "nombre": "Leche de coco",
-        "cantidad": "400ml",
-        "comprar": false
-      }
+        "Metis a turbinas lo plataneo rotos. Las arándani azulera, su lacteas base.",
+        "A pulverizar las copinas u harinas desnudas avenas batidos gordos por un milisegundo largo de moliendas sutil.",
+        "Un cubo aguahielo rayada para fresquetos o batir juntis con canela olorosa, te tragas eso súper nutritivas pa cama tempraneos super agustos"
     ],
-    "pasos": [
-      "Hidrata chía con leche de coco.",
-      "Tritura el mango.",
-      "Monta capas de chía y puré de mango."
-    ]
-  },
-  "pina-plancha-cardamomo": {
-    "id": "pina-plancha-cardamomo",
-    "nombre": "Piña a la plancha con cardamomo",
-    "tipo": "postre",
-    "porciones": 2,
-    "tiempo": 5,
-    "icono": "🍍",
-    "descripcion": "Piña asada y perfumada.",
-    "ingredientes": [
-      {
-        "nombre": "Piña natural",
-        "cantidad": "500g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cardamomo verde",
-        "cantidad": "1 vaina",
-        "comprar": false
-      },
-      {
-        "nombre": "Piel de limón y hierbabuena",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Asa cuñas de piña en sartén.",
-      "Muele cardamomo.",
-      "Sirve piña espolvoreada con especias y hierbas."
-    ]
-  },
-  "gajos-naranja-menta-chocolate": {
-    "id": "gajos-naranja-menta-chocolate",
-    "nombre": "Gajos de naranja con menta y chocolate",
-    "tipo": "postre",
-    "porciones": 2,
-    "tiempo": 15,
-    "icono": "🍊",
-    "descripcion": "Refrescantes gajos de naranja envueltos en chocolate.",
-    "ingredientes": [
-      {
-        "nombre": "Naranjas",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Chocolate negro",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Hojas de menta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Funde chocolate.",
-      "Baña gajos de naranja en el chocolate y enfría.",
-      "Sirve decorado con menta."
-    ]
-  },
-  "lentejas-viudas": {
-    "id": "lentejas-viudas",
-    "nombre": "Lentejas con verduras o viudas",
-    "tipo": "comida",
-    "porciones": 6,
-    "tiempo": 80,
-    "icono": "🍲",
-    "descripcion": "Guiso vegetal de lentejas sano y económico.",
-    "ingredientes": [
-      {
-        "nombre": "Lentejas pardinas",
-        "cantidad": "400g",
-        "comprar": false
-      },
-      {
-        "nombre": "Patatas",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Zanahorias",
-        "cantidad": "6",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebollas",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Puerro",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomates",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimientos variados",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Pimentón dulce, AOVE, sal, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Picar verduras y sofreírlas en olla.",
-      "Añadir pimentón y luego las lentejas escurridas.",
-      "Cubrir con agua y cocer a fuego lento.",
-      "Añadir patatas troceadas y cocer hasta tiernas."
-    ]
-  },
-  "cazuela-garbanzos-chorizo": {
-    "id": "cazuela-garbanzos-chorizo",
-    "nombre": "Cazuela de garbanzos con chorizo",
-    "tipo": "comida",
-    "porciones": 6,
-    "tiempo": 30,
-    "icono": "🥘",
-    "descripcion": "Potaje tradicional exprés.",
-    "ingredientes": [
-      {
-        "nombre": "Garbanzos",
-        "cantidad": "500g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebollas, ajos, zanahorias, pimiento",
-        "cantidad": "Variado",
-        "comprar": false
-      },
-      {
-        "nombre": "Patatas",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Chorizo",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, pimentón, sal, pimienta, laurel",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Sofreír verduras con pimentón en olla.",
-      "Añadir garbanzos, chorizo, patatas, agua, sal y pimienta.",
-      "Cocer en olla express 15 min."
-    ]
-  },
-  "crema-calabacin-facil": {
-    "id": "crema-calabacin-facil",
-    "nombre": "Crema de calabacín fácil",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 40,
-    "icono": "🥣",
-    "descripcion": "Crema suave de calabacín clásica.",
-    "ingredientes": [
-      {
-        "nombre": "Calabacín",
-        "cantidad": "600g",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "Patata",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "Nata o leche",
-        "cantidad": "100ml",
-        "comprar": false
-      },
-      {
-        "nombre": "Caldo de verduras",
-        "cantidad": "250ml",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, sal, pimienta",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Sofreír cebolla y patata troceada.",
-      "Añadir calabacín, sofreír 5 min.",
-      "Verter caldo, cocer 20 min.",
-      "Retirar, añadir nata, triturar y servir."
-    ]
-  },
-  "patatas-viudas": {
-    "id": "patatas-viudas",
-    "nombre": "Patatas viudas",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 40,
-    "icono": "🥔",
-    "descripcion": "Guiso humilde y exquisito de patatas.",
-    "ingredientes": [
-      {
-        "nombre": "Patatas",
-        "cantidad": "1kg",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebollas",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Caldo",
-        "cantidad": "1l",
-        "comprar": false
-      },
-      {
-        "nombre": "Azafrán, pimentón, laurel, AOVE",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pochar cebolla y ajo.",
-      "Añadir patatas chascadas, pimentón, azafrán y caldo.",
-      "Cocer hasta que patatas estén tiernas."
-    ]
-  },
-  "macarrones-atun-tomate": {
-    "id": "macarrones-atun-tomate",
-    "nombre": "Macarrones con atún y tomate",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 30,
-    "icono": "🍝",
-    "descripcion": "Receta clásica y económica de pasta.",
-    "ingredientes": [
-      {
-        "nombre": "Atún conserva",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Salsa tomate",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Macarrones",
-        "cantidad": "Para 4",
-        "comprar": false
-      },
-      {
-        "nombre": "Queso rallado",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Pochar cebolla.",
-      "Cocer pasta.",
-      "Añadir salsa de tomate y atún a la cebolla, escurrir pasta y mezclar.",
-      "Servir con queso rallado."
-    ]
-  },
-  "sopa-pollo": {
-    "id": "sopa-pollo",
-    "nombre": "Sopa de pollo casera",
-    "tipo": "comida",
-    "porciones": 6,
-    "tiempo": 50,
-    "icono": "🍲",
-    "descripcion": "Sopa reconfortante de pollo.",
-    "ingredientes": [
-      {
-        "nombre": "Pollo",
-        "cantidad": "Una pieza buena",
-        "comprar": false
-      },
-      {
-        "nombre": "Apio, puerro, zanahoria",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Fideos",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cocer pollo y verduras.",
-      "Limpiar pollo de huesos.",
-      "Cocer fideos en el caldo colado y servir con trozos."
-    ]
-  },
-  "tallarines-salmon": {
-    "id": "tallarines-salmon",
-    "nombre": "Tallarines con salmón",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 20,
-    "icono": "🍝",
-    "descripcion": "Plato de lujo para hacer en pocos minutos.",
-    "ingredientes": [
-      {
-        "nombre": "Tallarines (Tagliatelle)",
-        "cantidad": "Para 4",
-        "comprar": false
-      },
-      {
-        "nombre": "Salmón fresco",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Sal",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cocer la pasta en abundante agua con sal.",
-      "Escurrir bien.",
-      "Cocinar salmón, mezclar con pasta y servir."
-    ]
-  },
-  "paella-pollo": {
-    "id": "paella-pollo",
-    "nombre": "Arroz con pollo y verduras (Paella)",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 40,
-    "icono": "🥘",
-    "descripcion": "Arroz completo para el fin de semana.",
-    "ingredientes": [
-      {
-        "nombre": "Alitas de pollo",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Cebolla, pimientos, calabacín, judías",
-        "cantidad": "Variado",
-        "comprar": false
-      },
-      {
-        "nombre": "Agua y caldo de pollo",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Azafrán, AOVE, sal, tomates",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Picar verduras y sofreírlas.",
-      "Añadir pollo para dorarlo.",
-      "Añadir arroz, caldo y azafrán y cocer en su punto."
-    ]
-  },
-  "arroz-verduras-casero": {
-    "id": "arroz-verduras-casero",
-    "nombre": "Arroz con verduras casero",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 30,
-    "icono": "🍚",
-    "descripcion": "Sabroso arroz meloso de verduras y jamón.",
-    "ingredientes": [
-      {
-        "nombre": "Arroz",
-        "cantidad": "300g",
-        "comprar": false
-      },
-      {
-        "nombre": "Caldo de verduras",
-        "cantidad": "1l",
-        "comprar": false
-      },
-      {
-        "nombre": "Zanahoria, pimiento rojo, guisantes",
-        "cantidad": "Variado",
-        "comprar": false
-      },
-      {
-        "nombre": "Jamón serrano",
-        "cantidad": "120g",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomate triturado",
-        "cantidad": "120g",
-        "comprar": false
-      },
-      {
-        "nombre": "Azafrán, ajos, AOVE",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Dorar ajos y sofreír verduras.",
-      "Añadir jamón y azafrán.",
-      "Incorporar tomate y arroz.",
-      "Añadir caldo y cocer."
-    ]
-  },
-  "tortilla-champinones": {
-    "id": "tortilla-champinones",
-    "nombre": "Tortilla de champiñones",
-    "tipo": "comida",
-    "porciones": 2,
-    "tiempo": 18,
-    "icono": "🍳",
-    "descripcion": "Tortilla fácil y rápida.",
-    "ingredientes": [
-      {
-        "nombre": "Champiñones",
-        "cantidad": "200g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos",
-        "cantidad": "5",
-        "comprar": false
-      },
-      {
-        "nombre": "Ajo",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE, sal, pimienta, perejil",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Salsa sriracha",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Limpiar champiñones y saltearlos con ajo.",
-      "Batir huevos.",
-      "Cuajar en sartén y servir con salsa picante."
-    ]
-  },
-  "bocadillo-calamares": {
-    "id": "bocadillo-calamares",
-    "nombre": "Bocadillo de calamares rebozados",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 30,
-    "icono": "🥖",
-    "descripcion": "Clásico madrileño hecho en casa.",
-    "ingredientes": [
-      {
-        "nombre": "Calamares",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Pan",
-        "cantidad": "4 panecillos",
-        "comprar": false
-      },
-      {
-        "nombre": "Harina y aceite",
-        "cantidad": "Para freír",
-        "comprar": false
-      },
-      {
-        "nombre": "Mayonesa",
-        "cantidad": "Opcional",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Limpiar calamares y cortar anillas.",
-      "Salar, enharinar y freír.",
-      "Untar pan con mayonesa y servir caliente."
-    ]
-  },
-  "bocadillo-vegetal-atun": {
-    "id": "bocadillo-vegetal-atun",
-    "nombre": "Bocadillo vegetal con atún",
-    "tipo": "comida",
-    "porciones": 1,
-    "tiempo": 10,
-    "icono": "🥪",
-    "descripcion": "Bocadillo vegetal fresco y completo.",
-    "ingredientes": [
-      {
-        "nombre": "Pan",
-        "cantidad": "1 barra",
-        "comprar": false
-      },
-      {
-        "nombre": "Jamón cocido",
-        "cantidad": "100g",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevos cocidos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomate, lechuga, zanahoria",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Atún al natural",
-        "cantidad": "1 lata",
-        "comprar": false
-      },
-      {
-        "nombre": "Mayonesa",
-        "cantidad": "50g",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Lavar vegetales y cocer huevos.",
-      "Desmigar atún.",
-      "Cortar pan, untar mayonesa y hacer capas con los ingredientes."
-    ]
-  },
-  "sandwich-huevo-mayonesa": {
-    "id": "sandwich-huevo-mayonesa",
-    "nombre": "Sándwich de huevo y mayonesa",
-    "tipo": "comida",
-    "porciones": 1,
-    "tiempo": 15,
-    "icono": "🥪",
-    "descripcion": "Sándwich cremoso clásico y sus variantes.",
-    "ingredientes": [
-      {
-        "nombre": "Huevos cocidos",
-        "cantidad": "2",
-        "comprar": false
-      },
-      {
-        "nombre": "Pan de molde",
-        "cantidad": "2 rebanadas",
-        "comprar": false
-      },
-      {
-        "nombre": "Crème fraîche",
-        "cantidad": "1 cdta",
-        "comprar": false
-      },
-      {
-        "nombre": "Mostaza y mayonesa",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cocer huevos.",
-      "Picar y mezclar con salsas.",
-      "Rellenar pan."
-    ]
-  },
-  "hummus-garbanzos": {
-    "id": "hummus-garbanzos",
-    "nombre": "Hummus o crema de garbanzos",
-    "tipo": "comida",
-    "porciones": 6,
-    "tiempo": 10,
-    "icono": "🥣",
-    "descripcion": "Paté de garbanzos exótico.",
-    "ingredientes": [
-      {
-        "nombre": "Garbanzos",
-        "cantidad": "1 bote",
-        "comprar": false
-      },
-      {
-        "nombre": "Tahini",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, ajo, especias",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "AOVE",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Añadir todos ingredientes en robot/batidora.",
-      "Batir al máximo hasta obtener puré.",
-      "Servir frío decorado con AOVE y pimentón."
-    ]
-  },
-  "pastel-atun-frio": {
-    "id": "pastel-atun-frio",
-    "nombre": "Pastel de atún frío",
-    "tipo": "comida",
-    "porciones": 8,
-    "tiempo": 40,
-    "icono": "🥧",
-    "descripcion": "Receta clásica veraniega de molde.",
-    "ingredientes": [
-      {
-        "nombre": "Pan de molde",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Atún y mayonesa",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Huevo duro y verduras picadas",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Preparar la mezcla de relleno con atún y mayonesa.",
-      "Alternar capas de pan y relleno.",
-      "Cubrir con mayonesa y enfriar."
-    ]
-  },
-  "ensalada-patata-yogur": {
-    "id": "ensalada-patata-yogur",
-    "nombre": "Ensalada de patata y yogur griego",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 30,
-    "icono": "🥗",
-    "descripcion": "Ensalada fresca y cremosa.",
-    "ingredientes": [
-      {
-        "nombre": "Patatas",
-        "cantidad": "800g",
-        "comprar": false
-      },
-      {
-        "nombre": "Yogur griego",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceitunas negras",
-        "cantidad": "60g",
-        "comprar": false
-      },
-      {
-        "nombre": "Limón, mostaza, hierbas",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Cocer patatas, pelar y cortar.",
-      "Mezclar yogur, aceitunas, limón y especias.",
-      "Bañar las patatas con la salsa."
-    ]
-  },
-  "poke-salmon": {
-    "id": "poke-salmon",
-    "nombre": "Poke de salmón hawaiano",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 75,
-    "icono": "🍣",
-    "descripcion": "Bol ligero de arroz y salmón crudo.",
-    "ingredientes": [
-      {
-        "nombre": "Salmón",
-        "cantidad": "500g",
-        "comprar": false
-      },
-      {
-        "nombre": "Arroz",
-        "cantidad": "250g",
-        "comprar": false
-      },
-      {
-        "nombre": "Aguacate, tomates, lombarda",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Soja y sésamo",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Congelar salmón y luego trocear y marinar.",
-      "Cocer arroz.",
-      "Montar boles."
-    ]
-  },
-  "guacamole-mexicano": {
-    "id": "guacamole-mexicano",
-    "nombre": "Guacamole mexicano fácil",
-    "tipo": "comida",
-    "porciones": 4,
-    "tiempo": 12,
-    "icono": "🥑",
-    "descripcion": "Auténtica receta de aguacate de México.",
-    "ingredientes": [
-      {
-        "nombre": "Aguacates",
-        "cantidad": "6",
-        "comprar": false
-      },
-      {
-        "nombre": "Tomate, cebolla",
-        "cantidad": "Al gusto",
-        "comprar": false
-      },
-      {
-        "nombre": "Lima y cilantro",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Machacar aguacate.",
-      "Añadir verduras picadas y limón.",
-      "Mezclar y servir."
-    ]
-  },
-  "mug-cake-chocolate": {
-    "id": "mug-cake-chocolate",
-    "nombre": "Mug cake de chocolate",
-    "tipo": "postre",
-    "porciones": 1,
-    "tiempo": 10,
-    "icono": "☕",
-    "descripcion": "Bizcocho rápido hecho en microondas.",
-    "ingredientes": [
-      {
-        "nombre": "Huevo",
-        "cantidad": "1",
-        "comprar": false
-      },
-      {
-        "nombre": "Leche",
-        "cantidad": "3 cdas",
-        "comprar": false
-      },
-      {
-        "nombre": "Aceite",
-        "cantidad": "3 cdas",
-        "comprar": false
-      },
-      {
-        "nombre": "Harina, azúcar, cacao",
-        "cantidad": "Al gusto",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Mezclar todo en una taza.",
-      "Cocer al microondas 1 o 2 minutos.",
-      "Decorar."
-    ]
-  },
-  "galletas-chocolate": {
-    "id": "galletas-chocolate",
-    "nombre": "Galletas de chocolate crujientes",
-    "tipo": "postre",
-    "porciones": 10,
-    "tiempo": 60,
-    "icono": "🍪",
-    "descripcion": "Cookies caseras que salen siempre.",
-    "ingredientes": [
-      {
-        "nombre": "Harina, mantequilla, chocolate",
-        "cantidad": "Para galletas",
-        "comprar": false
-      }
-    ],
-    "pasos": [
-      "Hacer la masa de galleta y mezclar con pepitas.",
-      "Hornear hasta dorar.",
-      "Dejar enfriar y disfrutar."
-    ]
+    "nutricion": { "calorias": 230, "proteinas": 9, "carbohidratos": 34, "grasas": 7, "fibra": 6 },
+    "nota": "📖 Extraído con IA (NotebookLM) / Custom "
   }
-};
+}
+;
 
 // Funci�n para obtener el men� de la semana actual
 function getSemanaActual() {
