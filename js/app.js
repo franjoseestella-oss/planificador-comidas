@@ -1418,8 +1418,11 @@ function openMealModal(meal, dia, tipo) {
          ${meal.ingredientes.map((ing, idx) => {
            let nombre, cantidad;
            if (typeof ing === 'string') {
-             const m = ing.match(/^([\d,.\/ ]+(?:g|kg|ml|l|cl|ud|uds|cdas?|cditas?|tazas?|latas?))?(.+)$/i);
-             if (m && m[1] && m[1].trim()) { cantidad = m[1].trim(); nombre = m[2].trim(); }
+             // Detectar "400g garbanzos", "Garbanzos 400g", "2 latas atún", "sal", etc.
+             const mFront = ing.match(/^([\d,.\/ ]*\s*(?:kg?|g|ml|l|cl|dl|uds?|cdas?|cditas?|tazas?|latas?|puñados?|manojos?|dientes?|piezas?|filetes?|bolsas?)\.?)\s+(.+)$/i);
+             const mBack  = ing.match(/^(.+?)\s+([\d,.\/ ]*\s*(?:kg?|g|ml|l|cl|dl|uds?|cdas?|cditas?|tazas?|latas?|puñados?)\.?)$/i);
+             if (mFront && mFront[1].trim()) { cantidad = mFront[1].trim(); nombre = mFront[2].trim(); }
+             else if (mBack && mBack[2].trim() && /\d/.test(mBack[2])) { nombre = mBack[1].trim(); cantidad = mBack[2].trim(); }
              else { cantidad = ''; nombre = ing; }
            } else { nombre = ing.nombre || ''; cantidad = ing.cantidad || ''; }
            return `
@@ -1434,7 +1437,7 @@ function openMealModal(meal, dia, tipo) {
              </div>
            </li>`;
          }).join('')}
-      </ul>      </ul>
+      </ul>
     </div>
 
     <div class="modal-section">
