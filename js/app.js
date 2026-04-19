@@ -12,7 +12,9 @@ const STATE = {
   desvan: [],
   recipeFilter: 'todos',
   recipeSearch: '',
-  comedorMenu: {} // { "lunes": "Lentejas", "martes": "Pollo", ... }
+  comedorMenu: {}, // { "lunes": "Lentejas", "martes": "Pollo", ... }
+  customRecipes: {}, // Para recetas modificadas
+  quarantineRecipes: [] // Para recetas rechazadas por completo
 };
 
 // ── INIT ────────────────────────────────────────────────────
@@ -29,6 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rec) STATE.semana[dia][tipo] = rec;
       }
     }
+  }
+
+  // Filtrar recetas en cuarentena (forzar una alternativa elegida automáticamente o dejar pendiente)
+  for (const dia in STATE.semana) {
+    ['comida', 'cena'].forEach(tipo => {
+      const meal = STATE.semana[dia][tipo];
+      if (meal && STATE.quarantineRecipes.includes(meal.id)) {
+        // Encontrar primera alternativa válida no en cuarentena
+        let availableAlts = (ALTERNATIVAS[tipo] || []).filter(a => !STATE.quarantineRecipes.includes(a.id));
+        if (typeof RECETAS_NUEVAS !== 'undefined') {
+          const newAlts = Object.values(RECETAS_NUEVAS).filter(r => (r.tipo === tipo || !r.tipo) && !STATE.quarantineRecipes.includes(r.id));
+          availableAlts = [...availableAlts, ...newAlts];
+        }
+        if (availableAlts.length > 0) {
+          const randAlt = availableAlts[Math.floor(Math.random() * availableAlts.length)];
+          STATE.semana[dia][tipo] = randAlt;
+          if (!STATE.customMenu[dia]) STATE.customMenu[dia] = {};
+          STATE.customMenu[dia][tipo] = randAlt.id;
+          setMealStatus(dia, tipo, 'alternative');
+        }
+      }
+    });
   }
 
   registerServiceWorker();
@@ -179,6 +203,8 @@ function saveState() {
   localStorage.setItem('shopping', JSON.stringify(STATE.shopping));
   localStorage.setItem('desvan', JSON.stringify(STATE.desvan));
   localStorage.setItem('comedorMenu', JSON.stringify(STATE.comedorMenu));
+  localStorage.setItem('customRecipes', JSON.stringify(STATE.customRecipes));
+  localStorage.setItem('quarantineRecipes', JSON.stringify(STATE.quarantineRecipes));
 }
 
 function loadState() {
@@ -188,12 +214,16 @@ function loadState() {
     STATE.shopping   = JSON.parse(localStorage.getItem('shopping')  || '[]');
     STATE.desvan     = JSON.parse(localStorage.getItem('desvan')    || '[]');
     STATE.comedorMenu = JSON.parse(localStorage.getItem('comedorMenu') || '{}');
+    STATE.customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '{}');
+    STATE.quarantineRecipes = JSON.parse(localStorage.getItem('quarantineRecipes') || '[]');
   } catch { 
     STATE.planState = {}; 
     STATE.customMenu = {}; 
     STATE.shopping = []; 
     STATE.desvan = []; 
     STATE.comedorMenu = {};
+    STATE.customRecipes = {};
+    STATE.quarantineRecipes = [];
   }
 
   // Limpiar estados de semanas pasadas
@@ -528,6 +558,10 @@ function showAlternatives(dia, tipo) {
   if (alts.length === 0) {
     alts = (ALTERNATIVAS[tipo] || []).sort((a, b) => a.nombre.localeCompare(b.nombre));
   }
+  
+  // Filtrar cuarentenas
+  alts = alts.filter(a => !STATE.quarantineRecipes.includes(a.id));
+
 
   const modal = document.getElementById('modal-overlay');
   const content = document.getElementById('modal-content');
@@ -1212,12 +1246,21 @@ function openMealModal(meal, dia, tipo) {
     </div>` : ''}
 
     <div class="modal-section">
-      <h3>🥕 Ingredientes</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3>🥕 Ingredientes</h3>
+        <button id="btn-add-ingredient" style="font-size:1.2rem; background:none; border:none; cursor:pointer;" title="Añadir ingrediente">➕</button>
+      </div>
       <ul class="ingredient-list">
-        ${meal.ingredientes.map(ing => `
-          <li class="ingredient-item">
-            <span class="ingredient-name">${ing.nombre}</span>
-            <span class="ingredient-qty">${ing.cantidad}</span>
+        ${meal.ingredientes.map((ing, idx) => `
+          <li class="ingredient-item" style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="flex:1">
+              <span class="ingredient-name">${ing.nombre}</span>
+              <span class="ingredient-qty" style="color:var(--text-muted); font-size:0.85rem; margin-left:8px;">${ing.cantidad}</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-edit-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Editar">✏️</button>
+              <button class="btn-del-ing" data-idx="${idx}" style="font-size:1rem; background:none; border:none; cursor:pointer;" title="Eliminar">🗑️</button>
+            </div>
           </li>`).join('')}
       </ul>
     </div>
@@ -1255,7 +1298,8 @@ function openMealModal(meal, dia, tipo) {
       </div>
     </div>
 
-    <div class="modal-close-btn">
+    <div class="modal-close-btn" style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+      <button class="btn-full" id="btn-quarantine-recipe" style="background:#cc3333; color:white; border:none;" title="No volver a mostrar en los planes semanales">🚫 Mandar a cuarentena</button>
       <button class="btn-full" id="modal-close-btn">Cerrar</button>
     </div>`;
 
@@ -1263,6 +1307,68 @@ function openMealModal(meal, dia, tipo) {
   setTimeout(() => content.scrollTop = 0, 50);
 
   document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+
+  // -- Edit Ingredients Logic --
+  document.getElementById('btn-add-ingredient').addEventListener('click', () => {
+    const nombre = prompt('Nombre del nuevo ingrediente:');
+    if (!nombre) return;
+    const cantidad = prompt('Cantidad (ej. 2 uds, 100g):');
+    if (!cantidad) return;
+    
+    let clonedMeal = JSON.parse(JSON.stringify(meal));
+    clonedMeal.ingredientes.push({ nombre, cantidad, comprar: true });
+    STATE.customRecipes[clonedMeal.id] = clonedMeal;
+    saveState();
+    openMealModal(clonedMeal, dia, tipo); // re-render
+  });
+
+  document.querySelectorAll('.btn-edit-ing').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = e.currentTarget.dataset.idx;
+      const ing = meal.ingredientes[idx];
+      const newQty = prompt(`Nueva cantidad para ${ing.nombre}:`, ing.cantidad);
+      if (newQty !== null && newQty !== ing.cantidad) {
+        let clonedMeal = JSON.parse(JSON.stringify(meal));
+        clonedMeal.ingredientes[idx].cantidad = newQty;
+        STATE.customRecipes[clonedMeal.id] = clonedMeal;
+        saveState();
+        openMealModal(clonedMeal, dia, tipo);
+      }
+    });
+  });
+
+  document.querySelectorAll('.btn-del-ing').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if (confirm('¿Seguro que quieres eliminar este ingrediente de la receta?')) {
+        const idx = e.currentTarget.dataset.idx;
+        let clonedMeal = JSON.parse(JSON.stringify(meal));
+        clonedMeal.ingredientes.splice(idx, 1);
+        STATE.customRecipes[clonedMeal.id] = clonedMeal;
+        saveState();
+        openMealModal(clonedMeal, dia, tipo);
+      }
+    });
+  });
+
+  // -- Quarantine Logic --
+  document.getElementById('btn-quarantine-recipe').addEventListener('click', () => {
+    if (confirm('¿Estás seguro de mandar esta receta a cuarentena? No volverá a planificarse en las semanas ni aparecerá en alternativas.')) {
+      if (!STATE.quarantineRecipes.includes(meal.id)) {
+        STATE.quarantineRecipes.push(meal.id);
+        saveState();
+      }
+      showToast('🚫 Receta en cuarentena', 'warning');
+      
+      // Si la receta apartada era de este día planificado, la marcamos rechazada.
+      if (dia) {
+        setMealStatus(dia, tipo, 'rejected');
+      }
+      
+      closeModal();
+      renderPlanSemanal();
+      renderHoy();
+    }
+  });
 
   const btnPlayAudio = document.getElementById('btn-play-recipe-audio');
   if (btnPlayAudio) {

@@ -3618,6 +3618,7 @@ function getComidaManana() {
 
 // Función para obtener una receta por ID (busca en menús + recetas nuevas)
 function getRecetaById(id) {
+  if (window.STATE?.customRecipes && window.STATE.customRecipes[id]) return window.STATE.customRecipes[id];
   if (RECETAS_NUEVAS[id]) return RECETAS_NUEVAS[id];
   for (const semana of SEMANAS) {
     for (const dia of Object.values(semana)) {
