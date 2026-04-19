@@ -1354,6 +1354,9 @@ function openMealModal(meal, dia, tipo) {
 
   content.innerHTML = `
     <div class="modal-handle"></div>
+    ${meal.imagen ? `<div style="width:100%; height:200px; border-radius:12px; margin-bottom:15px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+      <img src="${meal.imagen}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="${meal.nombre}">
+    </div>` : ''}
     <div class="modal-header">
       <div class="modal-emoji">${meal.icono}</div>
       <div class="modal-title">${meal.nombre}</div>
@@ -1361,7 +1364,7 @@ function openMealModal(meal, dia, tipo) {
       <div class="modal-badges">
         <span class="modal-badge badge-tiempo">⏱ ${meal.tiempo} min</span>
         <span class="modal-badge badge-porciones">👥 ${meal.porciones} pers.</span>
-        <span class="modal-badge badge-tipo">${meal.tipo === 'aprovechamiento' ? '♻️ Aprovechamiento' : '🥗 Receta nueva'}</span>
+        <span class="modal-badge badge-tipo">${meal.tipo === 'aprovechamiento' ? '♻️ Aprovechamiento' : '🥗 Receta'}</span>
       </div>
     </div>
 

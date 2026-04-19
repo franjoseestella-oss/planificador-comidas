@@ -430,6 +430,7 @@
   "miniburger-de-alubias-y-at-n": {
     "id": "miniburger-de-alubias-y-at-n",
     "nombre": "Miniburger vegetarianos (de legumbre y atún)",
+    "imagen": "images/recipes/miniburger-de-alubias-y-at-n.png",
     "tipo": "cena",
     "porciones": 2,
     "tiempo": 20,
