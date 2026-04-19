@@ -2,18 +2,18 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v34';
-const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v34';
+const CACHE_NAME = 'planificador-v45';
+const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v45';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
+  '/?v=46',
+  '/index.html?v=46',
+  '/css/styles.css?v=46',
   '/js/face-api.min.js',
-  '/js/auth.js',
-  '/js/data.js',
-  '/js/app.js',
-  '/js/chatbot.js',
-  '/manifest.json'
+  '/js/auth.js?v=46',
+  '/js/data.js?v=46',
+  '/js/app.js?v=46',
+  '/js/chatbot.js?v=46',
+  '/manifest.json?v=46'
 ];
 
 // ── INSTALL ────────────────────────────────────────────────
@@ -40,7 +40,7 @@ self.addEventListener('activate', e => {
 // ── FETCH (cache first) ─────────────────────────────────────
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+    caches.match(e.request, {ignoreSearch: true}).then(r => r || fetch(e.request))
   );
 });
 

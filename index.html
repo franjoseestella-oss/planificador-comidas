@@ -203,6 +203,11 @@
     <div style="padding:16px 16px 0">
       <h2>Recetario</h2>
       <p style="font-size:.85rem;margin-top:4px">Todas las recetas de la planificación</p>
+      
+      <button class="btn-primary" id="btn-recetas-desvan" style="width:100%; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 6px; background:var(--accent);">
+        <span style="font-size: 1.1rem">🍳</span> Crea receta con lo que hay en la Despensa
+      </button>
+
       <button class="btn-primary" id="btn-refresh-recipes" style="width:100%; margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 6px;">
         <span style="font-size: 1.1rem">✨</span> Refrescar desde NotebookLM
       </button>
@@ -355,6 +360,7 @@
         <label for="desvan-upload-ticket" class="icon-btn" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Subir imagen de ticket">🖼️</label>
         <input type="file" id="desvan-upload-ticket" accept="image/*" style="display:none;">
         <button class="icon-btn" id="btn-desvan-scan" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;" title="Cámara: Reabastecimiento con IA">📸</button>
+        <button class="icon-btn" id="btn-desvan-recipe" style="background:var(--accent);color:var(--bg);font-size:1.2rem;width:40px;height:40px;" title="Crear receta con la despensa">🍳</button>
       </div>
     </div>
 
@@ -409,6 +415,32 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
+       VIEW: COMEDOR
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-comedor" aria-label="Menú del comedor escolar">
+    <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:baseline">
+      <div>
+        <h2>Menú Escolar</h2>
+        <p style="font-size:.82rem;margin-top:3px">PDF del comedor de los niños</p>
+      </div>
+      <div>
+        <label for="comedor-upload" class="icon-btn" style="background:var(--primary);color:var(--bg);font-size:1.2rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Subir PDF del menú">📄</label>
+        <input type="file" id="comedor-upload" accept="application/pdf" style="display:none;">
+      </div>
+    </div>
+
+    <!-- Contenedor del PDF -->
+    <div class="card" style="margin: 16px; padding: 0; display:flex; flex-direction:column; flex:1; min-height: 65vh; overflow:hidden;">
+      <div id="comedor-empty-state" class="empty-state" style="height: 100%;">
+        <div class="empty-icon">🏫</div>
+        <h3>Sin Menú</h3>
+        <p>Sube el PDF del comedor de este mes usando el botón de arriba.</p>
+      </div>
+      <iframe id="comedor-pdf-viewer" style="display:none; width: 100%; height: 100%; border:none; flex: 1;"></iframe>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
        BOTTOM NAVIGATION
   ═══════════════════════════════════════════ -->
   <nav class="bottom-nav" aria-label="Navegación principal">
@@ -436,18 +468,43 @@
       <span class="nav-icon">📦</span>
       <span class="nav-label">Despensa</span>
     </div>
+    <div class="nav-item" data-view="comedor" id="nav-comedor" role="button" tabindex="0" aria-label="Comedor">
+      <span class="nav-icon">🏫</span>
+      <span class="nav-label">Comedor</span>
+    </div>
   </nav>
+
+  <!-- ═══════════════════════════════════════════
+       FLOATING PODCAST PLAYER
+  ═══════════════════════════════════════════ -->
+  <div id="floating-audio-player" style="position:fixed; bottom:70px; left:50%; transform:translateX(-50%); width:95%; max-width:450px; background:var(--card-bg); padding:10px; border-radius:12px; box-shadow:0 -4px 10px rgba(0,0,0,0.3); z-index:100; border:1px solid var(--border);">
+    <h4 style="margin:0 0 6px 0; color:var(--text); font-size:0.85rem; display:flex; align-items:center; gap:6px;">
+      🎙️ Podcast de Recetas
+    </h4>
+    <audio controls style="width:100%; height:32px;">
+      <source src="audio/podcast_recetas.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 
 </div><!-- /#app -->
 
 <!-- Scripts -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
 <script src="/js/env.js"></script>
 <script src="https://unpkg.com/tesseract.js@v5.0.0/dist/tesseract.min.js"></script>
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 <script src="js/face-api.min.js"></script>
-<script src="/js/auth.js?v=8"></script>
-<script src="js/data.js?v=11"></script>
-<script src="js/app.js?v=38"></script>
-<script src="/js/chatbot.js?v=6"></script>
+<script src="/js/auth.js?v=10"></script>
+<script src="js/data.js?v=44"></script>
+<script src="js/app.js?v=44"></script>
+<script src="/js/chatbot.js?v=8"></script>
 </body>
 </html>

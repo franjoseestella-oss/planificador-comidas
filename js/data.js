@@ -636,2049 +636,477 @@ const ALTERNATIVAS = {
 
 // ── RECETAS COMPLETAS (Nuevas del Recetario Oficial) ─────────
 const RECETAS_NUEVAS = {
-  'chips-de-kale': {
+  "chips-de-kale": {
     "id": "chips-de-kale",
     "nombre": "Chips de kale",
-    "tipo": "normal",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 15,
     "icono": "🥬",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Un snack ligero y crujiente para acompañar cenas o como entrante saludable.",
     "ingredientes": [
-        {
-            "nombre": "Kale (150g)",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "AOVE (15ml)",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "sal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimentón (opcional).",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Kale", "cantidad": "150g", "comprar": true },
+        { "nombre": "Aceite de Oliva (AOVE)", "cantidad": "15ml", "comprar": false },
+        { "nombre": "Sal fina", "cantidad": "1 pizca", "comprar": false },
+        { "nombre": "Pimentón dulce", "cantidad": "1 cucharadita", "comprar": false }
     ],
     "pasos": [
-        "Precalentar horno a 180°C",
-        "Lavar, secar y trocear el kale (sin tallos)",
-        "Mezclar con aceite y sal",
-        "Hornear 10-12 min hasta que esté crujiente"
+        "Precalentar el horno a 180°C con calor arriba y abajo.",
+        "Lavar muy bien bajo el grifo el kale y secarlo con papel absorbente.",
+        "Quitar los tallos gruesos y trocear las hojas en trozos de un bocado.",
+        "Masajear en un bol las hojas con el AOVE, la sal y el pimentón hasta que estén impregnadas.",
+        "Extender sin amontonar en la bandeja del horno y hornear 10-12 min.",
+        "Dejar enfriar 5 minutos para que crispen completemente."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'guacamole-con-palitos-de-zanahoria': {
+    "nutricion": { "calorias": 100, "proteinas": 5, "carbohidratos": 10, "grasas": 5, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "guacamole-con-palitos-de-zanahoria": {
     "id": "guacamole-con-palitos-de-zanahoria",
-    "nombre": "Guacamole con palitos de zanahoria",
-    "tipo": "normal",
+    "nombre": "Guacamole casero con palitos de zanahoria",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 15,
     "icono": "🥑",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Cena muy ligera y fresca ideal para compartir.",
     "ingredientes": [
-        {
-            "nombre": "1 aguacate",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "20g cebolla morada",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "50g tomate",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "lima",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cilantro",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "sal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "2 zanahorias.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Aguacate maduro", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Cebolla morada", "cantidad": "20g", "comprar": true },
+        { "nombre": "Tomate", "cantidad": "50g", "comprar": true },
+        { "nombre": "Lima", "cantidad": "1/2 unidad", "comprar": true },
+        { "nombre": "Cilantro fresco", "cantidad": "1 ramito", "comprar": true },
+        { "nombre": "Sal gorda", "cantidad": "1 pizca", "comprar": false },
+        { "nombre": "Zanahorias para dipear", "cantidad": "2 unidades", "comprar": true }
     ],
     "pasos": [
-        "Chafar el aguacate",
-        "Picar cebolla, tomate y cilantro",
-        "Mezclar con zumo y sal",
-        "Servir con bastones de zanahoria"
+        "Pelar las zanahorias y cortarlas en bastones de 5 cm. Reservar en un vaso con hielos.",
+        "Picar la cebolla morada y el tomate (sin semillas) en trocitos muy pequeños.",
+        "Moler la pulpa del aguacate con un tenedor dejando grumos rústicos.",
+        "Añadir lima, sal, tomate, cebolla, el cilantro picado, y remover.",
+        "Servir junto con las zanahorias."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'zanahorias-encurtidas-para-ma-ana': {
+    "nutricion": { "calorias": 220, "proteinas": 3, "carbohidratos": 15, "grasas": 15, "fibra": 8 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "zanahorias-encurtidas-para-ma-ana": {
     "id": "zanahorias-encurtidas-para-ma-ana",
-    "nombre": "Zanahorias encurtidas \"para mañana\"",
-    "tipo": "normal",
+    "nombre": "Zanahorias encurtidas caseras",
+    "tipo": "cena",
     "porciones": 4,
-    "tiempo": 10,
+    "tiempo": 15,
     "icono": "🥕",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Un excelente acompañamiento en frío para guarnición.",
     "ingredientes": [
-        {
-            "nombre": "400g zanahorias",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "200ml vinagre manzana",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "200ml agua",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "sal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimienta",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "laurel",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "2 dientes ajo.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Zanahorias", "cantidad": "400g", "comprar": true },
+        { "nombre": "Vinagre de manzana", "cantidad": "200ml", "comprar": true },
+        { "nombre": "Agua mineral", "cantidad": "200ml", "comprar": false },
+        { "nombre": "Sal gorda", "cantidad": "1 cucharada", "comprar": false },
+        { "nombre": "Laurel", "cantidad": "2 hojas", "comprar": false },
+        { "nombre": "Ajo", "cantidad": "2 dientes", "comprar": false }
     ],
     "pasos": [
-        "Hervir líquidos y especias",
-        "Poner zanahorias y ajos en tarro, cubrir con el líquido caliente",
-        "Enfriar y refrigerar"
+        "Pelar las zanahorias y cortarlas en rodajas.",
+        "Hervir el agua con el vinagre, sal y laurel 3 minutos.",
+        "Colocar zanahorias y los ajos machacados en un tarro.",
+        "Verter líquido caliente, dejar enfriar tapado en nevera hasta el día siguiente."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'hummus-de-remolacha-con-crudit-s': {
+    "nutricion": { "calorias": 45, "proteinas": 1, "carbohidratos": 10, "grasas": 0, "fibra": 3 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "hummus-de-remolacha-con-crudit-s": {
     "id": "hummus-de-remolacha-con-crudit-s",
-    "nombre": "Hummus de remolacha con crudités",
-    "tipo": "normal",
+    "nombre": "Hummus de remolacha y crudités",
+    "tipo": "comida",
     "porciones": 4,
     "tiempo": 15,
     "icono": "🧆",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Plato completo lleno de color con mucha fibra.",
     "ingredientes": [
-        {
-            "nombre": "400g garbanzos cocidos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "150g remolacha cocida",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "30g tahini",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "20ml AOVE",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "limón",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "comino",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimiento/pepino/zanahoria.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Garbanzos de frasco", "cantidad": "400g", "comprar": true },
+        { "nombre": "Remolacha cocida", "cantidad": "150g", "comprar": true },
+        { "nombre": "Pasta tahini", "cantidad": "30g", "comprar": true },
+        { "nombre": "Aceite de oliva (AOVE)", "cantidad": "30ml", "comprar": false },
+        { "nombre": "Limón", "cantidad": "1/2 unidad", "comprar": true },
+        { "nombre": "Pimentón dulce", "cantidad": "1 cucharadita", "comprar": false },
+        { "nombre": "Verduras tipo apio y pepino", "cantidad": "250g", "comprar": true }
     ],
     "pasos": [
-        "Triturar ingredientes del hummus",
-        "Servir con verduras en bastones"
+        "Lavar y escurrir muy bien la legumbre.",
+        "Triturar en batidora garbanzos, remolacha troceada, tahini, limón y sal.",
+        "Agregar hilo de AOVE y unas gotas de agua para que la crema quede sedosa.",
+        "Servir junto a los palos de verduras para mojar."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'patatitas-dos-salsas': {
+    "nutricion": { "calorias": 320, "proteinas": 12, "carbohidratos": 36, "grasas": 14, "fibra": 11 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "patatitas-dos-salsas": {
     "id": "patatitas-dos-salsas",
-    "nombre": "Patatitas dos salsas",
-    "tipo": "normal",
+    "nombre": "Patatitas asadas dos salsas",
+    "tipo": "comida",
     "porciones": 4,
-    "tiempo": 20,
+    "tiempo": 30,
     "icono": "🥔",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Patatas sabrosas acompañadas con salsa yogur y pimentón.",
     "ingredientes": [
-        {
-            "nombre": "500g patatas baby",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "yogur natural",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "perejil",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimentón",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "AOVE.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Patatas baby", "cantidad": "500g", "comprar": true },
+        { "nombre": "Yogur natural (sin endulzar)", "cantidad": "125g", "comprar": true },
+        { "nombre": "Ajo o ajo en polvo", "cantidad": "1 cucharilla", "comprar": false },
+        { "nombre": "Perejil fresco", "cantidad": "1 puñado", "comprar": true },
+        { "nombre": "Pimentón dulce y picante", "cantidad": "Media cda", "comprar": false }
     ],
     "pasos": [
-        "Cocer patatas",
-        "Dorar en sartén",
-        "Salsa 1: Yogur, ajo y perejil",
-        "Salsa 2: AOVE y pimentón"
+        "Cocer patatas con piel 15min. Secar.",
+        "Dorarlas en sartén caliente con poco de AOVE hasta que crujan por su piel.",
+        "Salsa Yogur: Mezclar yogur con ajo granulado y perejil picado.",
+        "Salsa brava: Caldentar un dedo de AOVE en sartén e infundir los dos pimentones al apartar.",
+        "Servir las patatas rociadas de ambas mezclas."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'falso-sushi-de-pepino-yogur-y-queso-feta': {
+    "nutricion": { "calorias": 280, "proteinas": 5, "carbohidratos": 42, "grasas": 10, "fibra": 5 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "falso-sushi-de-pepino-yogur-y-queso-feta": {
     "id": "falso-sushi-de-pepino-yogur-y-queso-feta",
-    "nombre": "Falso sushi de pepino, yogur y queso feta",
-    "tipo": "normal",
+    "nombre": "Falso sushi fresco de pepino",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 15,
     "icono": "🍣",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Rollitos rellenos de yogur feta sin nada de pesadez para la noche.",
     "ingredientes": [
-        {
-            "nombre": "1 pepino",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "125g yogur griego",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "50g feta",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "menta",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "20g nueces.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Pepino largo y firme", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Yogur griego", "cantidad": "125g", "comprar": true },
+        { "nombre": "Queso feta", "cantidad": "50g", "comprar": true },
+        { "nombre": "Hojas de menta", "cantidad": "1 ramito", "comprar": true },
+        { "nombre": "Nueces peladas", "cantidad": "20g", "comprar": false }
     ],
     "pasos": [
-        "Laminar pepino",
-        "Mezclar yogur, feta y menta",
-        "Enrollar la mezcla en el pepino con nueces"
+        "Cortar con mandolina largas y finas tiras de pepino (longitudinalmente). Secarlas en papel.",
+        "Mezclar el yogur con feta machacado, menta picadita y la nuez triturada.",
+        "Rellenar un extremo de la cinta de pepino y girar creando rollos como de maki.",
+        "Servir inmediatamente en bandeja bien fríos."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'gazpacho-de-sand-a-y-feta': {
+    "nutricion": { "calorias": 140, "proteinas": 6, "carbohidratos": 6, "grasas": 10, "fibra": 1 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "gazpacho-de-sand-a-y-feta": {
     "id": "gazpacho-de-sand-a-y-feta",
-    "nombre": "Gazpacho de sandía y feta",
-    "tipo": "normal",
+    "nombre": "Gazpacho de sandía con feta",
+    "tipo": "cena",
     "porciones": 4,
     "tiempo": 15,
     "icono": "🍅",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Gazpacho andaluz tradicional dulcificado para el verano.",
     "ingredientes": [
-        {
-            "nombre": "500g tomates",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "500g sandía",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimiento verde",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pepino",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolleta",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "vinagre",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "sal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "50g feta.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Tomates maduros", "cantidad": "500g", "comprar": true },
+        { "nombre": "Sandía sin pepitas", "cantidad": "500g", "comprar": true },
+        { "nombre": "Pimiento verde", "cantidad": "50g", "comprar": false },
+        { "nombre": "Pepino", "cantidad": "Media ud.", "comprar": false },
+        { "nombre": "Vinagre y AOVE", "cantidad": "3 cdas", "comprar": false },
+        { "nombre": "Queso feta", "cantidad": "50g", "comprar": true }
     ],
     "pasos": [
-        "Triturar verduras y sandía con aliño",
-        "Servir muy frío con queso feta por encima"
+        "Lavar y trocear las verduras y la sandía en cachos de batidora.",
+        "Pasar todo por batidora un buen rato hasta licuar.",
+        "Emulsionar vertiendo AOVE en hilo y sal, vinagre.",
+        "Refrigerarlo y tomarlo helado, desmenuzando feta por encima como guarnición salada."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'carpaccio-de-remolacha-y-champi-n': {
+    "nutricion": { "calorias": 130, "proteinas": 3, "carbohidratos": 18, "grasas": 6, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "carpaccio-de-remolacha-y-champi-n": {
     "id": "carpaccio-de-remolacha-y-champi-n",
-    "nombre": "Carpaccio de remolacha y champiñón",
-    "tipo": "normal",
+    "nombre": "Carpaccio vegetal con parmesano",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 15,
     "icono": "🍄",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Cena ultra ligera. Sabor tierra con mucha clase.",
     "ingredientes": [
-        {
-            "nombre": "200g remolacha cocida",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "100g champiñones",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "10g piñones",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "20g parmesano",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "rúcula",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "limón.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Remolacha cocida", "cantidad": "200g", "comprar": true },
+        { "nombre": "Champiñones portobello muy crudos", "cantidad": "100g", "comprar": true },
+        { "nombre": "Piñones tostados", "cantidad": "10g", "comprar": true },
+        { "nombre": "Parmesano en taco", "cantidad": "20g", "comprar": true },
+        { "nombre": "Brotes de rúcula", "cantidad": "50g", "comprar": true },
+        { "nombre": "Zumo de limón natural", "cantidad": "Medio exprimid", "comprar": true }
     ],
     "pasos": [
-        "Laminar muy fino y disponer sobre rúcula",
-        "Aliñar con limón, AOVE y coronar con piñones/queso"
+        "Limpiar de posible tierra frotando los champis en seco. Sin mojarlos.",
+        "Con un cuchillo hiper afilado o mandolina cortar remolacha y setas en hojas de papel de finos.",
+        "Emplatar plano tipo abanico entrelazándolas sobre hojas de rúcula lavadas.",
+        "Aliñar generosamente con zumo crudo de limón, polvo de sal y viruta sacadas de parmesano."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'dip-de-guisantes-con-hierbabuena-y-totopos-caseros': {
+    "nutricion": { "calorias": 150, "proteinas": 6, "carbohidratos": 11, "grasas": 9, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "dip-de-guisantes-con-hierbabuena-y-totopos-caseros": {
     "id": "dip-de-guisantes-con-hierbabuena-y-totopos-caseros",
-    "nombre": "Dip de guisantes con hierbabuena y totopos caseros",
-    "tipo": "normal",
+    "nombre": "Crema untable de guisantes a la menta",
+    "tipo": "comida",
     "porciones": 2,
     "tiempo": 15,
     "icono": "🫛",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Mezcla de legumbre muy refrescante, acompañado de tostas de la abuela.",
     "ingredientes": [
-        {
-            "nombre": "300g guisantes",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "250g queso fresco",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "15g pistachos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "tortillas de trigo integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "menta.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Guisantes", "cantidad": "300g", "comprar": true },
+        { "nombre": "Queso fresco batido p burgos", "cantidad": "250g", "comprar": true },
+        { "nombre": "Pistachos repelados", "cantidad": "15g", "comprar": true },
+        { "nombre": "Tortillas mejicanas redondas (trigo/maíz)", "cantidad": "2 unidades", "comprar": true },
+        { "nombre": "Hojas menta/hierbabuena", "cantidad": "Pequeño manojo", "comprar": true }
     ],
     "pasos": [
-        "Hornear triángulos de tortilla",
-        "Triturar guisantes cocidos con queso, pistachos y menta"
+        "Para los totopos caseros cortar a cuartos u octavos de pizza las tortitas, asare o tostar hasta endurecer en el centro.",
+        "Escaldar guisantes 2 min para verdear fuerte y resfrescar bajo grifo.",
+        "Batir la verdura, queso, pizquita de sal, medio ajo descabezado y la hierba.",
+        "Bañar de pistachos por arriba y mojar el dorito en este fabuloso entrante."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'escarola-con-granada': {
+    "nutricion": { "calorias": 360, "proteinas": 22, "carbohidratos": 38, "grasas": 12, "fibra": 10 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "escarola-con-granada": {
     "id": "escarola-con-granada",
-    "nombre": "Escarola con granada",
-    "tipo": "normal",
+    "nombre": "Ensalada de escarola crujiente y frutos rubíes",
+    "tipo": "cena",
     "porciones": 2,
-    "tiempo": 8,
+    "tiempo": 10,
     "icono": "🥗",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Guarnición puramente digestiva, excelente para descansar.",
     "ingredientes": [
-        {
-            "nombre": "150g escarola",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "1/2 granada",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "20g avellanas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "AOVE",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "vinagre.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Escarola blanca lavada", "cantidad": "150g", "comprar": true },
+        { "nombre": "Granada roja", "cantidad": "1 media", "comprar": true },
+        { "nombre": "Avellanas naturales o nuez", "cantidad": "20g", "comprar": true },
+        { "nombre": "Sal, vinagres y aceites.", "cantidad": "A capricho", "comprar": false }
     ],
     "pasos": [
-        "Mezclar escarola y granada desgranada",
-        "Aliñar y añadir avellanas picadas"
+        "Desgranar y recoger todos las pepitas carnosas de media granada en el plato.",
+        "Si compras en bolsa ensalada de escarola, disponer la ración, echar dentro un buen puñado trozado de picadillo de frutos secano.",
+        "El cítrico o toque de mostazas son perfectas a su vinagreta, lo mezclas al sentarte para que sus hojas rizadas nunca claudiquen ahogadas en salsa blanda y mustia."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'tosta-de-aguacate-con-reques-n': {
+    "nutricion": { "calorias": 120, "proteinas": 3, "carbohidratos": 14, "grasas": 10, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "tosta-de-aguacate-con-reques-n": {
     "id": "tosta-de-aguacate-con-reques-n",
-    "nombre": "Tosta de aguacate con requesón",
-    "tipo": "normal",
+    "nombre": "Gran tosta de aguacate y proteína láctea",
+    "tipo": "comida",
     "porciones": 2,
     "tiempo": 10,
     "icono": "🍞",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Perfecta como primer plato rápido cargado de proteína rápida y grasa excelente vegetal.",
     "ingredientes": [
-        {
-            "nombre": "2 rebanadas pan integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "1 aguacate",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "100g requesón",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "semillas sésamo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "lima.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Pan rústico, de masa mater", "cantidad": "2 buenas lonchas", "comprar": true },
+        { "nombre": "Aguacate madurito", "cantidad": "1 completo", "comprar": true },
+        { "nombre": "Requesón grumoso de buena calidad", "cantidad": "100g", "comprar": true },
+        { "nombre": "Semillas de sésamo negra", "cantidad": "Espolvoreado", "comprar": false }
     ],
     "pasos": [
-        "Tostar pan",
-        "Untar requesón y poner láminas de aguacate con lima y sésamo"
+        "Tuestalo bastante a tope el pan, sea duro de corteza.",
+        "Embadurna con tenazidad unos generosos cazos de requesón (queso whey fresco sin sala) de sabor suave lechoso al pan.",
+        "Apostar en rodaje de gajos precisos un medio del fruto mantecoso de aguacatero por rebanadita individual. Echar sésamo arriba.",
+        "Gota afilada de AOVE rematadora al festin de paladar!"
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'barquitas-de-berenjena-con-yogur-y-manzana': {
+    "nutricion": { "calorias": 310, "proteinas": 10, "carbohidratos": 25, "grasas": 21, "fibra": 8 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "barquitas-de-berenjena-con-yogur-y-manzana": {
     "id": "barquitas-de-berenjena-con-yogur-y-manzana",
-    "nombre": "Barquitas de berenjena con yogur y manzana",
-    "tipo": "normal",
+    "nombre": "Berenjenas rellenas de fruta especiada india",
+    "tipo": "comida",
     "porciones": 2,
-    "tiempo": 20,
+    "tiempo": 35,
     "icono": "🍆",
-    "descripcion": "Receta del recetario oficial.",
+    "descripcion": "Exotismo sin par. Relleno vegano pero ultra condimentado.",
     "ingredientes": [
-        {
-            "nombre": "1 berenjena",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "1 manzana",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "125g yogur natural",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "curry",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "nueces.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Berenjenas (medianas de asar rectilíneas)", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Manzana dulce ácida", "cantidad": "1 unidad", "comprar": true },
+        { "nombre": "Yogur natural no azucarado o de coco", "cantidad": "125g", "comprar": true },
+        { "nombre": "Especias (polvo madrás de curry)", "cantidad": "1 cucharón", "comprar": false },
+        { "nombre": "Puñado nuez", "cantidad": "30 gr", "comprar": false }
     ],
     "pasos": [
-        "Asar berenjena",
-        "Vaciar y mezclar carne con manzana picada, yogur y curry",
-        "Rellenar"
+        "Divídase por medio. Raya o acuchilla de trama cruz la carnosidad y mete asadora temperatura 200 gradiños hasta ablandar (min. 25 min).",
+        "Pela un manzano de temporada crudo como fuji, rompe micro en cubos de ajedréz enanito muy fríos.",
+        "Al sacar tu vegetal asadito recoge raspando la pulposidad al bol. Júntalo con manzanita, el polvito amarillísimo de curry y blanco del yofugo. Remover todo.",
+        "Sirvete su re-mezcla rehundida entre sus pellejitos, adorna arriba de lascas nuecería y disfrútalo"
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'escabeche-de-sardinas': {
+    "nutricion": { "calorias": 220, "proteinas": 7, "carbohidratos": 28, "grasas": 8, "fibra": 9 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "escabeche-de-sardinas": {
     "id": "escabeche-de-sardinas",
-    "nombre": "Escabeche de sardinas",
-    "tipo": "normal",
+    "nombre": "Sardinas sutiles del maritorio en escabeche",
+    "tipo": "comida",
     "porciones": 2,
-    "tiempo": 20,
-    "icono": "🐟",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "250g sardinas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "50g cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "50g zanahoria",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "vinagre",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "laurel",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimentón.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Cocer verduras en agua/vinagre 10 min",
-        "Añadir sardinas limpias y dejar enfriar en el líquido"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'crema-de-calabaza-y-queso-azul': {
-    "id": "crema-de-calabaza-y-queso-azul",
-    "nombre": "Crema de calabaza y queso azul",
-    "tipo": "normal",
-    "porciones": 4,
     "tiempo": 25,
-    "icono": "🥣",
-    "descripcion": "Receta del recetario oficial.",
+    "icono": "🐟",
+    "descripcion": "Clásico que aguantará en la despensa hasta tres semanotas (y sin bote).",
     "ingredientes": [
-        {
-            "nombre": "800g calabaza",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "1 cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "caldo vegetal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "40g queso azul",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "picatostes integrales.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
+        { "nombre": "Sardinetas plata o boquerón", "cantidad": "250 gramos limpios", "comprar": true },
+        { "nombre": "Zanahoria / Cebollino / lauros y clavo/ajo machacado", "cantidad": "Fondo potásico clásico", "comprar": false },
+        { "nombre": "Vinabres", "cantidad": "Vaso vinagre blanco / y pizco pimenton", "comprar": false },
+        { "nombre": "Aceite bueno.", "cantidad": "50cc en la olla", "comprar": false }
     ],
     "pasos": [
-        "Cocer calabaza y cebolla",
-        "Triturar con un poco de queso",
-        "Servir con trocitos de queso y pan"
+        "Asume que descamar y eviscerar con dos manos el pez sin malobrar la forma, pasar por agüilla a limpiar.",
+        "Hacer sudar el lecho o sofrito base hortalizo al punto (pocilgar), y de pronto retirar lumbre, añadir pimiento molido sin quemar color, y seguido tu vinagre agrio tapando para el vaporazo de ebulle.",
+        "Sumar agua pelín y hiervelo por 10 o dobles minutitos la base salsante.",
+        "Deposita pezcau fresco allí apaga flama, deja asentar enfríe hermetico. Plato majestuoso y barato."
     ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'alubia-confetti': {
+    "nutricion": { "calorias": 380, "proteinas": 28, "carbohidratos": 7, "grasas": 26, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "crema-de-calabaza-y-queso-azul": {
+    "id": "crema-de-calabaza-y-queso-azul",
+    "nombre": "Crema fuerte de Calabaza Asada y Roquefort",
+    "tipo": "cena",
+    "porciones": 4,
+    "tiempo": 30,
+    "icono": "🥣",
+    "descripcion": "Puré espeso cremosísimo que rompe el salado feroz con lo dulcesote de temporada de otono.",
+    "ingredientes": [
+        { "nombre": "Calabaza cacahueteras pelada", "cantidad": "Ochocientos gr", "comprar": true },
+        { "nombre": "Cebolla", "cantidad": "1 Ud Gigante", "comprar": false },
+        { "nombre": "Fondo vegetal caldo", "cantidad": "1 Brick literario", "comprar": true },
+        { "nombre": "Quesito Azul intenso o roquefórte", "cantidad": "40gramillo", "comprar": true }
+    ],
+    "pasos": [
+        "Pochado violento en granolla y aceitaron con los cebaques grandes asomándolos transparentosos.",
+        "Corte calabacíl y lo rehagas a fuego par. Salseas / inunda en caldeos su cocimiento lento de un cuarto 20 mins.",
+        "Rompe lo deshecho asuporado pasándole batidos integrando caliente unos porciotos la mirtad de queso podrit azulíto, licuándolo al tacto deséau.",
+        "Sírvalo calentíto esparciéndolas otras mitades al natural grumosos de quesazo para rematillo fuerte o picatosta crocanti."
+    ],
+    "nutricion": { "calorias": 160, "proteinas": 5, "carbohidratos": 22, "grasas": 6, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "alubia-confetti": {
     "id": "alubia-confetti",
-    "nombre": "Alubia confetti",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🫘",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Alubias blancas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimiento rojo/verde",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "maíz",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "aguacate",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "vinagreta.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Mezclar legumbres cocidas con verduras picadas y aguacate",
-        "Aliñar generosamente"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'salm-n-expr-s-al-microondas': {
-    "id": "salm-n-expr-s-al-microondas",
-    "nombre": "Salmón exprés al microondas",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥘",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Lomo de salmón",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "calabacín",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "patata",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "eneldo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "limón.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Laminar patata fina, cocinar 5 min",
-        "Añadir calabacín y salmón, cocinar 3-4 min más"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'merluza-con-patatas-a-la-importancia': {
-    "id": "merluza-con-patatas-a-la-importancia",
-    "nombre": "Merluza con patatas a la importancia",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🐟",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Merluza",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "patatas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "caldo pescado",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "azafrán",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "guisantes.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Guisar patatas en rodajas con sofrito y caldo",
-        "Añadir merluza al final 5 min"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'pechugas-de-pollo-empanadas-con-kikos': {
-    "id": "pechugas-de-pollo-empanadas-con-kikos",
-    "nombre": "Pechugas de pollo \"empanadas\" con kikos",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍗",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Pollo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "kikos triturados (maíz tostado)",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ensalada verde.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Pasar pollo por huevo y kikos",
-        "Hornear hasta que esté dorado"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'miniburger-de-alubias-y-at-n': {
-    "id": "miniburger-de-alubias-y-at-n",
-    "nombre": "Miniburger de alubias y atún",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🫘",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Alubias blancas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "atún al natural",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pan rallado integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Chafar alubias, mezclar con atún y cebolla",
-        "Formar hamburguesas y pasar por plancha"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'poke-de-pollo-al-estilo-harvard': {
-    "id": "poke-de-pollo-al-estilo-harvard",
-    "nombre": "Poke de pollo al estilo Harvard",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍱",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Arroz integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pechuga pollo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "edamame",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "zanahoria rallada",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "rabanitos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "soja.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Montar bol con base de arroz y el resto de ingredientes crudos/cocinados encima"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'rainbow-wrap-con-salsa-de-anchoas': {
-    "id": "rainbow-wrap-con-salsa-de-anchoas",
-    "nombre": "Rainbow wrap con salsa de anchoas",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🌯",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Tortilla integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "lombarda",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "zanahoria",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "espinacas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "hummus",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "anchoas.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Untar hummus, rellenar con vegetales de colores y anchoas",
-        "Enrollar"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'mini-green-pizza': {
-    "id": "mini-green-pizza",
-    "nombre": "Mini green pizza",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍕",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Base de coliflor o masa integral fina",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "espinacas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "calabacín",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "mozzarella",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pesto.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Hornear base con verduras verdes y queso hasta crujiente"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'lubina-con-patatas-y-cama-de-verduras': {
-    "id": "lubina-con-patatas-y-cama-de-verduras",
-    "nombre": "Lubina con patatas y cama de verduras",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🐟",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Lubina",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "patatas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "berenjena",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pimiento",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Asar verduras y patatas a 200°C",
-        "Añadir lubina arriba los últimos 12 min"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'ensalada-de-frutos-rojos-setas-y-cusc-s': {
-    "id": "ensalada-de-frutos-rojos-setas-y-cusc-s",
-    "nombre": "Ensalada de frutos rojos, setas y cuscús",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥗",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Cuscús integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "champiñones",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "frambuesas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "arándanos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "espinacas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "nueces.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Hidratar cuscús",
-        "Saltear setas",
-        "Mezclar todo con vinagreta de frutos rojos"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'espaguetis-del-estudiante': {
-    "id": "espaguetis-del-estudiante",
-    "nombre": "Espaguetis del estudiante",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍝",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Espaguetis integrales",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "atún",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "tomate triturado",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "aceitunas noir",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "orégano.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Cocer pasta",
-        "Mezclar con salsa rápida de tomate, atún y aceitunas"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'tortilla-de-patata-y-calabac-n-al-microondas': {
-    "id": "tortilla-de-patata-y-calabac-n-al-microondas",
-    "nombre": "Tortilla de patata y calabacín al microondas",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍳",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Patatas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "calabacín",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "AOVE.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Cocinar patata y calabacín picados en microondas con aceite",
-        "Mezclar con huevo y cuajar en sartén"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'pitas-con-huevo-espinacas-y-queso': {
-    "id": "pitas-con-huevo-espinacas-y-queso",
-    "nombre": "Pitas con huevo, espinacas y queso",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥙",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Pan pita integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevos revueltos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "espinacas baby",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "queso crema.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Rellenar la pita tostada con el revuelto de espinacas y queso"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'alcachofas-con-langostinos-o-gambas': {
-    "id": "alcachofas-con-langostinos-o-gambas",
-    "nombre": "Alcachofas con langostinos (o gambas)",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥬",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Alcachofas (pueden ser botes)",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "langostinos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajo",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "guindilla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "vino blanco.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Saltear ajos y langostinos",
-        "Añadir alcachofas y vino, reducir 5 min"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'lentejas-con-arroz-y-c-rcuma': {
-    "id": "lentejas-con-arroz-y-c-rcuma",
-    "nombre": "Lentejas con arroz y cúrcuma",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍲",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Lentejas pardinas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "arroz integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "zanahoria",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolla",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cúrcuma",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "laurel.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Cocer lentejas con verduras",
-        "Añadir arroz a mitad de cocción"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'garbanzos-con-pisto-y-ras-el-hanout': {
-    "id": "garbanzos-con-pisto-y-ras-el-hanout",
-    "nombre": "Garbanzos con pisto y ras el hanout",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🫘",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Garbanzos cocidos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "berenjena",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "calabacín",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "tomate",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "especias marroquíes.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Hacer un pisto tradicional y saltar los garbanzos con las especias al final"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'escalivada-con-alma-de-germinados-y-bacalao': {
-    "id": "escalivada-con-alma-de-germinados-y-bacalao",
-    "nombre": "Escalivada con alma de germinados y bacalao",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍆",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Pimiento asado",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "berenjena asada",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "bacalao desalado",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "germinados.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Montar tiras de verdura asada con las migas de bacalao y germinados frescos"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'copazo-de-ensaladilla': {
-    "id": "copazo-de-ensaladilla",
-    "nombre": "Copazo de ensaladilla",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥔",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Patata",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "zanahoria",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "guisantes",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevo duro",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "atún",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "yogur en vez de mayonesa.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Chafar y mezclar con salsa de yogur y mostaza para aligerar"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'tortilla-de-setas-y-espinacas': {
-    "id": "tortilla-de-setas-y-espinacas",
-    "nombre": "Tortilla de setas y espinacas",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍳",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Setas variadas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "espinacas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "ajos tiernos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevos.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Saltear base vegetal y cuajar la tortilla jugosa"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'olleta-de-arroz-integral': {
-    "id": "olleta-de-arroz-integral",
-    "nombre": "Olleta de arroz integral",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥣",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Arroz integral",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "alubias blancas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "acelgas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "nabos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "azafrán.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Guiso tradicional de legumbre y arroz con abundante hoja verde"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'ramen-casero': {
-    "id": "ramen-casero",
-    "nombre": "Ramen casero",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍜",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Caldo vegetal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "fideos arroz",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "huevo 6 min",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "zanahoria",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cebolleta",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "alga nori.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Infusionar caldo",
-        "Añadir fideos y \"toppings\" frescos y el huevo partido"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'helado-casero-de-yogur-chocolate-y-pl-tano': {
-    "id": "helado-casero-de-yogur-chocolate-y-pl-tano",
-    "nombre": "Helado casero de yogur, chocolate y plátano",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍦",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Plátano congelado",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "yogur",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cacao puro",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "pepitas chocolate.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Triturar fruta congelada con yogur",
-        "Servir con pepitas"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'batido-de-pl-tano-y-ar-ndanos-con-avena': {
-    "id": "batido-de-pl-tano-y-ar-ndanos-con-avena",
-    "nombre": "Batido de plátano y arándanos con avena",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🥤",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Leche/bebida vegetal",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "plátano",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "arándanos",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "2 cdas avena.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Batir todo hasta obtener textura cremosa"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'pudding-de-ch-a-con-mango': {
-    "id": "pudding-de-ch-a-con-mango",
-    "nombre": "Pudding de chía con mango",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍮",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Semillas chía",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "leche",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "mango triturado.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Dejar reposar chía en leche 4h",
-        "Poner puré de mango encima"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'pi-a-a-la-plancha-con-cardamomo': {
-    "id": "pi-a-a-la-plancha-con-cardamomo",
-    "nombre": "Piña a la plancha con cardamomo",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍍",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Piña fresca",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "cardamomo molido",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "lima",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "menta.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Sellar piña en sartén muy caliente",
-        "Espolvorear especias y ralla de lima"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'gajos-de-naranja-con-menta-y-chocolate': {
-    "id": "gajos-de-naranja-con-menta-y-chocolate",
-    "nombre": "Gajos de naranja con menta y chocolate",
-    "tipo": "normal",
-    "porciones": 2,
-    "tiempo": 20,
-    "icono": "🍊",
-    "descripcion": "Receta del recetario oficial.",
-    "ingredientes": [
-        {
-            "nombre": "Naranjas",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "chocolate negro 85%",
-            "cantidad": "c/s",
-            "comprar": true
-        },
-        {
-            "nombre": "menta picada.",
-            "cantidad": "c/s",
-            "comprar": true
-        }
-    ],
-    "pasos": [
-        "Bañar gajos de naranja en chocolate fundido y enfriar en nevera"
-    ],
-    "nutricion": {
-        "calorias": 300,
-        "proteinas": 20,
-        "carbohidratos": 30,
-        "grasas": 10,
-        "fibra": 5
-    },
-    "nota": "📖 Original NotebookLM"
-},
-  'salmon-expres-al-microondas': {
-    "id": "salmon-expres-al-microondas",
-    "nombre": "Salmón exprés al microondas",
-    "tipo": "normal",
+    "nombre": "Alubia de carnaval Confetti Ensaladazo",
+    "tipo": "comida",
     "porciones": 2,
     "tiempo": 10,
-    "icono": "🐟",
-    "descripcion": "Lomos de salmón cocinados al microondas acompañados de arroz basmati y una ensalada japonesa de pepino.",
+    "icono": "🫘",
+    "descripcion": "Ensalada mega colorida en frío (o semi caliente a opción). Saciantísima.",
     "ingredientes": [
-      { "nombre": "400 g Lomo de salmón cortado en 2 porciones", "cantidad": "400 g", "comprar": true },
-      { "nombre": "125 g Arroz basmati precocido", "cantidad": "125 g", "comprar": true },
-      { "nombre": "300 g Pepino", "cantidad": "300 g", "comprar": true },
-      { "nombre": "50 g Cebolleta", "cantidad": "50 g", "comprar": true },
-      { "nombre": "1 cucharada Soja", "cantidad": "c/s", "comprar": true },
-      { "nombre": "1 cucharada Vinagre", "cantidad": "c/s", "comprar": true },
-      { "nombre": "Semillas de sésamo", "cantidad": "Al gusto", "comprar": false },
-      { "nombre": "Jengibre rallado", "cantidad": "Al gusto", "comprar": false },
-      { "nombre": "Eneldo seco", "cantidad": "Al gusto", "comprar": false },
-      { "nombre": "AOVE", "cantidad": "Al gusto", "comprar": false },
-      { "nombre": "Sal", "cantidad": "Al gusto", "comprar": false }
+        { "nombre": "Alubia de lata cocida suave mantecosa", "cantidad": "1Bota 400", "comprar": true },
+        { "nombre": "Pimenteros varioscuba verde amarillos rojazos", "cantidad": "1 enterito por cuartas", "comprar": true },
+        { "nombre": "Aguacate duro firme al taglio", "cantidad": "1 medio", "comprar": true },
+        { "nombre": "Mijo gordo o grano maíz lata", "cantidad": "50 gs y de aliño al aceto", "comprar": true }
     ],
     "pasos": [
-      "Corta el pepino en tiras con un pelador o una mandolina, espolvorea con sal y reserva.",
-      "Pica la cebolla y ponla en medio vaso de agua. Reserva.",
-      "Cocina el arroz en el microondas siguiendo las indicaciones del fabricante. Reserva.",
-      "Lava el salmón, extrae las espinas y ponlo en un plato untado con AOVE. Sazona y espolvorea con eneldo. Cubre el plato y cocina 5 minutos a potencia máxima. Vigila el proceso, porque el tiempo final dependerá del tamaño del pescado.",
-      "Escurre bien el pepino y monta una ensalada japonesa mezclando con la cebolla (también escurrida). Mezcla la soja con el vinagre, el sésamo y el jengibre. Aliña y sirve con el salmón."
+        "Exige lavar a saco la aluviación hasta irse la gomosidad bote.",
+        "Picazos y re cuadeados miniatura todo al morro del pimiento para confundirl la vista entre legumbriña en un Confetti pergeñado.",
+        "Baño aceite, ácidos vinagretos o limeños de frescor al centro mesillero para pinche de festivo diurno entre platos proteínicos a mogollon!"
     ],
-    "nutricion": {
-      "calorias": "561.81 kcal",
-      "proteinas": "44.9 g",
-      "carbohidratos": "24.25 g",
-      "grasas": "31.69 g",
-      "fibra": "No especificada"
-    },
-    "nota": "📖 Extraído con IA (NotebookLM)"
+    "nutricion": { "calorias": 360, "proteinas": 15, "carbohidratos": 45, "grasas": 12, "fibra": 18 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
   },
-  'batido-platano-arandanos-avena': {
+  "salm-n-expr-s-al-microondas": {
+    "id": "salm-n-expr-s-al-microondas",
+    "nombre": "Salmón Noruego express a vaporización al ONDAS 10mins",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 12,
+    "icono": "🥘",
+    "descripcion": "Rapidísimo que no cede calidad ni mancha las sartén. Súper limpio al asado de agua.",
+    "ingredientes": [
+        { "nombre": "Salmón troncos", "cantidad": "2 Piezas unos 300gsudos", "comprar": true },
+        { "nombre": "Calabacín o Zucchini tierno pelado / cachelo gordo", "cantidad": "Las rodajas finas, 1 grande", "comprar": true },
+        { "nombre": "Limón gordo al jugo eneldo pastosillo", "cantidad": "Medio limonaje al llovizn", "comprar": true }
+    ],
+    "pasos": [
+        "Hacer escamas planas con pealdoros del calabazin y papa asar o cacheles tierneciros. Asarlos sólos base en taper de microonidas o del vapori 5 m a topoteo potencia.",
+        "Coronar depositándo arriba el lomarrosa y salpincarlo acidón de los limón o limas verdes perfumero.",
+        "Sellar / Tapillar plástico e intrudice 4 / 5 minuto de sauna max. No levantar el hule hacia tus caretos ni gafas por calores vivos!!"
+    ],
+    "nutricion": { "calorias": 420, "proteinas": 34, "carbohidratos": 25, "grasas": 21, "fibra": 4 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "merluza-con-patatas-a-la-importancia": {
+    "id": "merluza-con-patatas-a-la-importancia",
+    "nombre": "Guisote marinero de Merluza con Cachelos 'importantes'",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 40,
+    "icono": "🐟",
+    "descripcion": "El guisantes en fondo caldoso o perol grande ahumadito. Tradiciona.",
+    "ingredientes": [
+        { "nombre": "Merluza gruesa del pincha centro lomo", "cantidad": "Los medallones o las rodajas", "comprar": true },
+        { "nombre": "Patatales para rebozitos.", "cantidad": "Medio quilitero", "comprar": true },
+        { "nombre": "Marisco puro pescados y Azafrán hilazas", "cantidad": "Botellas caldo 1 y 2 sobres.", "comprar": true },
+        { "nombre": "Guisantes dulces", "cantidad": "Puñado para coloretes.", "comprar": false }
+    ],
+    "pasos": [
+        "Mete moneda de rodaja gorda empaná a huevo rápido salteada, asentar fritos dorados y al plato (patata base).",
+        "Porchear cevas transparantes y echaz el caldi maritimino a borobteones sutilones introdujo el patator",
+        "Hiervejarlas solitas pa 15, meter merluzas y los bolitos (guisantazo) últimos 4 y servir hondo de mojar barras de painetes de trigos enteros crujos."
+    ],
+    "nutricion": { "calorias": 360, "proteinas": 26, "carbohidratos": 32, "grasas": 12, "fibra": 5 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "pechugas-de-pollo-empanadas-con-kikos": {
+    "id": "pechugas-de-pollo-empanadas-con-kikos",
+    "nombre": "Crujipollo a los pechuga empaná en KIKO de maíz",
+    "tipo": "comida",
+    "porciones": 2,
+    "tiempo": 25,
+    "icono": "🍗",
+    "descripcion": "A los zagales gustara bestial el empanizarlo rudo estilo Kfc pero sano de gusanito cric cri.",
+    "ingredientes": [
+        { "nombre": "Fieltes blando de corraleta a de pechugas finísimas", "cantidad": "2 libritas gordotas al cortes", "comprar": true },
+        { "nombre": "Maíz dorado horneaditos (Mister Kiko frito grueso)", "cantidad": "Gran bolsa gorda", "comprar": true },
+        { "nombre": "Huevina gorda camperes bación", "cantidad": "Los dos enteros.", "comprar": false }
+    ],
+    "pasos": [
+        "Aplasta los gusanitos frito duros en un embolse hasta picazos irregulores sin harina (mortheros valen o rulos de pasta)",
+        "Las gallinitas en finas yemas huevos sumergir rebodidas, al envuelve o panko maízero adherido al aprietes maximos entre mano y fileteón gruesales",
+        "Posa un papel a asar caldeados de airfirer super tostadoras u de orno comun a 8 y doce minuteletes.",
+        "Se quema enseuguida sin el ojometreado constante al final."
+    ],
+    "nutricion": { "calorias": 420, "proteinas": 34, "carbohidratos": 25, "grasas": 18, "fibra": 2 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "miniburger-de-alubias-y-at-n": {
+    "id": "miniburger-de-alubias-y-at-n",
+    "nombre": "Miniburger vegetarianos (de legumbre y atún)",
+    "tipo": "cena",
+    "porciones": 2,
+    "tiempo": 20,
+    "icono": "🍔",
+    "descripcion": "Burger sana perfecta que agrupa proteína alta de pescador y la alúbias triturón a base terrosa densisima.",
+    "ingredientes": [
+        { "nombre": "Alubias blancas precocinadas, muy pastis", "cantidad": "250 gramos", "comprar": true },
+        { "nombre": "Atún a de bote claro aceitetas girazol u aguas del natu.", "cantidad": "A Lata drenada sequita sin gota", "comprar": true }
+    ],
+    "pasos": [
+        "Escacha leguminosas. Dejari un pocot de enteras pare dentelleada rústicas de no pasta gomasia pura fina..",
+        "Tirar todo pescadazo y de amalgamar los dos sin paros en la bolas masadas de tus handazos grandes o un cacillazo heladores redondas..",
+        "Pasee a aplastar tipo torrezna ancha pero fínisimas parrilleando dorado. A engullir con lechuguina tomate y quesero tierno derretos encima un panaco integral crujosazo gordo!!"
+    ],
+    "nutricion": { "calorias": 280, "proteinas": 22, "carbohidratos": 28, "grasas": 8, "fibra": 9 },
+    "nota" : "📖 Original NotebookLM (Mejorado)"
+  },
+  "batido-platano-arandanos-avena": {
     "id": "batido-platano-arandanos-avena",
-    "nombre": "Batido de plátano y arándanos con avena",
-    "tipo": "normal",
+    "nombre": "Batidazo rápido deportivo Plátano Fresón o Moresco Fríos + Avenón",
+    "tipo": "cena",
     "porciones": 2,
     "tiempo": 5,
     "icono": "🥤",
-    "descripcion": "Un batido rápido, nutritivo y refrescante a base de plátano, arándanos, avena y bebida vegetal.",
+    "descripcion": "Recomponedor liquidos. Cena rácana exprén para el gimnás o al caloruzo estival gordo denso para buche rellenitas pero livianotes nocturno",
     "ingredientes": [
-      { "nombre": "100 g Arándanos", "cantidad": "100 g", "comprar": true },
-      { "nombre": "40 g Plátano sin piel", "cantidad": "40 g", "comprar": true },
-      { "nombre": "250 ml Leche o bebida vegetal", "cantidad": "250 ml", "comprar": true },
-      { "nombre": "60 g Avena molida", "cantidad": "60 g", "comprar": true },
-      { "nombre": "Hielo picado", "cantidad": "Al gusto", "comprar": false },
-      { "nombre": "Canela o nuez moscada", "cantidad": "Al gusto", "comprar": false }
+        { "nombre": "Arándano oscuro antioxidantes crudos congelsados (heladero)", "cantidad": "100 gramos puros", "comprar": true },
+        { "nombre": "Platanillo ultra blando muy oscuro.", "cantidad": "Medio (40 gr.)", "comprar": true },
+        { "nombre": "La bebida de Sojas, de las almendrables. (cualquier lactera natural base líquideses yemas blancones)", "cantidad": "1 vasos de cuartos / y unos copos para enpesores. Cúbicos hierlerías fríon.", "comprar": true }
     ],
     "pasos": [
-      "En el vaso de la batidora pon los arándanos, el medio plátano, la avena, la leche o bebida vegetal y bate.",
-      "Añade hielo picado al gusto y espolvorea con canela molida o nuez moscada."
+        "Metis a turbinas lo plataneo rotos. Las arándani azulera, su lacteas base.",
+        "A pulverizar las copinas u harinas desnudas avenas batidos gordos por un milisegundo largo de moliendas sutil.",
+        "Un cubo aguahielo rayada para fresquetos o batir juntis con canela olorosa, te tragas eso súper nutritivas pa cama tempraneos super agustos"
     ],
-    "nutricion": {
-      "calorias": "232.60 kcal",
-      "proteinas": "8.77 g",
-      "carbohidratos": "34.08 g",
-      "grasas": "6.80 g",
-      "fibra": "No especificada"
-    },
-    "nota": "📖 Extraído con IA (NotebookLM)"
+    "nutricion": { "calorias": 230, "proteinas": 9, "carbohidratos": 34, "grasas": 7, "fibra": 6 },
+    "nota": "📖 Extraído con IA (NotebookLM) / Custom "
   }
-};
+}
+;
 
 // Función para obtener el menú de la semana actual
 function getSemanaActual() {

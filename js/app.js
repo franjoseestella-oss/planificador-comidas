@@ -12,6 +12,7 @@ const STATE = {
   desvan: [],
   recipeFilter: 'todos',
   recipeSearch: '',
+  comedorMenu: {} // { "lunes": "Lentejas", "martes": "Pollo", ... }
 };
 
 // ── INIT ────────────────────────────────────────────────────
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupRecipeSearch();
   setupScanner();
   setupDesvan();
+  setupComedor();
 
   // Generate shopping list button
   document.getElementById('btn-generate-list').addEventListener('click', () => {
@@ -141,6 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Expose switchView globally for inline onclick handlers
 window.switchView = function(viewName) {
+  if (window.speechSynthesis && window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+  }
+  
   STATE.currentView = viewName;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(`view-${viewName}`).classList.add('active');
@@ -172,6 +178,7 @@ function saveState() {
   localStorage.setItem('customMenu', JSON.stringify(STATE.customMenu));
   localStorage.setItem('shopping', JSON.stringify(STATE.shopping));
   localStorage.setItem('desvan', JSON.stringify(STATE.desvan));
+  localStorage.setItem('comedorMenu', JSON.stringify(STATE.comedorMenu));
 }
 
 function loadState() {
@@ -180,11 +187,13 @@ function loadState() {
     STATE.customMenu = JSON.parse(localStorage.getItem('customMenu') || '{}');
     STATE.shopping   = JSON.parse(localStorage.getItem('shopping')  || '[]');
     STATE.desvan     = JSON.parse(localStorage.getItem('desvan')    || '[]');
+    STATE.comedorMenu = JSON.parse(localStorage.getItem('comedorMenu') || '{}');
   } catch { 
     STATE.planState = {}; 
     STATE.customMenu = {}; 
     STATE.shopping = []; 
     STATE.desvan = []; 
+    STATE.comedorMenu = {};
   }
 
   // Limpiar estados de semanas pasadas
@@ -323,7 +332,22 @@ function renderHoy() {
   heroEl.querySelector('.today-hero-label').textContent = 'Menú de hoy';
   heroEl.querySelector('h2').textContent = DIAS_LABEL[hoyKey];
 
+  const tzoffsetHoy = now.getTimezoneOffset() * 60000;
+  const isodateHoy = (new Date(now - tzoffsetHoy)).toISOString().split('T')[0];
+  const menuNinosHoy = STATE.comedorMenu[isodateHoy];
+  
+  let kidsHtmlHoy = '';
+  if (menuNinosHoy) {
+    kidsHtmlHoy = `
+      <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px; margin-bottom:12px;">
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;">🏫 Comedor Niños</div>
+        <div style="font-size:0.9rem;">${menuNinosHoy}</div>
+      </div>
+    `;
+  }
+
   mealRowEl.innerHTML = `
+    ${kidsHtmlHoy}
     ${mealMiniCard('comida', diaData.comida, hoyKey, comidaStatus)}
     ${mealMiniCard('cena',   diaData.cena,   hoyKey, cenaStatus)}
   `;
@@ -374,6 +398,19 @@ function renderPlanSemanal() {
     const comidaStatus = getMealStatus(dia, 'comida');
     const cenaStatus   = getMealStatus(dia, 'cena');
 
+    const tzoffset = fecha.getTimezoneOffset() * 60000;
+    const isodate = (new Date(fecha - tzoffset)).toISOString().split('T')[0];
+    const menuNinos = STATE.comedorMenu[isodate];
+    let kidsHtml = '';
+    if (menuNinos) {
+      kidsHtml = `
+      <div style="padding: 10px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border);">
+        <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:2px; font-weight:700; text-transform:uppercase;">🏫 Comedor Niños:</div>
+        <div style="font-size:0.85rem; color: #ccc;">${menuNinos}</div>
+      </div>
+      `;
+    }
+
     const card = document.createElement('div');
     card.className = `day-card${isToday ? ' day-today' : ''}${isToday ? ' expanded' : ''}`;
     card.innerHTML = `
@@ -385,6 +422,7 @@ function renderPlanSemanal() {
         <span class="day-chevron">▾</span>
       </div>
       <div class="day-meals">
+        ${kidsHtml}
         ${dayMealRow(diaData.comida, dia, 'comida', comidaStatus)}
         <div class="divider"></div>
         ${dayMealRow(diaData.cena, dia, 'cena', cenaStatus)}
@@ -1153,6 +1191,12 @@ function openMealModal(meal, dia, tipo) {
       </div>
     </div>
 
+    <div style="padding:0 20px 10px;">
+      <button id="btn-play-recipe-audio" class="btn-primary" style="width:100%; border-radius:12px; background:var(--accent); color:var(--bg); border:none; padding:12px; font-weight:bold; cursor:pointer;">
+        🎙️ Escuchar receta de Arguiñano
+      </button>
+    </div>
+
     ${meal.nota ? `<div class="note-box"><span>💡</span><span>${meal.nota}</span></div>` : ''}
 
     ${dia ? `
@@ -1220,6 +1264,35 @@ function openMealModal(meal, dia, tipo) {
 
   document.getElementById('modal-close-btn').addEventListener('click', closeModal);
 
+  const btnPlayAudio = document.getElementById('btn-play-recipe-audio');
+  if (btnPlayAudio) {
+    btnPlayAudio.addEventListener('click', () => {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        btnPlayAudio.innerHTML = '🎙️ Escuchar receta (Sintetizador)';
+        return;
+      }
+      btnPlayAudio.innerHTML = '🛑 Detener audio';
+      const textToRead = `¡Muy buenas familia! Hoy vamos a preparar una recetita estupenda: ${meal.nombre}. 
+      Atentos a los ingredientes. Necesitaremos puras cosas buenas: ${meal.ingredientes.map(i => i.cantidad + ' de ' + i.nombre).join(', ')}. 
+      Y ahora, al lío con la preparación: ${meal.pasos.join('. ')}. 
+      Y como siempre digo, ¡una ramita de perejil, rico, rico, y con fundamento! Que aproveche.`;
+      
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.95; // Ligeramente más lento y pausado
+      utterance.pitch = 0.8; // Voz un poco más grave
+      
+      const voices = window.speechSynthesis.getVoices();
+      // Buscamos voces masculinas en español
+      const maleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('diego') || v.name.toLowerCase().includes('pablo') || v.name.toLowerCase().includes('jorge') || v.name.toLowerCase().includes('male')));
+      if (maleVoice) utterance.voice = maleVoice;
+      
+      utterance.onend = () => { btnPlayAudio.innerHTML = '🎙️ Escuchar receta de Arguiñano'; };
+      window.speechSynthesis.speak(utterance);
+    });
+  }
+
   if (dia) {
     content.querySelector('.btn-modal-accept').addEventListener('click', () => {
       setMealStatus(dia, tipo, 'accepted');
@@ -1245,6 +1318,9 @@ function setupModal() {
 }
 
 function closeModal() {
+  if (window.speechSynthesis && window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+  }
   document.getElementById('modal-overlay').classList.remove('open');
 }
 
@@ -1502,6 +1578,96 @@ function setupDesvan() {
         }
       };
     });
+  }
+
+  const handleGeneratePantryRecipe = async (e) => {
+    if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY) {
+      showToast('⚠️ Configura tu API KEY en ajustes para crear recetas con IA.', 'warning');
+      return;
+    }
+    
+    const despensaItems = STATE.desvan.filter(i => i.cantidad > 0).map(i => `${i.nombre} (${i.cantidad} ${i.unidad || ''})`).join(', ');
+    
+    if (!despensaItems) {
+      showToast('Tu despensa está vacía. Añade ingredientes primero.', 'warning');
+      return;
+    }
+
+    const btn1 = document.getElementById('btn-desvan-recipe');
+    const btn2 = document.getElementById('btn-recetas-desvan');
+    const btn1Html = btn1 ? btn1.innerHTML : '';
+    const btn2Html = btn2 ? btn2.innerHTML : '';
+
+    if (btn1) { btn1.disabled = true; btn1.innerHTML = '⏳'; btn1.style.opacity = '0.7'; }
+    if (btn2) { btn2.disabled = true; btn2.innerHTML = '<span style="font-size: 1.1rem">⏳</span> Creando receta (En proceso...)'; btn2.style.opacity = '0.7'; }
+
+    showToast('🤖 Diseñando receta de aprovechamiento...', 'info');
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `Crea una receta tipo "aprovechamiento" usando principamente estos ingredientes que tengo en mi despensa: ${despensaItems}. Puedes asumir agua, sal, pimienta, y aceite básicos.
+              Devuelve SOLO un objeto JSON válido (sin etiquetas markdown ni texto de relleno) basado STRICTAMENTE en este esquema:
+              {
+                "id": "nombre-inventado-guiones",
+                "nombre": "Nombre original de tu Receta",
+                "tipo": "aprovechamiento",
+                "porciones": 2,
+                "tiempo": 20,
+                "icono": "🥘",
+                "descripcion": "Pequeña descripción atractiva",
+                "ingredientes": [
+                  { "nombre": "Ingrediente usado o recomendado", "cantidad": "100g", "comprar": false }
+                ],
+                "pasos": [
+                  "Paso 1 detallado", "Paso 2 detallado"
+                ],
+                "nutricion": { "calorias": 300, "proteinas": 15, "carbohidratos": 30, "grasas": 10, "fibra": 5 },
+                "nota": "Receta creada con tu IA de cocina"
+              }`
+            }]
+          }],
+          generationConfig: { temperature: 0.7 }
+        })
+      });
+
+      if (!response.ok) throw new Error('Error en conexión con Gemini');
+      const data = await response.json();
+      let jsonText = data.candidates[0].content.parts[0].text;
+      jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const nuevaReceta = JSON.parse(jsonText);
+      
+      if (typeof RECETAS_NUEVAS !== 'undefined') {
+         RECETAS_NUEVAS[nuevaReceta.id] = nuevaReceta;
+      }
+
+      if (typeof openMealModal === 'function') {
+         openMealModal(nuevaReceta, null, nuevaReceta.tipo);
+      }
+      
+      showToast('✅ ¡Receta lista!', 'success');
+      
+    } catch(err) {
+       console.error("AI Recipe creation failed: ", err);
+       showToast('❌ Error creando la receta. Revisa consola.', 'error');
+    } finally {
+      if (btn1) { btn1.disabled = false; btn1.innerHTML = btn1Html; btn1.style.opacity = '1'; }
+      if (btn2) { btn2.disabled = false; btn2.innerHTML = btn2Html; btn2.style.opacity = '1'; }
+    }
+  };
+
+  const btnDesvanRecipe = document.getElementById('btn-desvan-recipe');
+  if (btnDesvanRecipe) {
+    btnDesvanRecipe.addEventListener('click', handleGeneratePantryRecipe);
+  }
+
+  const btnRecetasDesvan = document.getElementById('btn-recetas-desvan');
+  if (btnRecetasDesvan) {
+    btnRecetasDesvan.addEventListener('click', handleGeneratePantryRecipe);
   }
 }
 
@@ -1937,4 +2103,129 @@ function setupScanner() {
       window.scannerRestockMode = false;
     }
   });
+}
+
+// ── COMEDOR (PDF) ───────────────────────────────────────────
+const COMEDOR_DB_NAME = "MiComedorDB";
+const COMEDOR_STORE_NAME = "pdfStore";
+
+function initComedorDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(COMEDOR_DB_NAME, 1);
+    request.onupgradeneeded = event => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains(COMEDOR_STORE_NAME)) {
+        db.createObjectStore(COMEDOR_STORE_NAME);
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function saveComedorPDF(dataUrl) {
+  return initComedorDB().then(db => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(COMEDOR_STORE_NAME, 'readwrite');
+      tx.objectStore(COMEDOR_STORE_NAME).put(dataUrl, 'menu_actual');
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  });
+}
+
+function loadComedorPDF() {
+  return initComedorDB().then(db => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(COMEDOR_STORE_NAME, 'readonly');
+      const req = tx.objectStore(COMEDOR_STORE_NAME).get('menu_actual');
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  });
+}
+
+function setupComedor() {
+  const uploadInput = document.getElementById('comedor-upload');
+  const viewer = document.getElementById('comedor-pdf-viewer');
+  const emptyState = document.getElementById('comedor-empty-state');
+
+  if (!viewer || !emptyState) return;
+
+  // Load existing PDF if any
+  loadComedorPDF().then(dataUrl => {
+    if (dataUrl) {
+      viewer.src = dataUrl;
+      viewer.style.display = 'block';
+      emptyState.style.display = 'none';
+    }
+  }).catch(e => console.log('No existing PDF found or error:', e));
+
+  if (uploadInput) {
+    uploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file || file.type !== 'application/pdf') {
+        showToast('Por favor, selecciona un archivo PDF.', 'warning');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = async (evt) => {
+        const dataUrl = evt.target.result;
+        try {
+          await saveComedorPDF(dataUrl);
+          viewer.src = dataUrl;
+          viewer.style.display = 'block';
+          emptyState.style.display = 'none';
+          showToast('PDF guardado. Procesando menú con IA... 🤖', 'info');
+          
+          // Send to Gemini
+          if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY) {
+            showToast('⚠️ No hay API KEY para leer el menú', 'warning');
+            return;
+          }
+          
+          const base64Data = dataUrl.split(',')[1];
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: `Extrae el menú escolar día a día (solo la comida principal del mediodía). Retorna SOLO un array de JSON válido. Cada objeto debe tener la clave "fecha" (en formato YYYY-MM-DD) y la clave "comida" (un string resumiendo lo que comen: primero, segundo y postre). No incluyas markdown, saltos de línea extra ni comentarios. Solo un arreglo JSON de la forma [{"fecha": "2024-05-01", "comida": "Lentejas y merluza"}, ...]. Ten en cuenta que estamos alrededor del mes actual (${new Date().toISOString().split('T')[0]}), por lo que debes deducir correctamente el año y el mes para crear la fecha exacta YYYY-MM-DD.` },
+                  { inlineData: { mimeType: 'application/pdf', data: base64Data } }
+                ]
+              }],
+              generationConfig: { temperature: 0.1 }
+            })
+          });
+          
+          if (!response.ok) throw new Error('Error en API Gemini');
+          
+          const data = await response.json();
+          let jsonText = data.candidates[0].content.parts[0].text;
+          jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+          
+          const menuArray = JSON.parse(jsonText);
+          let added = 0;
+          menuArray.forEach(item => {
+            if (item.fecha && item.comida) {
+              STATE.comedorMenu[item.fecha] = item.comida;
+              added++;
+            }
+          });
+          saveState();
+          // Update views to reflect new menu data
+          renderHoy();
+          renderPlanSemanal();
+          
+          showToast(`¡Extraídos ${added} días de menú escolar! 🏫`, 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Error procesando el PDF con IA.', 'error');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
 }
