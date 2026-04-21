@@ -19,10 +19,12 @@
     return;
   }
 
-  // Clave de fallback (repo privado)
-  window.GEMINI_API_KEY = 'AIzaSyBrHyY_ti_j7-REcgVrEW_iL2SK4xJpfws';
-  localStorage.setItem('gemini_api_key', window.GEMINI_API_KEY);
-  return;
+  // Si no hay key en localStorage, le pedimos al usuario que introduzca una
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showApiKeyModal);
+  } else {
+    showApiKeyModal();
+  }
 
   function showApiKeyModal() {
     // Evitar duplicados
