@@ -19,11 +19,10 @@
     return;
   }
 
-  // No hay clave: inyectar modal de configuración inicial
-  document.addEventListener('DOMContentLoaded', function () {
-    // Esperar un poco para que la app cargue primero
-    setTimeout(showApiKeyModal, 800);
-  });
+  // Clave de fallback (repo privado)
+  window.GEMINI_API_KEY = 'AIzaSyBrHyY_ti_j7-REcgVrEW_iL2SK4xJpfws';
+  localStorage.setItem('gemini_api_key', window.GEMINI_API_KEY);
+  return;
 
   function showApiKeyModal() {
     // Evitar duplicados
