@@ -14,17 +14,28 @@
 
   // Intentar cargar desde localStorage
   const storedKey = localStorage.getItem('gemini_api_key');
-  if (storedKey && storedKey.trim().length > 10) {
+  
+  // Limpiar claves que sabemos que Google ha bloqueado para forzar que salga la ventana
+  const revokedKeys = [
+    'AIzaSyBrHyY_ti_j7-REcgVrEW_iL2SK4xJpfws',
+    'AIzaSyD4bRsONsbaiY967fiJsBLy125V9xZmKBY'
+  ];
+
+  if (storedKey && revokedKeys.includes(storedKey.trim())) {
+    localStorage.removeItem('gemini_api_key');
+  } else if (storedKey && storedKey.trim().length > 10) {
     window.GEMINI_API_KEY = storedKey.trim();
     return;
   }
 
-  // Si no hay key en localStorage, le pedimos al usuario que introduzca una
+  // Si no hay key válida en localStorage, le pedimos al usuario que introduzca una
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', showApiKeyModal);
   } else {
     showApiKeyModal();
   }
+
+  window.showApiKeyModal = showApiKeyModal;
 
   function showApiKeyModal() {
     // Evitar duplicados
