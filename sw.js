@@ -2,18 +2,18 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v64';
-const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v64';
+const CACHE_NAME = 'planificador-v65';
+const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v65';
 const ASSETS = [
-  '/?v=64',
-  '/index.html?v=64',
-  '/css/styles.css?v=64',
+  '/?v=65',
+  '/index.html?v=65',
+  '/css/styles.css?v=65',
   '/js/face-api.min.js',
-  '/js/auth.js?v=64',
-  '/js/data.js?v=64',
-  '/js/app.js?v=64',
-  '/js/chatbot.js?v=64',
-  '/manifest.json?v=64'
+  '/js/auth.js?v=65',
+  '/js/data.js?v=65',
+  '/js/app.js?v=65',
+  '/js/chatbot.js?v=65',
+  '/manifest.json?v=65'
 ];
 
 // ── INSTALL ────────────────────────────────────────────────
