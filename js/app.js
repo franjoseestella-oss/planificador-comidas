@@ -1862,7 +1862,7 @@ function setupDesvan() {
   }
 
   const handleGeneratePantryRecipe = async (e) => {
-    if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY) {
+    if (typeof window.GEMINI_API_KEY === 'undefined' || !window.GEMINI_API_KEY) {
       showToast('⚠️ Configura tu API KEY en ajustes para crear recetas con IA.', 'warning');
       return;
     }
@@ -1885,7 +1885,7 @@ function setupDesvan() {
     showToast('🤖 Diseñando receta de aprovechamiento...', 'info');
 
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${window.GEMINI_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2461,13 +2461,13 @@ function setupComedor() {
           showToast('PDF guardado. Procesando menú con IA... 🤖', 'info');
           
           // Send to Gemini
-          if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY) {
+          if (typeof window.GEMINI_API_KEY === 'undefined' || !window.GEMINI_API_KEY) {
             showToast('⚠️ No hay API KEY para leer el menú', 'warning');
             return;
           }
           
           const base64Data = dataUrl.split(',')[1];
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${window.GEMINI_API_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -492,7 +492,8 @@
     });
   }
 </script>
-<script src="/js/env.js"></script>
+<script src="/js/env.js" onerror="console.info('env.js no encontrado, usando config.js')"></script>
+<script src="/js/config.js"></script>
 <script src="https://unpkg.com/tesseract.js@v5.0.0/dist/tesseract.min.js"></script>
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 <script src="js/face-api.min.js"></script>
