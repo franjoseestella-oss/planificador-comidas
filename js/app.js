@@ -1771,16 +1771,6 @@ function setupDesvan() {
       const file = e.target.files[0];
       if (!file) return;
       
-      let apiKey = window.GEMINI_API_KEY || localStorage.getItem('gemini_api_key');
-      if (!apiKey) {
-        apiKey = prompt("🤖 Análisis visual con Google Gemini AI\n\nPor favor, pega aquí tu API Key de Gemini (es gratuita en Google AI Studio):");
-        if (!apiKey) {
-          e.target.value = '';
-          return;
-        }
-        localStorage.setItem('gemini_api_key', apiKey.trim());
-      }
-      
       showToast('Analizando ticket con Gemini AI... 🧠', 'info');
       
       const reader = new FileReader();
@@ -1789,7 +1779,7 @@ function setupDesvan() {
         const base64Data = reader.result.split(',')[1];
         
         try {
-          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.trim()}`, {
+          const resp = await fetch(`/api/gemini`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1862,11 +1852,6 @@ function setupDesvan() {
   }
 
   const handleGeneratePantryRecipe = async (e) => {
-    if (typeof window.GEMINI_API_KEY === 'undefined' || !window.GEMINI_API_KEY) {
-      showToast('⚠️ Configura tu API KEY en ajustes para crear recetas con IA.', 'warning');
-      return;
-    }
-    
     const despensaItems = STATE.desvan.filter(i => i.cantidad > 0).map(i => `${i.nombre} (${i.cantidad} ${i.unidad || ''})`).join(', ');
     
     if (!despensaItems) {
@@ -1885,7 +1870,7 @@ function setupDesvan() {
     showToast('🤖 Diseñando receta de aprovechamiento...', 'info');
 
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${window.GEMINI_API_KEY}`, {
+      const response = await fetch(`/api/gemini`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2467,7 +2452,7 @@ function setupComedor() {
           }
           
           const base64Data = dataUrl.split(',')[1];
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${window.GEMINI_API_KEY}`, {
+          const response = await fetch(`/api/gemini`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
