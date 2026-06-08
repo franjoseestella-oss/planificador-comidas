@@ -14,7 +14,8 @@ const STATE = {
   recipeSearch: '',
   comedorMenu: {}, // { "lunes": "Lentejas", "martes": "Pollo", ... }
   customRecipes: {}, // Para recetas modificadas
-  quarantineRecipes: [] // Para recetas rechazadas por completo
+  quarantineRecipes: [], // Para recetas rechazadas por completo
+  importedRecipes: {} // Recetas importadas desde URL o PDF (persistentes)
 };
 
 // ── INIT ────────────────────────────────────────────────────
@@ -55,6 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Fusionar recetas importadas (URL/PDF) en el recetario para que se listen
+  if (typeof RECETAS_NUEVAS !== 'undefined' && STATE.importedRecipes) {
+    Object.values(STATE.importedRecipes).forEach(r => { if (r && r.id) RECETAS_NUEVAS[r.id] = r; });
+  }
+
   registerServiceWorker();
   renderAll();
   setupNavigation();
@@ -65,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScanner();
   setupDesvan();
   setupComedor();
+  setupImport();
 
   // Generate shopping list button
   document.getElementById('btn-generate-list').addEventListener('click', () => {
@@ -214,6 +221,7 @@ function saveState() {
   localStorage.setItem('customRecipes', JSON.stringify(STATE.customRecipes));
   localStorage.setItem('quarantineRecipes', JSON.stringify(STATE.quarantineRecipes));
   localStorage.setItem('deletedRecipes', JSON.stringify(STATE.deletedRecipes));
+  localStorage.setItem('importedRecipes', JSON.stringify(STATE.importedRecipes));
 }
 
 function loadState() {
@@ -226,7 +234,8 @@ function loadState() {
     STATE.customRecipes = JSON.parse(localStorage.getItem('customRecipes') || '{}');
     STATE.quarantineRecipes = JSON.parse(localStorage.getItem('quarantineRecipes') || '[]');
     STATE.deletedRecipes = JSON.parse(localStorage.getItem('deletedRecipes') || '[]');
-  } catch { 
+    STATE.importedRecipes = JSON.parse(localStorage.getItem('importedRecipes') || '{}');
+  } catch {
     STATE.planState = {}; 
     STATE.customMenu = {}; 
     STATE.shopping = []; 
@@ -235,6 +244,7 @@ function loadState() {
     STATE.customRecipes = {};
     STATE.quarantineRecipes = [];
     STATE.deletedRecipes = [];
+    STATE.importedRecipes = {};
   }
 
   // Limpiar estados de semanas pasadas
@@ -1632,6 +1642,205 @@ function setupRecipeSearch() {
       STATE.recipeFilter = chip.dataset.filter;
       renderRecipes(chip.dataset.filter, STATE.recipeSearch);
     });
+  });
+}
+
+// ── IMPORTAR RECETAS (URL / PDF) ────────────────────────────
+const IMPORT_RECIPE_PROMPT = `Eres un extractor experto de recetas de cocina. A partir del contenido proporcionado, identifica TODAS las recetas que encuentres.
+Devuelve ÚNICAMENTE un array JSON válido (sin markdown, sin texto antes ni después). Cada receta debe seguir EXACTAMENTE este esquema:
+[{
+  "nombre": "Nombre de la receta",
+  "tipo": "comida",
+  "porciones": 4,
+  "tiempo": 30,
+  "icono": "🍽️",
+  "descripcion": "Descripción breve y apetecible",
+  "ingredientes": [ { "nombre": "Ingrediente", "cantidad": "200 g", "comprar": false } ],
+  "pasos": [ "Paso 1 detallado", "Paso 2 detallado" ],
+  "nutricion": { "calorias": 0, "proteinas": 0, "carbohidratos": 0, "grasas": 0, "fibra": 0 },
+  "nota": "📥 Importado"
+}]
+Reglas:
+- "tipo" debe ser "comida", "cena" o "aprovechamiento" (por defecto "comida").
+- "icono" un único emoji representativo del plato.
+- Estima valores nutricionales razonables por ración si no aparecen.
+- Traduce todo al español si el contenido está en otro idioma.
+- Si no hay ninguna receta, devuelve exactamente [].`;
+
+function slugify(str) {
+  return (str || 'receta').toString().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'receta';
+}
+
+function setImportStatus(msg, working) {
+  const el = document.getElementById('import-status');
+  if (el) el.innerHTML = working ? `⏳ ${msg}` : msg;
+}
+
+function normalizeImportedRecipe(r) {
+  const nombre = r.nombre || r.title || 'Receta importada';
+  const id = slugify(nombre) + '-' + Date.now().toString(36) + Math.floor(Math.random() * 1000);
+  let tipo = (r.tipo || 'comida').toString().toLowerCase();
+  if (!['comida', 'cena', 'aprovechamiento'].includes(tipo)) tipo = 'comida';
+  return {
+    id,
+    nombre,
+    tipo,
+    mealType: tipo === 'aprovechamiento' ? 'cena' : tipo,
+    porciones: r.porciones || 2,
+    tiempo: r.tiempo || 30,
+    icono: r.icono || '🍽️',
+    descripcion: r.descripcion || '',
+    ingredientes: Array.isArray(r.ingredientes) ? r.ingredientes.map(i => (typeof i === 'string'
+      ? { nombre: i, cantidad: '', comprar: false }
+      : { nombre: i.nombre || i.name || '', cantidad: i.cantidad || i.qty || '', comprar: i.comprar !== undefined ? !!i.comprar : false })) : [],
+    pasos: Array.isArray(r.pasos) ? r.pasos : (Array.isArray(r.steps) ? r.steps : []),
+    nutricion: r.nutricion || { calorias: 0, proteinas: 0, carbohidratos: 0, grasas: 0, fibra: 0 },
+    nota: r.nota || '📥 Importado',
+    esNueva: true
+  };
+}
+
+function parseRecipesFromGemini(data) {
+  let jsonText = data && data.candidates && data.candidates[0] &&
+    data.candidates[0].content && data.candidates[0].content.parts &&
+    data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+  if (!jsonText) throw new Error('La IA no devolvió contenido.');
+  jsonText = jsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
+  // Recortar a los límites del array/objeto por si añade texto
+  const firstBracket = jsonText.search(/[\[{]/);
+  if (firstBracket > 0) jsonText = jsonText.slice(firstBracket);
+  let parsed = JSON.parse(jsonText);
+  if (!Array.isArray(parsed)) parsed = [parsed];
+  return parsed;
+}
+
+function finishImport(recipes) {
+  recipes = (recipes || []).filter(r => r && (r.nombre || r.title));
+  if (!recipes.length) {
+    showToast('No se encontró ninguna receta en la fuente.', 'warning');
+    setImportStatus('No se encontró ninguna receta. Prueba con otra fuente.', false);
+    return;
+  }
+  const saved = [];
+  recipes.forEach(raw => {
+    const rec = normalizeImportedRecipe(raw);
+    STATE.importedRecipes[rec.id] = rec;
+    if (typeof RECETAS_NUEVAS !== 'undefined') RECETAS_NUEVAS[rec.id] = rec;
+    saved.push(rec);
+  });
+  saveState();
+  renderRecipes();
+
+  setImportStatus(`✅ ${saved.length} receta(s) guardada(s) en tu recetario.`, false);
+  showToast(`✅ ${saved.length} receta(s) importada(s)`, 'success');
+
+  if (saved[0] && typeof openMealModal === 'function') {
+    openMealModal(saved[0], null, saved[0].tipo);
+  }
+}
+
+async function handleImportUrl(url) {
+  if (!url) { showToast('Pega primero una URL.', 'warning'); return; }
+  if (!/^https?:\/\//i.test(url)) { showToast('La URL debe empezar por http:// o https://', 'warning'); return; }
+
+  const btn = document.getElementById('btn-import-url');
+  const orig = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Importando…'; btn.style.opacity = '0.7'; }
+  setImportStatus('Leyendo la página…', true);
+
+  try {
+    const r = await fetch('/api/fetch-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    if (!r.ok) {
+      const e = await r.json().catch(() => ({}));
+      throw new Error(e.error || 'No se pudo leer la página.');
+    }
+    const { text } = await r.json();
+    if (!text || text.length < 40) throw new Error('La página no tiene contenido legible.');
+
+    setImportStatus('Extrayendo la receta con IA…', true);
+    const resp = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: IMPORT_RECIPE_PROMPT + '\n\nCONTENIDO:\n' + text.slice(0, 18000) }] }],
+        generationConfig: { temperature: 0.4 }
+      })
+    });
+    if (!resp.ok) throw new Error('La IA no pudo procesar la receta.');
+    finishImport(parseRecipesFromGemini(await resp.json()));
+  } catch (err) {
+    console.error('Import URL error:', err);
+    showToast('❌ ' + err.message, 'error');
+    setImportStatus('❌ ' + err.message, false);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = orig; btn.style.opacity = '1'; }
+  }
+}
+
+async function handleImportPdf(file) {
+  if (file.size > 4.5 * 1024 * 1024) {
+    showToast('El PDF es demasiado grande (máx. ~4.5 MB).', 'warning');
+    setImportStatus('El PDF supera el tamaño permitido (~4.5 MB).', false);
+    return;
+  }
+
+  setImportStatus('Leyendo el PDF…', true);
+  showToast('🤖 Procesando PDF con IA…', 'info');
+
+  try {
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+      reader.readAsDataURL(file);
+    });
+
+    setImportStatus('Extrayendo recetas del PDF con IA…', true);
+    const resp = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [
+          { text: IMPORT_RECIPE_PROMPT },
+          { inlineData: { mimeType: 'application/pdf', data: base64 } }
+        ] }],
+        generationConfig: { temperature: 0.4 }
+      })
+    });
+    if (!resp.ok) throw new Error('La IA no pudo procesar el PDF.');
+    finishImport(parseRecipesFromGemini(await resp.json()));
+  } catch (err) {
+    console.error('Import PDF error:', err);
+    showToast('❌ ' + err.message, 'error');
+    setImportStatus('❌ ' + err.message, false);
+  }
+}
+
+function setupImport() {
+  // Botón de acceso rápido desde la vista Recetas → abre la pestaña Importar
+  const shortcutBtn = document.getElementById('btn-import-recipe');
+  if (shortcutBtn) shortcutBtn.addEventListener('click', () => window.switchView('importar'));
+
+  const urlInput = document.getElementById('import-url-input');
+  const urlBtn   = document.getElementById('btn-import-url');
+  const pdfInput = document.getElementById('import-pdf-input');
+  const pdfName  = document.getElementById('import-pdf-name');
+
+  if (urlBtn)   urlBtn.addEventListener('click', () => handleImportUrl(urlInput.value.trim()));
+  if (urlInput) urlInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleImportUrl(urlInput.value.trim()); });
+
+  if (pdfInput) pdfInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (pdfName) pdfName.textContent = file.name;
+    handleImportPdf(file);
+    e.target.value = '';
   });
 }
 

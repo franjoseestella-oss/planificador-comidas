@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#111418" />
+  <meta name="theme-color" content="#0d1014" />
   <meta name="description" content="Planificador semanal de comidas para toda la familia. Menús de lunes a viernes con recetas, lista de la compra y seguimiento nutricional." />
 
   <title>Planificador de Comidas · Menú Familiar</title>
 
-  <link rel="manifest" href="/manifest.json?v=65" />
+  <link rel="manifest" href="/manifest.json?v=68" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <link rel="stylesheet" href="/css/styles.css?v=65" />
+  <link rel="stylesheet" href="/css/styles.css?v=68" />
   <script defer src="/js/face-api.min.js"></script>
 </head>
 <body>
@@ -212,6 +212,10 @@
         <span style="font-size: 1.1rem">✨</span> Refrescar desde NotebookLM
       </button>
 
+      <button class="btn-primary" id="btn-import-recipe" style="width:100%; margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 6px; background:var(--info);">
+        <span style="font-size: 1.1rem">📥</span> Importar receta (URL o PDF)
+      </button>
+
       <button class="btn-primary" id="btn-show-quarantine" style="width:100%; margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 6px; background:#e74c3c;">
         <span style="font-size: 1.1rem">🚫</span> Recetas en Cuarentena
       </button>
@@ -397,6 +401,44 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
+       VIEW: IMPORTAR RECETAS (URL / PDF)
+  ═══════════════════════════════════════════ -->
+  <section class="view" id="view-importar" aria-label="Importar recetas">
+
+    <div style="padding:16px 16px 0">
+      <h2>📥 Importar recetas</h2>
+      <p style="font-size:.85rem; margin-top:4px">Pega el enlace de una web o sube un PDF y la IA lo convertirá en una receta de tu recetario.</p>
+
+      <!-- Desde URL -->
+      <div class="card" style="padding:16px; margin-top:18px; display:flex; flex-direction:column; gap:10px;">
+        <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">🔗 Desde una URL</h3>
+        <input type="url" id="import-url-input" inputmode="url" placeholder="https://…/mi-receta"
+          style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-family:inherit; font-size:.92rem; outline:none;">
+        <button class="btn-primary" id="btn-import-url" style="width:100%;">Importar desde URL</button>
+      </div>
+
+      <!-- Desde PDF -->
+      <div class="card" style="padding:16px; margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+        <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">📄 Desde un PDF</h3>
+        <label for="import-pdf-input" class="btn-primary" style="width:100%; cursor:pointer; background:var(--grad-accent); box-shadow:var(--glow-accent);">
+          <span style="font-size:1.1rem;">⬆️</span> Elegir archivo PDF
+        </label>
+        <input type="file" id="import-pdf-input" accept="application/pdf" style="display:none;">
+        <span id="import-pdf-name" style="font-size:.8rem; color:var(--text-muted); text-align:center;"></span>
+      </div>
+
+      <div id="import-status" style="margin-top:16px; min-height:22px; font-size:.88rem; text-align:center; color:var(--text-muted);"></div>
+
+      <!-- Aviso -->
+      <div class="note-box" style="margin:16px 0 0;">
+        <span style="font-size:1.1rem">💡</span>
+        <div>Las recetas importadas se guardan en tu <strong>Recetario</strong> y se conservan aunque cierres la app. Requiere conexión (la IA procesa la fuente).</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
        ASISTENTE DE COMPRA MODAL
   ═══════════════════════════════════════════ -->
   <div class="modal-overlay" id="assistant-modal" style="display:none; z-index:9999;">
@@ -460,6 +502,10 @@
       <span class="nav-icon">📖</span>
       <span class="nav-label">Recetas</span>
     </div>
+    <div class="nav-item" data-view="importar" id="nav-importar" role="button" tabindex="0" aria-label="Importar recetas">
+      <span class="nav-icon">📥</span>
+      <span class="nav-label">Importar</span>
+    </div>
     <div class="nav-item" data-view="compra" id="nav-compra" role="button" tabindex="0" aria-label="Lista de la compra">
       <span class="nav-icon">🛒</span>
       <span class="nav-label">Compra</span>
@@ -494,9 +540,9 @@
 </script>
 <script src="https://unpkg.com/tesseract.js@v5.0.0/dist/tesseract.min.js"></script>
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-<script src="js/data.js?v=65"></script>
-<script src="js/auth.js?v=65"></script>
-<script src="js/app.js?v=65"></script>
-<script src="js/chatbot.js?v=65"></script>
+<script src="js/data.js?v=68"></script>
+<script src="js/auth.js?v=68"></script>
+<script src="js/app.js?v=68"></script>
+<script src="js/chatbot.js?v=68"></script>
 </body>
 </html>
