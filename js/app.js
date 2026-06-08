@@ -1736,8 +1736,6 @@ function finishImport(recipes) {
   setImportStatus(`✅ ${saved.length} receta(s) guardada(s) en tu recetario.`, false);
   showToast(`✅ ${saved.length} receta(s) importada(s)`, 'success');
 
-  const modal = document.getElementById('import-modal');
-  if (modal) modal.classList.remove('open');
   if (saved[0] && typeof openMealModal === 'function') {
     openMealModal(saved[0], null, saved[0].tipo);
   }
@@ -1825,19 +1823,14 @@ async function handleImportPdf(file) {
 }
 
 function setupImport() {
-  const openBtn  = document.getElementById('btn-import-recipe');
-  const modal    = document.getElementById('import-modal');
-  const closeBtn = document.getElementById('btn-import-close');
+  // Botón de acceso rápido desde la vista Recetas → abre la pestaña Importar
+  const shortcutBtn = document.getElementById('btn-import-recipe');
+  if (shortcutBtn) shortcutBtn.addEventListener('click', () => window.switchView('importar'));
+
   const urlInput = document.getElementById('import-url-input');
   const urlBtn   = document.getElementById('btn-import-url');
   const pdfInput = document.getElementById('import-pdf-input');
   const pdfName  = document.getElementById('import-pdf-name');
-
-  if (!openBtn || !modal) return;
-
-  openBtn.addEventListener('click', () => { setImportStatus('', false); modal.classList.add('open'); });
-  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('open'));
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
 
   if (urlBtn)   urlBtn.addEventListener('click', () => handleImportUrl(urlInput.value.trim()));
   if (urlInput) urlInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleImportUrl(urlInput.value.trim()); });

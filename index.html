@@ -10,9 +10,9 @@
 
   <title>Planificador de Comidas · Menú Familiar</title>
 
-  <link rel="manifest" href="/manifest.json?v=67" />
+  <link rel="manifest" href="/manifest.json?v=68" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <link rel="stylesheet" href="/css/styles.css?v=67" />
+  <link rel="stylesheet" href="/css/styles.css?v=68" />
   <script defer src="/js/face-api.min.js"></script>
 </head>
 <body>
@@ -401,39 +401,42 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       IMPORTAR RECETA MODAL (URL / PDF)
+       VIEW: IMPORTAR RECETAS (URL / PDF)
   ═══════════════════════════════════════════ -->
-  <div class="modal-overlay" id="import-modal" style="z-index:9999;">
-    <div class="modal" style="display:flex; flex-direction:column; max-height:92dvh; padding:0; width:100%; max-width:480px;">
-      <div class="modal-handle"></div>
-      <div style="padding:8px 20px 24px;">
-        <h2 style="display:flex; align-items:center; gap:10px; font-size:1.25rem;">📥 Importar receta</h2>
-        <p style="font-size:.85rem; margin-top:6px;">Pega el enlace de una web o sube un PDF y la IA lo convertirá en una receta de tu recetario.</p>
+  <section class="view" id="view-importar" aria-label="Importar recetas">
 
-        <!-- Desde URL -->
-        <div class="card" style="padding:16px; margin-top:18px; display:flex; flex-direction:column; gap:10px;">
-          <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">🔗 Desde una URL</h3>
-          <input type="url" id="import-url-input" inputmode="url" placeholder="https://…/mi-receta"
-            style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-family:inherit; font-size:.92rem; outline:none;">
-          <button class="btn-primary" id="btn-import-url" style="width:100%;">Importar desde URL</button>
-        </div>
+    <div style="padding:16px 16px 0">
+      <h2>📥 Importar recetas</h2>
+      <p style="font-size:.85rem; margin-top:4px">Pega el enlace de una web o sube un PDF y la IA lo convertirá en una receta de tu recetario.</p>
 
-        <!-- Desde PDF -->
-        <div class="card" style="padding:16px; margin-top:12px; display:flex; flex-direction:column; gap:10px;">
-          <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">📄 Desde un PDF</h3>
-          <label for="import-pdf-input" class="btn-primary" style="width:100%; cursor:pointer; background:var(--grad-accent); box-shadow:var(--glow-accent);">
-            <span style="font-size:1.1rem;">⬆️</span> Elegir archivo PDF
-          </label>
-          <input type="file" id="import-pdf-input" accept="application/pdf" style="display:none;">
-          <span id="import-pdf-name" style="font-size:.8rem; color:var(--text-muted); text-align:center;"></span>
-        </div>
+      <!-- Desde URL -->
+      <div class="card" style="padding:16px; margin-top:18px; display:flex; flex-direction:column; gap:10px;">
+        <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">🔗 Desde una URL</h3>
+        <input type="url" id="import-url-input" inputmode="url" placeholder="https://…/mi-receta"
+          style="width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-family:inherit; font-size:.92rem; outline:none;">
+        <button class="btn-primary" id="btn-import-url" style="width:100%;">Importar desde URL</button>
+      </div>
 
-        <div id="import-status" style="margin-top:16px; min-height:22px; font-size:.88rem; text-align:center; color:var(--text-muted);"></div>
+      <!-- Desde PDF -->
+      <div class="card" style="padding:16px; margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+        <h3 style="font-size:.95rem; display:flex; align-items:center; gap:8px;">📄 Desde un PDF</h3>
+        <label for="import-pdf-input" class="btn-primary" style="width:100%; cursor:pointer; background:var(--grad-accent); box-shadow:var(--glow-accent);">
+          <span style="font-size:1.1rem;">⬆️</span> Elegir archivo PDF
+        </label>
+        <input type="file" id="import-pdf-input" accept="application/pdf" style="display:none;">
+        <span id="import-pdf-name" style="font-size:.8rem; color:var(--text-muted); text-align:center;"></span>
+      </div>
 
-        <button class="btn-secondary" id="btn-import-close" style="width:100%; margin-top:10px;">Cerrar</button>
+      <div id="import-status" style="margin-top:16px; min-height:22px; font-size:.88rem; text-align:center; color:var(--text-muted);"></div>
+
+      <!-- Aviso -->
+      <div class="note-box" style="margin:16px 0 0;">
+        <span style="font-size:1.1rem">💡</span>
+        <div>Las recetas importadas se guardan en tu <strong>Recetario</strong> y se conservan aunque cierres la app. Requiere conexión (la IA procesa la fuente).</div>
       </div>
     </div>
-  </div>
+
+  </section>
 
   <!-- ═══════════════════════════════════════════
        ASISTENTE DE COMPRA MODAL
@@ -499,6 +502,10 @@
       <span class="nav-icon">📖</span>
       <span class="nav-label">Recetas</span>
     </div>
+    <div class="nav-item" data-view="importar" id="nav-importar" role="button" tabindex="0" aria-label="Importar recetas">
+      <span class="nav-icon">📥</span>
+      <span class="nav-label">Importar</span>
+    </div>
     <div class="nav-item" data-view="compra" id="nav-compra" role="button" tabindex="0" aria-label="Lista de la compra">
       <span class="nav-icon">🛒</span>
       <span class="nav-label">Compra</span>
@@ -533,9 +540,9 @@
 </script>
 <script src="https://unpkg.com/tesseract.js@v5.0.0/dist/tesseract.min.js"></script>
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-<script src="js/data.js?v=67"></script>
-<script src="js/auth.js?v=67"></script>
-<script src="js/app.js?v=67"></script>
-<script src="js/chatbot.js?v=67"></script>
+<script src="js/data.js?v=68"></script>
+<script src="js/auth.js?v=68"></script>
+<script src="js/app.js?v=68"></script>
+<script src="js/chatbot.js?v=68"></script>
 </body>
 </html>
