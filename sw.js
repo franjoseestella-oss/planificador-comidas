@@ -2,18 +2,18 @@
    SERVICE WORKER — Notificaciones a las 21:00
    ============================================================ */
 
-const CACHE_NAME = 'planificador-v68';
-const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v68';
+const CACHE_NAME = 'planificador-v69';
+const DYNAMIC_CACHE_NAME = 'planificador-dinamico-v69';
 const ASSETS = [
-  '/?v=65',
-  '/index.html?v=65',
-  '/css/styles.css?v=65',
+  '/',
+  '/index.html',
+  '/css/styles.css',
   '/js/face-api.min.js',
-  '/js/auth.js?v=65',
-  '/js/data.js?v=65',
-  '/js/app.js?v=65',
-  '/js/chatbot.js?v=65',
-  '/manifest.json?v=65'
+  '/js/auth.js',
+  '/js/data.js',
+  '/js/app.js',
+  '/js/chatbot.js',
+  '/manifest.json'
 ];
 
 // ── INSTALL ────────────────────────────────────────────────
@@ -37,10 +37,26 @@ self.addEventListener('activate', e => {
   );
 });
 
-// ── FETCH (cache first) ─────────────────────────────────────
+// ── FETCH (network first, con respaldo en caché) ────────────
 self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+  // Solo gestionamos peticiones del mismo origen
+  if (url.origin !== self.location.origin) return;
+  // Nunca interceptar las funciones serverless (IA, importador, etc.)
+  if (url.pathname.startsWith('/api/')) return;
+
+  // Network-first: siempre intenta la versión más reciente; si no hay red, usa la caché
   e.respondWith(
-    caches.match(e.request, {ignoreSearch: true}).then(r => r || fetch(e.request))
+    fetch(req)
+      .then(res => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(req, copy)).catch(() => {});
+        return res;
+      })
+      .catch(() => caches.match(req, { ignoreSearch: true }))
   );
 });
 
