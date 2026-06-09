@@ -12,11 +12,11 @@ const defaultState = () => ({
   weeks: 8,
   startDate: nextMonday(),
   // días marcados con sus minutos (0=Lun .. 6=Dom)
+  // Por defecto: 3 días/semana → Mar 1,5h + Jue 1,5h (calidad) + Sáb 3h (salida larga)
   days: {
-    1: { on: true, minutes: 60 },
-    3: { on: true, minutes: 60 },
+    1: { on: true, minutes: 90 },
+    3: { on: true, minutes: 90 },
     5: { on: true, minutes: 180 },
-    6: { on: true, minutes: 90 },
   },
 });
 
