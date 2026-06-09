@@ -16,8 +16,14 @@ USO
    Te pedirá tu email y contraseña de Garmin Connect (si tienes verificación en
    dos pasos, te pedirá también el código que te llegue).
 
-Opcional: para no escribir las credenciales cada vez, puedes definirlas como
-variables de entorno GARMIN_EMAIL y GARMIN_PASSWORD.
+Para no escribir las credenciales cada vez (de forma SEGURA):
+  Crea en esta misma carpeta un archivo llamado  garmin_login.txt  con DOS líneas:
+      tu-email@ejemplo.com
+      tu-contraseña
+  Ese archivo está en .gitignore y NO se sube a GitHub: tus datos se quedan solo
+  en tu ordenador. (También puedes usar las variables GARMIN_EMAIL/GARMIN_PASSWORD.)
+
+  ⚠️ Nunca escribas tu contraseña dentro de este script ni la subas a ningún repo.
 """
 
 import os
@@ -46,9 +52,32 @@ def cargar_plan(path):
     return data, workouts
 
 
+def _leer_credenciales_locales():
+    """Lee email/contraseña de un archivo local 'garmin_login.txt' (2 líneas:
+    email y contraseña). Ese archivo está en .gitignore y NUNCA se sube a GitHub.
+    Devuelve (email, password) o (None, None) si no existe."""
+    ruta = os.environ.get("GARMIN_LOGIN_FILE", "garmin_login.txt")
+    if not os.path.exists(ruta):
+        return None, None
+    with open(ruta, encoding="utf-8") as f:
+        lineas = [l.strip() for l in f if l.strip()]
+    if len(lineas) >= 2:
+        return lineas[0], lineas[1]
+    return None, None
+
+
 def login():
-    email = os.environ.get("GARMIN_EMAIL") or input("Email de Garmin Connect: ").strip()
-    password = os.environ.get("GARMIN_PASSWORD") or getpass.getpass("Contraseña: ")
+    # 1º variables de entorno, 2º archivo local, 3º preguntar por teclado
+    email = os.environ.get("GARMIN_EMAIL")
+    password = os.environ.get("GARMIN_PASSWORD")
+    if not (email and password):
+        f_email, f_pass = _leer_credenciales_locales()
+        email = email or f_email
+        password = password or f_pass
+    if not email:
+        email = input("Email de Garmin Connect: ").strip()
+    if not password:
+        password = getpass.getpass("Contraseña: ")
     print("Iniciando sesión en Garmin Connect...")
     try:
         g = Garmin(email, password)
