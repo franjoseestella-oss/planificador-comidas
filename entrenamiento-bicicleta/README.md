@@ -14,6 +14,7 @@ Cada sesión se exporta como **workout importable en Garmin Connect**.
   - **Semana de descarga** cada 4 semanas.
   - **Afinamiento + test de FTP** en la última semana.
 - Respeta el tiempo disponible: si un día tienes menos minutos, recorta las series para que quepa.
+- **Plan editable**: toca cualquier sesión y pulsa *Editar* para cambiar el tipo, la duración, las repeticiones, los intervalos, el descanso y los vatios. Los cambios se recalculan (TSS/IF) y se guardan en el dispositivo (sobreviven al recargar).
 - Calcula **vatios por zona**, **TSS** e **IF** estimados de cada sesión.
 - Exporta cada workout (o todos) en el **JSON del workout-service de Garmin Connect** y un **.csv** de calendario.
 
@@ -21,7 +22,7 @@ Cada sesión se exporta como **workout importable en Garmin Connect**.
 
 1. Abre la app en el móvil (ver *Despliegue*) e instálala desde el navegador ("Añadir a pantalla de inicio").
 2. Pestaña **Configurar**: ajusta FTP, marca días + minutos, elige semanas y fecha de inicio. Pulsa **Generar plan**.
-3. Pestaña **Mi plan**: toca una sesión para ver el detalle, o el botón ⬇️ para descargar su fichero Garmin.
+3. Pestaña **Mi plan**: toca una sesión para ver el detalle y **editarla** (✏️), o el botón ⬇️ para descargar su fichero Garmin.
 
 ## ⌚ Importar en Garmin Connect
 

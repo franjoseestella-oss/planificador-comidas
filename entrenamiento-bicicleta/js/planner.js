@@ -126,6 +126,45 @@ function buildWorkout(kind, blockWeek, minutes, isRecoveryWeek) {
   return finalizeWorkout(kind, K, steps, blockWeek, spec);
 }
 
+/* ---------- construcción manual (edición del usuario) ---------- */
+/*
+  Reconstruye una sesión a partir de parámetros explícitos editados a mano.
+  opts = { kind, minutes, reps, onMin, offMin, loPct, hiPct, name }
+  - Tipos continuos (endurance/tempo/recovery) o reps<=1 → bloque continuo
+    de `minutes` totales.
+  - Tipos de series → reps × onMin con offMin de recuperación.
+  Devuelve el mismo formato que buildWorkout (kind, tag, zone, name,
+  durationMin, tss, intensity, steps), listo para exportar a Garmin.
+*/
+function customWorkout(opts) {
+  const kind = SESSION_KINDS[opts.kind] ? opts.kind : 'endurance';
+  const K = SESSION_KINDS[kind];
+  const lo = Number.isFinite(opts.loPct) ? opts.loPct : K.lo;
+  const hi = Number.isFinite(opts.hiPct) ? opts.hiPct : K.hi;
+  const reps = Math.max(1, Math.round(opts.reps || 1));
+  const onMin = Math.max(1, opts.onMin || 0);
+  const offMin = Math.max(1, opts.offMin || 4);
+  const continuous = kind === 'endurance' || kind === 'recovery' || kind === 'tempo' || reps <= 1;
+
+  let steps, spec;
+  if (continuous) {
+    const wu = kind === 'recovery' ? 5 : 10, cd = 5;
+    const main = Math.max(10, Math.round((opts.minutes || 60) - wu - cd));
+    steps = [warmup(wu), step('interval', main, lo, hi), cooldown(cd)];
+    spec = { reps: 1, on: main };
+  } else {
+    const wuMin = 10, cdMin = 8;
+    const inner = [step('interval', onMin, lo, hi)];
+    if (reps > 1) inner.push(step('recovery', offMin, K.recPct - 3, K.recPct + 3));
+    steps = [warmup(wuMin), { kind: 'repeat', iterations: reps, steps: inner }, cooldown(cdMin)];
+    spec = { reps, on: onMin };
+  }
+
+  const wk = finalizeWorkout(kind, K, steps, 1, spec);
+  if (opts.name && opts.name.trim()) wk.name = opts.name.trim();
+  return wk;
+}
+
 /* Calcula duración total, TSS aproximado, nombre y descripción */
 function finalizeWorkout(kind, K, steps, blockWeek, spec) {
   let totalSec = 0;
@@ -284,6 +323,8 @@ function generatePlan(config) {
     plan.weeks.push({
       weekNum,
       phase,
+      blockWeek,
+      recWeek: isRecoveryWeek || isTaper,
       label: phaseLabel(phase, weekNum, weeks),
       sessions,
       tss: weekTss,
@@ -319,5 +360,5 @@ function fmtDate(d) {
 
 /* Exporta para navegador y para Node (tests) */
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { generatePlan, buildWorkout, POWER_ZONES, SESSION_KINDS, WEEKDAYS };
+  module.exports = { generatePlan, buildWorkout, customWorkout, POWER_ZONES, SESSION_KINDS, WEEKDAYS };
 }
