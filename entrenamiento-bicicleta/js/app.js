@@ -412,6 +412,14 @@ function downloadOne(wi, si) {
   toast('Descargado: ' + fname);
 }
 
+/* Plan completo en un único archivo (con fechas) para subir+agendar con el script */
+document.getElementById('btn-download-plan').addEventListener('click', () => {
+  if (!currentPlan) return;
+  const data = buildPlanExport(currentPlan);
+  downloadJSON(data, 'plan_garmin.json');
+  toast('plan_garmin.json descargado · súbelo con el script');
+});
+
 document.getElementById('btn-download-all').addEventListener('click', async () => {
   if (!currentPlan) return;
   const ftp = currentPlan.config.ftp;

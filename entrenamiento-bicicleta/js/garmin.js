@@ -103,6 +103,30 @@ function toGarminWorkout(workout, ftp, opts = {}) {
   };
 }
 
+/* Empaqueta TODO el plan en un único objeto, con la fecha de cada sesión,
+   para subirlo de una vez con el script subir_a_garmin.py (crea el workout
+   en Garmin Connect y lo agenda en el calendario en su fecha). */
+function buildPlanExport(plan) {
+  const ftp = plan.config.ftp;
+  const workouts = [];
+  plan.weeks.forEach((w) => w.sessions.forEach((s) => {
+    const d = s.dateObj instanceof Date ? s.dateObj : new Date(s.dateObj);
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    workouts.push({
+      date: iso,
+      week: w.weekNum,
+      workout: toGarminWorkout(s, ftp, { namePrefix: `S${w.weekNum}` }),
+    });
+  }));
+  return {
+    app: 'Entrenamiento Bici',
+    ftp,
+    weeks: plan.config.weeks,
+    generated: new Date().toISOString(),
+    workouts,
+  };
+}
+
 /* Descarga un objeto como fichero .json en el navegador */
 function downloadJSON(obj, filename) {
   const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
@@ -122,5 +146,5 @@ function safeName(str) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { toGarminWorkout, watts };
+  module.exports = { toGarminWorkout, buildPlanExport, watts };
 }

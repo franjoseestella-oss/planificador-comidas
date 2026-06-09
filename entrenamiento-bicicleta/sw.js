@@ -1,8 +1,8 @@
 /* Service worker — estrategia network-first para no servir versiones cacheadas */
-const CACHE = 'bici-ftp-v2';
+const CACHE = 'bici-ftp-v3';
 const ASSETS = [
   './', './index.html', './manifest.json', './icon.svg',
-  './css/styles.css?v=2', './js/planner.js?v=2', './js/garmin.js?v=2', './js/app.js?v=2',
+  './css/styles.css?v=3', './js/planner.js?v=3', './js/garmin.js?v=3', './js/app.js?v=3',
 ];
 
 self.addEventListener('install', (e) => {

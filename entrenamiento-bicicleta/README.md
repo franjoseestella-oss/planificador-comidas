@@ -24,26 +24,29 @@ Cada sesión se exporta como **workout importable en Garmin Connect**.
 2. Pestaña **Configurar**: ajusta FTP, marca días + minutos, elige semanas y fecha de inicio. Pulsa **Generar plan**.
 3. Pestaña **Mi plan**: toca una sesión para ver el detalle y **editarla** (✏️), o el botón ⬇️ para descargar su fichero Garmin.
 
-## ⌚ Importar en Garmin Connect
+## ⌚ Llevar los entrenamientos a Garmin Connect
 
-El fichero `.json` que genera la app tiene el mismo formato que sube a la API de Garmin el proyecto de
-referencia [sydspost/Garmin-Connect-Workout-and-Schedule-creator](https://github.com/sydspost/Garmin-Connect-Workout-and-Schedule-creator).
-Para subirlo a tu cuenta:
+> ⚠️ **Importante:** el botón *Importar* de la web de Garmin Connect es solo para **actividades ya
+> realizadas** (`.fit/.tcx/.gpx`). Los **entrenamientos planificados NO se importan por ahí** con
+> ningún formato; entran por la **API** (lo que hace el `.json` de esta app).
+
+La forma más cómoda — **un archivo y un script** que crea los workouts **y los agenda en el calendario**:
+
+1. En la app, pestaña **Mi plan** → **📦 Plan completo para Garmin (1 archivo)** → se descarga `plan_garmin.json`.
+2. Pon `plan_garmin.json` y `subir_a_garmin.py` en la misma carpeta.
+3. Instala la dependencia y ejecuta:
 
 ```bash
 pip install garminconnect
-python - <<'PY'
-import json, glob
-from garminconnect import Garmin
-g = Garmin("TU_EMAIL", "TU_PASSWORD"); g.login()
-for f in glob.glob("S*_*.json"):
-    g.garth.post("connectapi", "/workout-service/workout", json=json.load(open(f)))
-    print("subido", f)
-PY
+python subir_a_garmin.py   # te pedirá tu email/contraseña de Garmin
 ```
 
-Los workouts aparecerán en *Garmin Connect → Entrenamiento → Entrenamientos* y podrás enviarlos al dispositivo
-o programarlos en el calendario (el `.csv` te ayuda a saber qué día toca cada uno).
+El script crea cada entrenamiento y lo coloca en su fecha. Los verás en
+*Garmin Connect → Entrenamiento → Calendario* y podrás enviarlos al dispositivo.
+
+El JSON usa el mismo formato del workout-service que el proyecto de referencia
+[sydspost/Garmin-Connect-Workout-and-Schedule-creator](https://github.com/sydspost/Garmin-Connect-Workout-and-Schedule-creator).
+El botón **⬇️ Workouts sueltos** sigue disponible si prefieres los `.json` uno a uno.
 
 ## 🧱 Estructura
 
@@ -53,6 +56,7 @@ o programarlos en el calendario (el `.csv` te ayuda a saber qué día toca cada 
 | `js/planner.js` | Motor de periodización (zonas, progresión, asignación por días) |
 | `js/garmin.js` | Exportador al JSON de Garmin Connect (potencia en vatios) |
 | `js/app.js` | Lógica de UI, estado y descargas |
+| `subir_a_garmin.py` | Sube y agenda el plan completo en Garmin Connect |
 | `manifest.json`, `sw.js`, `icon.svg` | Soporte PWA (instalable, offline) |
 
 ## 🚀 Despliegue
