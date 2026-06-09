@@ -14,7 +14,9 @@ USO
 3) Ejecútalo:
        python subir_a_garmin.py
    Te pedirá tu email y contraseña de Garmin Connect (si tienes verificación en
-   dos pasos, te pedirá también el código que te llegue).
+   dos pasos, te pedirá también el código que te llegue). Tras el primer inicio
+   de sesión correcto, el token se guarda en ~/.garminconnect y las siguientes
+   veces NO te pedirá nada (y evita el error 429 por demasiados intentos).
 
 Para no escribir las credenciales cada vez (de forma SEGURA):
   Crea en esta misma carpeta un archivo llamado  garmin_login.txt  con DOS líneas:
@@ -38,6 +40,10 @@ except ImportError:
 
 
 PLAN_FILE = os.environ.get("PLAN_FILE", "plan_garmin.json")
+# Carpeta donde se guarda el token de sesión, para no volver a iniciar sesión
+# cada vez (evita el error 429 "demasiados intentos").
+TOKENSTORE = os.environ.get("GARMINTOKENS") or os.path.join(
+    os.path.expanduser("~"), ".garminconnect")
 
 
 def cargar_plan(path):
@@ -66,8 +72,23 @@ def _leer_credenciales_locales():
     return None, None
 
 
+def _mfa():
+    """Pide el código de verificación en dos pasos cuando Garmin lo solicita."""
+    return input("Código de verificación (2 pasos) que te ha llegado: ").strip()
+
+
 def login():
-    # 1º variables de entorno, 2º archivo local, 3º preguntar por teclado
+    # 1) Si ya hay un token guardado de una vez anterior, reanudamos la sesión
+    #    SIN contraseña (esto evita el límite 429 en ejecuciones siguientes).
+    try:
+        g = Garmin()
+        g.login(TOKENSTORE)
+        print(f"Sesión reanudada{(' como ' + g.display_name) if g.display_name else ''} ✅")
+        return g
+    except Exception:
+        pass  # no había token válido: iniciamos sesión con credenciales
+
+    # 2) Credenciales: variables de entorno → archivo local → teclado
     email = os.environ.get("GARMIN_EMAIL")
     password = os.environ.get("GARMIN_PASSWORD")
     if not (email and password):
@@ -78,17 +99,21 @@ def login():
         email = input("Email de Garmin Connect: ").strip()
     if not password:
         password = getpass.getpass("Contraseña: ")
+
     print("Iniciando sesión en Garmin Connect...")
     try:
-        g = Garmin(email, password)
-        g.login()
-    except Exception as e:  # incluye el flujo de verificación en dos pasos (MFA)
+        g = Garmin(email, password, prompt_mfa=_mfa)
+        g.login(TOKENSTORE)  # guarda el token en TOKENSTORE para próximas veces
+    except Exception as e:
         msg = str(e).lower()
-        if "mfa" in msg or "factor" in msg or "code" in msg:
-            sys.exit("Tu cuenta pide verificación en dos pasos. Actualiza la librería "
-                     "(pip install -U garminconnect) y vuelve a ejecutar; te pedirá el código.")
+        if "429" in msg or "too many" in msg:
+            sys.exit("Garmin ha limitado los intentos de inicio de sesión (429). "
+                     "Espera unos 15-30 minutos y vuelve a ejecutarlo UNA vez; al primer "
+                     "login correcto se guarda el token y ya no se repite.")
+        if "401" in msg or "unauthorized" in msg or "password" in msg:
+            sys.exit("Email o contraseña incorrectos (401). Revísalos y prueba de nuevo.")
         sys.exit(f"No pude iniciar sesión: {e}")
-    print("Sesión iniciada ✅")
+    print("Sesión iniciada ✅ (token guardado; la próxima vez no pedirá contraseña)")
     return g
 
 
@@ -97,16 +122,16 @@ def crear_y_agendar(g, item):
     payload = item["workout"]
     nombre = payload.get("workoutName", "Workout")
     fecha = item.get("date")
-    # 1) crear el entrenamiento
-    r = g.garth.post("connectapi", "/workout-service/workout", json=payload)
-    wid = r.json().get("workoutId")
+    # 1) crear el entrenamiento (método propio de garminconnect)
+    res = g.upload_workout(payload)
+    wid = res.get("workoutId") if isinstance(res, dict) else None
     if not wid:
         return False, f"{nombre}: la API no devolvió workoutId"
     # 2) agendarlo en el calendario en su fecha
     if fecha:
-        g.garth.post("connectapi", f"/workout-service/schedule/{wid}", json={"date": fecha})
+        g.schedule_workout(wid, fecha)
         return True, f"{nombre}  →  {fecha}"
-    return True, f"{nombre}  (sin fecha, solo creado)"
+    return True, f"{nombre}  (creado, sin fecha)"
 
 
 def main():
